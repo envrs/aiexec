@@ -72,7 +72,7 @@ export const EmptyPageCommunity = ({
                   src={logoLightPng}
                   alt="Aiexec Logo Light"
                   data-testid="empty_page_logo_light"
-                  className="relative top-3 h-16 w-auto max-w-xs"
+                  className="relative top-8 h-40 pointer-events-none select-none"
                 />
               </div>
               <div className="z-50 hidden dark:block">
@@ -80,7 +80,7 @@ export const EmptyPageCommunity = ({
                   src={logoDarkPng}
                   alt="Aiexec Logo Dark"
                   data-testid="empty_page_logo_dark"
-                  className="relative top-3 h-16 w-auto max-w-xs"
+                  className="relative top-8 h-40 pointer-events-none select-none"
                 />
               </div>
               <span

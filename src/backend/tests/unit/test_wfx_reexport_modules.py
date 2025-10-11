@@ -123,9 +123,9 @@ class TestLfxReexportModules:
                         if "from wfx" in content:
                             # Try to extract the wfx module being imported
                             patterns = [
-                                r"from (wfx\.[.\w]+) import",
-                                r"from (wfx\.[.\w]+) import \*",
-                                r"import (wfx\.[.\w]+)",
+                                r"from (lfx\.[.\w]+) import",
+                                r"from (lfx\.[.\w]+) import \*",
+                                r"import (lfx\.[.\w]+)",
                             ]
                             for pattern in patterns:
                                 match = re.search(pattern, content)
@@ -467,15 +467,11 @@ class TestLfxReexportModules:
         # Test with a known module that has wfx imports
         test_cases = [("aiexec.schema", "wfx.schema"), ("aiexec.custom", "wfx.custom")]
 
-        for lf_module, _expected_wfx_source in test_cases:
-            pattern_info = self._detect_reexport_pattern(lf_module)
-            if pattern_info["type"] == "direct" and pattern_info["source"]:
-                symbols = self._get_expected_symbols(pattern_info["source"])
-                assert len(symbols) > 0, f"Should find some symbols in {pattern_info['source']}"
+        for lf_module, expected_wfx_source in test_cases:
+            symbols = self._get_expected_symbols(expected_wfx_source)
+            assert len(symbols) > 0, f"Should find some symbols in {expected_wfx_source}"
 
-                # Test that at least some symbols are accessible in the aiexec module
-                module = importlib.import_module(lf_module)
-                available_symbols = [sym for sym in symbols[:3] if hasattr(module, sym)]  # Test first 3
-                assert len(available_symbols) > 0, (
-                    f"Module {lf_module} should have some symbols from {pattern_info['source']}"
-                )
+            # Test that at least some symbols are accessible in the aiexec module
+            module = importlib.import_module(lf_module)
+            available_symbols = [sym for sym in symbols[:3] if hasattr(module, sym)]  # Test first 3
+            assert len(available_symbols) > 0, f"Module {lf_module} should have some symbols from {expected_wfx_source}"

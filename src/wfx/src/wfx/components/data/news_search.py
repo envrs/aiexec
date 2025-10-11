@@ -15,6 +15,8 @@ class NewsSearchComponent(Component):
     documentation: str = "https://docs.aiexec.org/components-data#news-search"
     icon = "newspaper"
     name = "NewsSearch"
+    legacy = True
+    replacement = "data.WebSearch"
 
     inputs = [
         MessageTextInput(

@@ -227,7 +227,6 @@ export default function SliderComponent({
                   setInputValue(valueAsNumber.toFixed(2));
                 }}
                 data-testid={`default_slider_display_value${editNode ? "_advanced" : ""}`}
-                role="button"
                 className="relative bottom-[1px] font-mono text-sm hover:cursor-text"
               >
                 {valueAsNumber.toFixed(2)}

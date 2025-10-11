@@ -105,7 +105,10 @@ export default function GlobalVariablesPage() {
     <div className="flex h-full w-full flex-col justify-between gap-6">
       <div className="flex w-full items-start justify-between gap-6">
         <div className="flex w-full flex-col">
-          <h2 className="flex items-center text-lg font-semibold tracking-tight">
+          <h2
+            className="flex items-center text-lg font-semibold tracking-tight"
+            data-testid="settings_menu_header"
+          >
             Global Variables
             <ForwardedIconComponent
               name="Globe"
@@ -133,11 +136,9 @@ export default function GlobalVariablesPage() {
           onSelectionChanged={(event: SelectionChangedEvent) => {
             setSelectedRows(event.api.getSelectedRows().map((row) => row.name));
           }}
-          rowSelection={{
-            mode: "multiRow",
-            enableClickSelection: false,
-          }}
+          rowSelection="multiple"
           onRowClicked={updateVariables}
+          suppressRowClickSelection={true}
           pagination={true}
           columnDefs={colDefs}
           rowData={globalVariables ?? []}

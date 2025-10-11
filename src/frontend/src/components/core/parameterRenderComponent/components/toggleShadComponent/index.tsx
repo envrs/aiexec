@@ -36,7 +36,7 @@ export default function ToggleShadComponent({
   }
 
   return (
-    <div onClick={(e) => e.stopPropagation()} role="presentation">
+    <div onClick={(e) => e.stopPropagation()}>
       <Switch
         id={id}
         data-testid={id}

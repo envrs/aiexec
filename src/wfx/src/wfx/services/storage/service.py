@@ -11,10 +11,10 @@ class StorageService(ABC):
         """Initialize the storage service.
 
         Args:
-            data_dir: Directory path for storing data. Defaults to ~/.wfx/data
+            data_dir: Directory path for storing data. Defaults to ~/.lfx/data
         """
         if data_dir is None:
-            data_dir = Path.home() / ".wfx" / "data"
+            data_dir = Path.home() / ".lfx" / "data"
         self.data_dir = Path(data_dir)
         self._ready = False
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AiexecLogo from "@/assets/aiexec.png?react";
+import AiexecLogo from "@/assets/AiexecLogo.svg?react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import BaseModal from "../../modals/baseModal";

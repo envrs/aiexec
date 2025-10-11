@@ -69,9 +69,9 @@ export default function Dropdown({
   // Initialize state and refs
   const [open, setOpen] = useState(children ? true : false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [_waitingForResponse, setWaitingForResponse] = useState(false);
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [customValue, setCustomValue] = useState("");
-  const _nodes = useFlowStore((state) => state.nodes);
+  const nodes = useFlowStore((state) => state.nodes);
 
   const [filteredOptions, setFilteredOptions] = useState(() => {
     // Include the current value in filteredOptions if it's a custom value not in validOptions
@@ -215,7 +215,7 @@ export default function Dropdown({
             ? inputTypes.join("\n")
             : templateField.type) || "";
 
-        const _myId = scapedJSONStringfy({
+        const myId = scapedJSONStringfy({
           inputTypes: effectiveInputTypes,
           type: templateField.type,
           id: nodeId,

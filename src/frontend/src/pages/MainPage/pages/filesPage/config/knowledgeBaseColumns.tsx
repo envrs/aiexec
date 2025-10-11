@@ -15,6 +15,8 @@ export const createKnowledgeBaseColumns = (): ColDef[] => {
       field: "name",
       flex: 2,
       sortable: false,
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
       editable: false,
       filter: "agTextColumnFilter",
       cellClass: baseCellClass,

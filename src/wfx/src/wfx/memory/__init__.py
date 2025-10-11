@@ -1,35 +1,15 @@
 """Memory management for wfx with dynamic loading.
 
-This module automatically chooses between full aiexec implementations
-(when available) and wfx stub implementations (when standalone).
+This module automatically chooses between the full aiexec implementation
+(when available) and the wfx implementation (when standalone).
 """
 
-import importlib.util
+from wfx.utils.aiexec_utils import has_aiexec_memory
 
-from wfx.log.logger import logger
-
-
-def _has_aiexec_memory():
-    """Check if aiexec.memory with database support is available."""
+# Import the appropriate implementation
+if has_aiexec_memory():
     try:
-        # Check if aiexec.memory and MessageTable are available
-        return importlib.util.find_spec("aiexec") is not None
-    except (ImportError, ModuleNotFoundError):
-        pass
-    except Exception as e:  # noqa: BLE001
-        logger.error(f"Error checking for aiexec.memory: {e}")
-    return False
-
-
-#### TODO: This _AIEXEC_AVAILABLE implementation should be changed later ####
-# Consider refactoring to lazy loading or a more robust service discovery mechanism
-# that can handle runtime availability changes.
-_AIEXEC_AVAILABLE = _has_aiexec_memory()
-
-# Import the appropriate implementations
-if _AIEXEC_AVAILABLE:
-    try:
-        # Import from full aiexec implementation
+        # Import full aiexec implementation
         from aiexec.memory import (
             aadd_messages,
             aadd_messagetables,
@@ -43,8 +23,8 @@ if _AIEXEC_AVAILABLE:
             get_messages,
             store_message,
         )
-    except (ImportError, ModuleNotFoundError):
-        # Fall back to stubs if aiexec import fails
+    except ImportError:
+        # Fallback to wfx implementation if aiexec import fails
         from wfx.memory.stubs import (
             aadd_messages,
             aadd_messagetables,
@@ -59,7 +39,7 @@ if _AIEXEC_AVAILABLE:
             store_message,
         )
 else:
-    # Use wfx stub implementations
+    # Use wfx implementation
     from wfx.memory.stubs import (
         aadd_messages,
         aadd_messagetables,
@@ -74,7 +54,7 @@ else:
         store_message,
     )
 
-# Export the available functions and classes
+# Export the available functions
 __all__ = [
     "aadd_messages",
     "aadd_messagetables",

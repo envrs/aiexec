@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import React from "react";
 import {
   HeaderMenu,
   HeaderMenuItemButton,
@@ -12,22 +11,11 @@ import {
 
 jest.mock("@/components/ui/dropdown-menu", () => ({
   DropdownMenu: ({ children }) => <div data-testid="dm">{children}</div>,
-  DropdownMenuTrigger: ({ children, asChild, ...rest }) => {
-    // Handle asChild pattern - if asChild is true, merge props with the child
-    if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(children, {
-        ...rest,
-        ...children.props,
-        "data-testid": "trigger",
-      });
-    }
-    // Fallback to button if no children or asChild is false
-    return (
-      <button data-testid="trigger" {...rest}>
-        {children}
-      </button>
-    );
-  },
+  DropdownMenuTrigger: ({ children, ...rest }) => (
+    <button data-testid="trigger" {...rest}>
+      {children}
+    </button>
+  ),
   DropdownMenuContent: ({ children, ...rest }) => (
     <div data-testid="content" {...rest}>
       {children}

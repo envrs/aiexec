@@ -39,7 +39,6 @@ export default function FileCard({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           style={{ display: "inline-block" }}
-          role="presentation"
         >
           <div className="relative w-[50%] rounded-lg border border-border">
             <img
@@ -62,7 +61,6 @@ export default function FileCard({
         onClick={() => mutate(undefined)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        role="button"
       >
         <div className="ml-3 flex h-full w-full items-center gap-2 text-sm">
           <ForwardedIconComponent name="File" className="h-8 w-8" />

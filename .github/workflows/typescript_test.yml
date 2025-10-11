@@ -64,7 +64,7 @@ on:
         default: ubuntu-latest
 
 env:
-  NODE_VERSION: "21"
+  NODE_VERSION: "22"
   PYTHON_VERSION: "3.13"
   # Define the directory where Playwright browsers will be installed.
   # This path is used for caching across workflows
@@ -214,7 +214,7 @@ jobs:
           echo "suites=$SUITES" >> $GITHUB_OUTPUT
 
       - name: Setup Node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         id: setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -284,7 +284,7 @@ jobs:
           ref: ${{ inputs.ref || github.ref }}
 
       - name: Setup Node.js Environment
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         id: setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -379,11 +379,13 @@ jobs:
       - name: Checkout code
         if: ${{ steps.should_merge_reports.outputs.should_merge_reports == 'true' }}
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Setup Node.js
 
         if: ${{ steps.should_merge_reports.outputs.should_merge_reports == 'true' }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 

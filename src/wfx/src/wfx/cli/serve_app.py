@@ -6,12 +6,13 @@ its own router prefix::
 
     /flows/{flow_id}/run  - POST - execute the flow
     /flows/{flow_id}/info - GET  - metadata
+
 A global ``/flows`` endpoint lists all available flows and returns a JSON array
 of metadata objects, allowing API consumers to discover IDs without guessing.
 
 Authentication behaves exactly like the single-flow serving: all execution
 endpoints require the ``x-api-key`` header (or query parameter) validated by
-:func:`wfx.cli.commands.verify_api_key`.
+:func:`lfx.cli.commands.verify_api_key`.
 """
 
 from __future__ import annotations

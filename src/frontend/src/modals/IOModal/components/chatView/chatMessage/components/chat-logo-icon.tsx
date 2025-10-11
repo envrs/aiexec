@@ -1,4 +1,4 @@
-import AiexecLogo from "@/assets/aiexec.png?react";
+import AiexecLogo from "@/assets/AiexecLogo.svg?react";
 
 export default function LogoIcon() {
   return (

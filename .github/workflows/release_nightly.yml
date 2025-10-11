@@ -2,40 +2,6 @@ name: Aiexec Nightly Build
 run-name: Aiexec Nightly Release by @${{ github.actor }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      build_docker_base:
-        description: "Build Docker Image for Aiexec Nightly Base"
-        required: true
-        type: boolean
-        default: false
-      build_docker_main:
-        description: "Build Docker Image for Aiexec Nightly"
-        required: true
-        type: boolean
-        default: false
-      build_docker_ep:
-        description: "Build Docker Image for Aiexec Nightly with Entrypoint"
-        required: false
-        type: boolean
-        default: false
-      build_wfx:
-        description: "Build and release WFX package"
-        required: false
-        type: boolean
-        default: false
-      nightly_tag_main:
-        description: "Tag for the nightly main build"
-        required: true
-        type: string
-      nightly_tag_base:
-        description: "Tag for the nightly base build"
-        required: true
-        type: string
-      nightly_tag_wfx:
-        description: "Tag for the nightly WFX build"
-        required: false
-        type: string
   workflow_call:
     inputs:
       build_docker_base:
@@ -53,7 +19,7 @@ on:
         required: false
         type: boolean
         default: false
-      build_wfx:
+      build_lfx:
         description: "Build and release WFX package"
         required: false
         type: boolean
@@ -66,19 +32,24 @@ on:
         description: "Tag for the nightly base build"
         required: true
         type: string
-      nightly_tag_wfx:
+      nightly_tag_lfx:
         description: "Tag for the nightly WFX build"
         required: false
         type: string
+      push_to_registry:
+        description: "Whether to push images to registries. Set to false for testing builds without publishing."
+        required: true
+        type: boolean
+        default: false
 
 env:
   POETRY_VERSION: "1.8.3"
   PYTHON_VERSION: "3.13"
 
 jobs:
-  build-nightly-wfx:
+  build-nightly-lfx:
     name: Build WFX Nightly
-    if: ${{ inputs.build_wfx == true }}
+    if: ${{ inputs.build_wfx }}
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.verify.outputs.version }}
@@ -105,8 +76,8 @@ jobs:
         id: verify
         run: |
           cd src/wfx
-          name=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $1}')
-          version=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $2}')
+          name=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $1}')
+          version=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $2}')
           if [ "$name" != "wfx-nightly" ]; then
             echo "Name $name does not match wfx-nightly. Exiting the workflow."
             exit 1
@@ -137,13 +108,13 @@ jobs:
       - name: Upload WFX Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-nightly-wfx
+          name: dist-nightly-lfx
           path: src/wfx/dist
 
   build-nightly-base:
     name: Build Aiexec Nightly Base
-    needs: [build-nightly-wfx]
-    if: always() && (needs.build-nightly-wfx.result == 'success' || inputs.build_wfx == false)
+    needs: [build-nightly-lfx]
+    if: ${{ always() && (needs.build-nightly-lfx.result == 'success' || inputs.build_wfx == false) }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -168,7 +139,7 @@ jobs:
         run: uv sync
 
       - name: Wait for PyPI Propagation
-        if: ${{ inputs.build_wfx == true }}
+        if: inputs.build_lfx
         run: sleep 300 # wait for 5 minutes to ensure PyPI propagation of WFX
 
       - name: Verify Nightly Name and Version
@@ -298,25 +269,28 @@ jobs:
 
   test-cross-platform:
     name: Test Cross-Platform Installation
-    needs: [build-nightly-wfx, build-nightly-base, build-nightly-main]
+    needs: [build-nightly-lfx, build-nightly-base, build-nightly-main]
     uses: ./.github/workflows/cross-platform-test.yml
     with:
       base-artifact-name: "dist-nightly-base"
       main-artifact-name: "dist-nightly-main"
-      wfx-artifact-name: "dist-nightly-wfx"
+      wfx-artifact-name: "dist-nightly-lfx"
 
-  publish-nightly-wfx:
+  publish-nightly-lfx:
     name: Publish WFX Nightly to PyPI
-    needs: [build-nightly-wfx, test-cross-platform]
-    if: ${{ inputs.build_wfx == true }}
+    needs: [build-nightly-lfx, test-cross-platform]
+    if: ${{ inputs.build_wfx }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.nightly_tag_main }}
+          persist-credentials: true
       - name: Download WFX artifact
         uses: actions/download-artifact@v5
         with:
-          name: dist-nightly-wfx
+          name: dist-nightly-lfx
           path: src/wfx/dist
       - name: Setup Environment
         uses: astral-sh/setup-uv@v6
@@ -332,12 +306,15 @@ jobs:
 
   publish-nightly-base:
     name: Publish Aiexec Base Nightly to PyPI
-    needs: [build-nightly-base, test-cross-platform, publish-nightly-wfx]
-    if: always() && needs.build-nightly-base.result == 'success' && needs.test-cross-platform.result == 'success' && (needs.publish-nightly-wfx.result == 'success' || inputs.build_wfx == false)
+    needs: [build-nightly-base, test-cross-platform, publish-nightly-lfx]
+    if: ${{ always() && needs.build-nightly-base.result == 'success' && needs.test-cross-platform.result == 'success' && (needs.publish-nightly-lfx.result == 'success' || inputs.build_wfx == false) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.nightly_tag_main }}
+          persist-credentials: true
       - name: Download base artifact
         uses: actions/download-artifact@v5
         with:
@@ -363,6 +340,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.nightly_tag_main }}
+          persist-credentials: true
       - name: Download main artifact
         uses: actions/download-artifact@v5
         with:
@@ -382,23 +362,24 @@ jobs:
 
   call_docker_build_base:
     name: Call Docker Build Workflow for Aiexec Base
-    if: always() && ${{ inputs.build_docker_base == 'true' }}
+    if: ${{ always() && inputs.build_docker_base }}
     needs: [build-nightly-base, build-nightly-main]
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/docker-nightly-build.yml
     with:
+      ref: ${{ inputs.nightly_tag_main }}
       release_type: nightly-base
-      base_version: ${{ inputs.nightly_tag_base }}
-      main_version: ${{ inputs.nightly_tag_main }}
+      push_to_registry: ${{ inputs.push_to_registry }}
     secrets: inherit
 
   call_docker_build_main:
     name: Call Docker Build Workflow for Aiexec
-    if: always() && ${{ inputs.build_docker_main == 'true' }}
+    if: ${{ always() && inputs.build_docker_main }}
     needs: [build-nightly-main, call_docker_build_base]
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/docker-nightly-build.yml
     with:
+      ref: ${{ inputs.nightly_tag_main }}
       release_type: nightly-main
-      main_version: ${{ inputs.nightly_tag_main }}
+      push_to_registry: ${{ inputs.push_to_registry }}
     secrets: inherit
 
   # TODO: Uncomment this when our runner can fit the builds that contain pytorch (and other large dependencies)
@@ -406,18 +387,20 @@ jobs:
   #   name: Call Docker Build Workflow for aiexec-all
   #   if: always() && ${{ inputs.build_docker_main == 'true' }}
   #   needs: [build-nightly-main]
-  #   uses: ./.github/workflows/docker-build.yml
+  #   uses: ./.github/workflows/docker-nightly-build.yml
   #   with:
+  #     ref: ${{ inputs.nightly_tag_main }}
   #     release_type: nightly-main-all
   #     main_version: ${{ inputs.nightly_tag_main }}
   #   secrets: inherit
 
   call_docker_build_main_ep:
     name: Call Docker Build Workflow for Aiexec with Entrypoint
-    if: always() && ${{ inputs.build_docker_ep == 'true' }}
+    if: ${{ always() && inputs.build_docker_ep }}
     needs: [build-nightly-main, call_docker_build_main]
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/docker-build-v2.yml
     with:
+      ref: ${{ inputs.nightly_tag_main }}
       release_type: main-ep
-      main_version: ${{ inputs.nightly_tag_main }}
+      push_to_registry: ${{ inputs.push_to_registry }}
     secrets: inherit

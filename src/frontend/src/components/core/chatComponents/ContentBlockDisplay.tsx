@@ -77,7 +77,6 @@ export function ContentBlockDisplay({
         <div
           className="flex cursor-pointer items-center justify-between p-4"
           onClick={() => setIsExpanded(!isExpanded)}
-          role="button"
         >
           <div className="flex items-center gap-2 align-baseline">
             {headerIcon && (

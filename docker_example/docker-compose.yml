@@ -9,7 +9,7 @@ services:
     environment:
       - AIEXEC_DATABASE_URL=postgresql://aiexec:aiexec@postgres:5432/aiexec
       # This variable defines where the logs, file storage, monitor data and secret keys are stored.
-      - AIEXEC_CONFIG_DIR=app/aiexec
+      - AIEXEC_CONFIG_DIR=/app/aiexec
     volumes:
       - aiexec-data:/app/aiexec
 

@@ -5,7 +5,7 @@ const ChatScriptLoader = () => {
   useEffect(() => {
     if (!document.querySelector('script[src*="aiexec-embedded-chat"]')) {
       const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/gh/aiexec-ai/aiexec-embedded-chat@main/dist/build/static/js/bundle.min.js';
+      script.src = 'https://cdn.jsdelivr.net/gh/khulnasoft/aiexec-embedded-chat@main/dist/build/static/js/bundle.min.js';
       script.async = true;
       document.body.appendChild(script);
     }

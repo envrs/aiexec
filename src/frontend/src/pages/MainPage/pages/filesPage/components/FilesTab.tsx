@@ -116,6 +116,8 @@ const FilesTab = ({
       headerName: "Name",
       field: "name",
       flex: 2,
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
       editable: true,
       filter: "agTextColumnFilter",
       cellClass:
@@ -339,12 +341,7 @@ const FilesTab = ({
                 tableOptions={{
                   hide_options: true,
                 }}
-                rowSelection={{
-                  mode: "multiRow",
-                  enableClickSelection: isShiftPressed,
-                  checkboxes: true,
-                  headerCheckbox: true,
-                }}
+                suppressRowClickSelection={!isShiftPressed}
                 editable={[
                   {
                     field: "name",
@@ -352,6 +349,7 @@ const FilesTab = ({
                     editableCell: true,
                   },
                 ]}
+                rowSelection="multiple"
                 onSelectionChanged={handleSelectionChanged}
                 columnDefs={colDefs}
                 rowData={files.sort((a, b) => {
@@ -405,7 +403,6 @@ const FilesTab = ({
                     <DeleteConfirmationModal
                       onConfirm={handleDelete}
                       description={"file" + (quantitySelected > 1 ? "s" : "")}
-                      asChild
                     >
                       <Button
                         variant="destructive"

@@ -12,7 +12,7 @@ import { customOpenNewTab } from "@/customization/utils/custom-open-new-tab";
 import { AiexecButtonRedirectTarget } from "@/customization/utils/urls";
 import { useUtilityStore } from "@/stores/utilityStore";
 import { swatchColors } from "@/utils/styleUtils";
-import AiexecLogoColor from "../../assets/aiexec.png?react";
+import AiexecLogoColor from "../../assets/AiexecLogoColor.svg?react";
 import IconComponent from "../../components/common/genericIconComponent";
 import ShadTooltip from "../../components/common/shadTooltipComponent";
 import { Button } from "../../components/ui/button";

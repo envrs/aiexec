@@ -19,7 +19,7 @@ uvx wfx run my_flow.json "input"
 
 ```bash
 # Clone and run in workspace
-git clone https://gitlab.com/khulnasoft/aiexec
+git clone https://github.com/khulnasoft/aiexec
 cd aiexec/src/wfx
 uv run wfx serve my_flow.json
 ```

@@ -269,30 +269,16 @@ describe("Message Sorting Integration", () => {
 
         const transformed = transformMessages(messages);
 
-        // Warmup run to account for JIT compilation and cache warming
+        const startTime = performance.now();
         [...transformed].sort(sortSenderMessages);
+        const endTime = performance.now();
 
-        // Actual measurement with multiple runs for better accuracy
-        const runs = 3;
-        let totalTime = 0;
-
-        for (let run = 0; run < runs; run++) {
-          const startTime = performance.now();
-          [...transformed].sort(sortSenderMessages);
-          const endTime = performance.now();
-          totalTime += endTime - startTime;
-        }
-
-        timings.push(totalTime / runs); // Average time
+        timings.push(endTime - startTime);
       });
 
-      // Performance should scale sub-quadratically with very lenient expectations
-      // Focus on preventing exponential behavior rather than strict O(n log n)
-      expect(timings[1]).toBeLessThan(timings[0] * 50); // 4x size, <50x time (very lenient)
-      expect(timings[2]).toBeLessThan(timings[1] * 50); // 2.5x size, <50x time (very lenient)
-
-      // Main goal: ensure it's not exponential (O(n²) would be much worse)
-      expect(timings[2]).toBeLessThan(timings[0] * 500); // 10x size should not be 500x+ slower
+      // Performance should scale sub-quadratically
+      expect(timings[1]).toBeLessThan(timings[0] * 10); // 4x size, <10x time
+      expect(timings[2]).toBeLessThan(timings[1] * 5); // 2.5x size, <5x time
     });
   });
 

@@ -3,7 +3,7 @@ from textwrap import dedent
 from wfx.custom.validate import create_class
 
 
-def test_importing_aiexec_module_in_wfx():
+def test_importing_aiexec_module_in_lfx():
     code = dedent("""from aiexec.custom import   Component
 class TestComponent(Component):
     def some_method(self):
@@ -13,7 +13,7 @@ class TestComponent(Component):
     assert result.__name__ == "TestComponent"
 
 
-def test_importing_aiexec_logging_in_wfx():
+def test_importing_aiexec_logging_in_lfx():
     """Test that aiexec.logging can be imported in wfx context without errors."""
     code = dedent("""
 from aiexec.logging import logger, configure

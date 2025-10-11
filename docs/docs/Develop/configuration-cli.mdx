@@ -1,0 +1,369 @@
+---
+title: Aiexec CLI
+slug: /configuration-cli
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Icon from "@site/src/components/icon";
+
+The Aiexec command line interface is the main interface for managing and running the Aiexec server.
+
+The Aiexec CLI is automatically installed when you [install the Aiexec package](/get-started-installation).
+It isn't available for Aiexec Desktop.
+
+## How to use the CLI
+
+The Aiexec CLI can be invoked in several ways, depending on your installation method and environment.
+
+The recommended approach is to run the CLI with `uv run` from within a virtual environment where Aiexec is installed.
+
+For example, to start Aiexec on the default port, run the following command:
+
+    ```bash
+    uv run aiexec run
+    ```
+
+If Aiexec is installed globally or added to your PATH, you can execute the CLI directly with `aiexec`.
+
+    ```bash
+    aiexec run
+    ```
+
+## Precedence
+
+Aiexec CLI options override the values of [environment variables](/environment-variables) set in your terminal or primary `.env` file.
+
+For example, if you have `AIEXEC_PORT=7860` defined as an environment variable, and you run the CLI with `--port 7880`, then Aiexec sets the port to `7880` because the CLI option overrides the environment variable.
+
+This also applies to Boolean environment variables.
+For example, if you set `AIEXEC_REMOVE_API_KEYS=True` in your `.env` file, you can change it to `False` at runtime by running the CLI with `--no-remove-api-keys`.
+
+## Aiexec CLI options
+
+All Aiexec CLI commands support options that modify the command's behavior or set environment variables.
+
+To set values for options, you can use either of the following syntax styles:
+
+* `--option value`
+* `--option=value`
+
+Values with spaces must be surrounded by quotation marks:
+
+* `--option 'Value with Spaces'`
+* `--option="Value with Spaces"`
+
+### Boolean options
+
+Boolean options enable and disable settings.
+They have a true (enabled) and false (disabled) form:
+
+* Enabled (true): `--option`
+* Disabled (false): `--no-option`
+
+The following examples compare Boolean option forms for `REMOVE_API_KEYS`.
+
+<Tabs>
+<TabItem value="true" label="True" default>
+
+`--remove-api-keys` is equivalent to setting `AIEXEC_REMOVE_API_KEYS=True` in `.env`:
+
+```bash
+uv run aiexec run --remove-api-keys
+```
+
+</TabItem>
+<TabItem value="false" label="False">
+
+`--no-remove-api-keys` is equivalent to `AIEXEC_REMOVE_API_KEYS=False` in `.env`:
+
+```bash
+uv run aiexec run --no-remove-api-keys
+```
+
+</TabItem>
+</Tabs>
+
+In the following command references, default values for Booleans include both the CLI flag and the equivalent Boolean evaluation, such as "`--option` (true)" and "`--no-option` (false)".
+
+### Universal options
+
+The following options are available for all Aiexec CLI commands:
+
+* `--version`, `-v`: Show the version and exit.
+* `--install-completion`: Install auto-completion for the current shell.
+* `--show-completion`: Show the location of the auto-completion config file, if installed.
+* `--help`: Print information about command usage, options, and arguments.
+
+## CLI commands
+
+The following sections describe the available CLI commands and any additional options (beyond the [universal options](#universal-options)) available for each command.
+
+### aiexec
+
+Running the CLI without any arguments prints a list of available options and commands.
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec
+```
+
+  </TabItem>
+</Tabs>
+
+### aiexec api-key {#aiexec-api-key}
+
+Creates a Aiexec API key.
+
+You must be a superuser to create API keys with the CLI.
+For more information, see [Aiexec API keys](/api-keys-and-authentication#aiexec-api-keys).
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec api-key
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec api-key
+```
+
+  </TabItem>
+</Tabs>
+
+#### Options
+
+| Option | Default | Type | Description |
+|--------|---------|--------|-------------|
+| `--log-level` | `error` | String | The logging level. One of `debug`, `info`, `warning`, `error`, or `critical`. |
+
+### aiexec copy-db
+
+Copies the Aiexec database files from the cache directory to the current Aiexec installation directory, which is the directory containing `__main__.py`.
+You can find the copy target directory by running `which aiexec`.
+
+The following files are copied if they exist in the cache directory:
+
+* `aiexec.db`: The main Aiexec database, stored in the user cache directory
+* `aiexec-pre.db`: The pre-release database, if it exists
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec copy-db
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec copy-db
+```
+
+  </TabItem>
+</Tabs>
+
+### aiexec migration
+
+Manages Aiexec database schema changes using [Alembic](https://alembic.sqlalchemy.org/en/latest/), a database migration tool for SQLAlchemy.
+
+The `migration` command has two modes:
+
+* **Test mode (default)**: Checks if migrations can be applied safely without actually running the migrations.
+Use this mode to previews the changes that would be made to the database schema before proceeding with the migrations.
+
+* **Fix mode**: Applies the migrations to update the database schema.
+
+    :::warning
+    `aiexec migration --fix` is a destructive operation that can delete data.
+    Always run `aiexec migration` first to preview the changes.
+    :::
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+1. Run test mode:
+
+  ```bash
+  uv run aiexec migration
+  ```
+
+2. Preview the changes returned by the test to determine if it's safe to proceed with the migration.
+
+3. Run fix mode to apply the changes:
+
+  ```bash
+  uv run aiexec migration --fix
+  ```
+
+  </TabItem>
+  <TabItem value="Global" label="Global">
+
+1. Run test mode:
+
+  ```bash
+  aiexec migration
+  ```
+
+2. Preview the changes returned by the test to determine if it's safe to proceed with the migration.
+
+3. Run fix mode to apply the changes:
+
+  ```bash
+  aiexec migration --fix
+  ```
+
+  </TabItem>
+</Tabs>
+
+### aiexec run {#aiexec-run}
+
+Starts the Aiexec server.
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec run [OPTIONS]
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec run [OPTIONS]
+```
+
+  </TabItem>
+</Tabs>
+
+#### Options
+
+This command supports some common and non-sensitive configuration options for your Aiexec server.
+Other options must be set in the `.env` or your terminal.
+For more information Aiexec configuration options, see [Aiexec environment variables](/environment-variables).
+
+| Option | Default | Type | Description |
+|--------|---------|--------|-------------|
+| `--auto-saving` | `--auto-saving` (true) | Boolean | Whether to enable flow auto-saving in the visual editor. Use `--no-auto-saving` to disable flow auto-saving. |
+| `--auto-saving-interval` | `1000` | Integer | The interval for flow auto-saving in milliseconds. |
+| `--backend-only` | `--no-backend-only` (false) | Boolean | Whether to run Aiexec's backend service only (no frontend). Omit or use `--no-backend-only` to start both the frontend and backend. See [Start Aiexec in headless mode](#start-aiexec-in-headless-mode). |
+| `--cache` | `async` | String | The type of [cache storage](/memory) to use. One of `async`, `redis`, `memory`, or `disk`. |
+| `--components-path` | Not set | String | The path to the directory containing your custom components. |
+| `--dev` | `--no-dev` (false) | Boolean | Whether to run in development mode (may contain bugs). |
+| `--env-file` | Not set | String | The path to the `.env` file containing Aiexec environment variables. See [Start Aiexec with a specific .env file](#start-aiexec-with-a-specific-env-file). |
+| `--frontend-path` | Not set | String | The path to the frontend directory containing build files. This is only used when [contributing to the Aiexec codebase](/contributing-how-to-contribute) or developing a custom Aiexec image that includes customized frontend code. |
+| `--health-check-max-retries` | `5` | Integer | The maximum number of retries for your Aiexec server's health check. |
+| `--host` | `localhost` | String | The host on which the Aiexec server will run. |
+| `--log-file` | `logs/aiexec.log` | String | The path to the log file for Aiexec. |
+| `--log-level` | `critical` | String | The logging level as one of `debug`, `info`, `warning`, `error`, or `critical`. |
+| `--log-rotation` | Not set | String | The log rotation interval, either a time duration or file size. |
+| `--max-file-size-upload` | `1024` | Integer | The maximum size in megabytes for file uploads. |
+| `--open-browser` | `--no-open-browser` (false) | Boolean | Whether to open the system web browser on startup. Use `--open-browser` to open the system's default web browser when Aiexec starts. |
+| `--port` | `7860` | Integer | The port on which the Aiexec server will run. The server automatically selects a free port if the specified port is in use. |
+| `--remove-api-keys` | `--no-remove-api-keys` (false) | Boolean | Whether to remove API keys and tokens from flows saved in the Aiexec database. |
+| `--ssl-cert-file-path` | Not set | String | The path to the SSL certificate file on the local system for SSL-encrypted connections. |
+| `--ssl-key-file-path` | Not set | String | The path to the SSL key file on the local system for SSL-encrypted connections. |
+| `--worker-timeout` | `300` | Integer | The Aiexec server worker timeout in seconds. |
+| `--workers` | `1` | Integer | The number of Aiexec server worker processes. |
+
+#### Start Aiexec with a specific .env file {#start-aiexec-with-a-specific-env-file}
+
+The `--env-file` option starts Aiexec using the configuration defined in the given `.env` file.
+Additional options appended to this command override the values in the `.env` file if there are duplicates.
+
+If `--env-file` is omitted or doesn't include all required variables, Aiexec uses the default values for those variables.
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec run --env-file PATH/TO/AIEXEC/.env
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec run --env-file PATH/TO/AIEXEC/.env
+```
+
+  </TabItem>
+</Tabs>
+
+#### Start Aiexec in headless mode {#start-aiexec-in-headless-mode}
+
+The `--backend-only` option starts Aiexec's backend service only.
+This headless mode has no frontend (visual editor), and you can only access the server programmatically with the Aiexec API and CLI.
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec run --backend-only
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec run --backend-only
+```
+
+  </TabItem>
+</Tabs>
+
+### aiexec superuser {#aiexec-superuser}
+
+Creates a superuser account with the given username and password.
+
+<Tabs groupId="Invocation">
+  <TabItem value="uv (recommended)" label="uv (recommended)" default>
+
+```bash
+uv run aiexec superuser --username [NAME] --password [PASSWORD] [OPTIONS]
+```
+
+  </TabItem>
+  <TabItem value="Direct" label="Direct">
+
+```bash
+aiexec superuser --username [NAME] --password [PASSWORD] [OPTIONS]
+```
+
+  </TabItem>
+</Tabs>
+
+#### Options
+
+| Option | Default | Type | Description |
+|--------|---------|--------|-------------|
+| `--log-level` | `error` | String | The logging level. One of `debug`, `info`, `warning`, `error`, or `critical`. |
+
+For this command, `--username` and `--password` aren't optional, and they have no default value.
+The command fails if you don't provide these arguments.
+For more information, see [`AIEXEC_SUPERUSER` and `AIEXEC_SUPERUSER_PASSWORD`](/api-keys-and-authentication#aiexec-superuser).
+
+#### Disable CLI superuser creation
+
+The `aiexec superuser` command is controlled by the [`AIEXEC_ENABLE_SUPERUSER_CLI`](/api-keys-and-authentication#aiexec-enable-superuser-cli) environment variable:
+
+* **`AIEXEC_ENABLE_SUPERUSER_CLI=True` (default)**: The `aiexec superuser` command is available, and superuser creation is unrestricted.
+* **`AIEXEC_ENABLE_SUPERUSER_CLI=False` (recommended)**: Disables the `aiexec superuser` command.
+For security reasons, this is recommended to prevent unauthorized superuser creation, especially in production environments.
+
+To disable the `aiexec superuser` command, you must set `AIEXEC_ENABLE_SUPERUSER_CLI=False` in your Aiexec `.env` file, and then [start Aiexec with your `.env` file](#start-aiexec-with-a-specific-env-file).

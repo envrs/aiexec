@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import MCPAiexec from "@/assets/aiexec.png";
+import MCPAiexec from "@/assets/MCPAiexec.png";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import { Button } from "@/components/ui/button";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";

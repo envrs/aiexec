@@ -354,10 +354,9 @@ const McpServerTab = ({ folderName }: { folderName: string }) => {
 }`;
 
   const MCP_SERVER_TUTORIAL_LINK =
-    "https://docs.khulnasoft.com/mcp-server#connect-clients-to-use-the-servers-actions";
+    "https://docs.aiexec.org/mcp-server#connect-clients-to-use-the-servers-actions";
 
-  const MCP_SERVER_DEPLOY_TUTORIAL_LINK =
-    "https://docs.khulnasoft.com/mcp-server";
+  const MCP_SERVER_DEPLOY_TUTORIAL_LINK = "https://docs.aiexec.org/mcp-server";
 
   const copyToClipboard = useCallback(() => {
     navigator.clipboard

@@ -59,7 +59,10 @@ export default function ShortcutsPage() {
     <div className="flex h-full w-full flex-col gap-6">
       <div className="flex w-full items-start justify-between gap-6">
         <div className="flex w-full flex-col">
-          <h2 className="flex items-center text-lg font-semibold tracking-tight">
+          <h2
+            className="flex items-center text-lg font-semibold tracking-tight"
+            data-testid="settings_menu_header"
+          >
             Shortcuts
             <ForwardedIconComponent
               name="Keyboard"
@@ -101,7 +104,7 @@ export default function ShortcutsPage() {
         <div>
           {colDefs && nodesRowData.length > 0 && (
             <TableComponent
-              rowSelection={{ enableClickSelection: false }}
+              suppressRowClickSelection={true}
               domLayout="autoHeight"
               pagination={false}
               columnDefs={colDefs}

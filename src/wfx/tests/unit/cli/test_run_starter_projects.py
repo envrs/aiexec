@@ -87,7 +87,7 @@ class TestRunStarterProjects:
                 pytest.fail(f"Aiexec import error found in {template_file.name}.\nError: {error_line}")
 
             # Check for wfx import errors (these indicate structural issues)
-            if "No module named 'wfx." in all_output or "Module wfx." in all_output:
+            if "No module named 'lfx." in all_output or "Module wfx." in all_output:
                 # Extract the specific error for better debugging
                 import re
 
@@ -103,7 +103,7 @@ class TestRunStarterProjects:
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
                         elif "Module wfx." in line and "not found" in line:
-                            match = re.search(r"Module (wfx\.[^\s]+)", line)
+                            match = re.search(r"Module (lfx\.[^\s]+)", line)
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
 
@@ -158,23 +158,13 @@ class TestRunStarterProjects:
             )
 
             # We don't check exit code as it may fail due to missing dependencies
+            # We just want to ensure the command is parsed and attempted
 
             # Check that we got some output (even if it's an error)
             assert len(result.output) > 0, f"No output for {template_file.name} with format {fmt}"
 
     def test_run_basic_starter_projects_detailed(self):
-        """Test running specific basic starter projects that should work without external dependencies."""
-        # Check if aiexec is available in the test environment
-        try:
-            import aiexec  # noqa: F401
-            aiexec_available = True
-        except ImportError:
-            aiexec_available = False
-
-        if not aiexec_available:
-            pytest.skip("Aiexec package not available in WFX test environment - this is expected for standalone WFX tests")
-
-        # Test only the most basic templates that should work
+        """Test basic starter projects that should have minimal dependencies."""
         basic_templates = [
             "Basic Prompting.json",
             "Basic Prompt Chaining.json",

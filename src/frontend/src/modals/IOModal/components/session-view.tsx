@@ -113,14 +113,8 @@ export default function SessionView({
       onSelectionChanged={(event: SelectionChangedEvent) => {
         setSelectedRows(event.api.getSelectedRows().map((row) => row.id));
       }}
-      rowSelection={
-        playgroundPage
-          ? undefined
-          : {
-              mode: "multiRow",
-              enableClickSelection: false,
-            }
-      }
+      rowSelection={playgroundPage ? undefined : "multiple"}
+      suppressRowClickSelection={true}
       pagination={true}
       columnDefs={columns.sort(messagesSorter)}
       rowData={filteredMessages}

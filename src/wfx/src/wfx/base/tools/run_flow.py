@@ -5,7 +5,7 @@ from wfx.custom.custom_component.component import Component, get_component_toolk
 from wfx.field_typing import Tool
 from wfx.graph.graph.base import Graph
 from wfx.graph.vertex.base import Vertex
-from wfx.helpers.flow import get_flow_inputs
+from wfx.helpers import get_flow_inputs
 from wfx.inputs.inputs import DropdownInput, InputTypes, MessageInput
 from wfx.log.logger import logger
 from wfx.schema.data import Data
@@ -36,7 +36,6 @@ class RunFlowBaseComponent(Component):
             name="session_id",
             display_name="Session ID",
             info="The session ID to run the flow in.",
-            value="",
             advanced=True,
         ),
     ]
@@ -58,7 +57,10 @@ class RunFlowBaseComponent(Component):
             tool_mode=False,  # This output is not intended to be used as a tool, so tool_mode is disabled.
         ),
         Output(
-            name="flow_outputs_message", group_outputs=True, display_name="Flow Message Output", method="message_output"
+            name="flow_outputs_message",
+            group_outputs=True,
+            display_name="Flow Message Output",
+            method="message_output",
         ),
     ]
     default_keys = ["code", "_type", "flow_name_selected", "session_id"]

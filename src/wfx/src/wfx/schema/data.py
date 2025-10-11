@@ -14,6 +14,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from pydantic import BaseModel, ConfigDict, model_serializer, model_validator
 
 from wfx.log.logger import logger
+from wfx.schema.cross_module import CrossModuleModel
 from wfx.utils.constants import MESSAGE_SENDER_AI, MESSAGE_SENDER_USER
 from wfx.utils.image import create_image_content_dict
 
@@ -22,7 +23,7 @@ if TYPE_CHECKING:
     from wfx.schema.message import Message
 
 
-class Data(BaseModel):
+class Data(CrossModuleModel):
     """Represents a record with text and optional data.
 
     Attributes:

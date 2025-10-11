@@ -13,7 +13,7 @@ const config = {
   tagline:
     "Aiexec is a low-code app builder for RAG and multi-agent AI applications.",
   favicon: "img/favicon.ico",
-  url: "https://docs.khulnasoft.com",
+  url: "https://docs.aiexec.org",
   baseUrl: process.env.BASE_URL ? process.env.BASE_URL : "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -137,14 +137,14 @@ const config = {
       selectors: [
         {
           selector: 'h1, h2, h3, h4, h5, h6',
-          eventName: 'Docs.khulnasoft.com - Heading Viewed',
+          eventName: 'Docs.aiexec.org - Heading Viewed',
           properties: {
             element_type: 'heading'
           }
         },
         {
           selector: '.ch-codeblock',
-          eventName: 'Docs.khulnasoft.com - Codeblock Viewed',
+          eventName: 'Docs.aiexec.org - Codeblock Viewed',
           properties: {
             element_type: 'code',
             language: 'helper:codeLanguage'
@@ -178,7 +178,7 @@ const config = {
             from: "/getting-started-quickstart",
           },
           {
-            to: "concepts-overview",
+            to: "/concepts-overview",
             from: [
               "/workspace-overview",
               "/365085a8-a90a-43f9-a779-f8769ec7eca1",
@@ -239,8 +239,12 @@ const config = {
             ],
           },
           {
-            to: "/components-vector-stores",
-            from: "/components-rag",
+            to: "/components-bundle-components",
+            from: [
+              "/components-rag",
+              "/components-vector-stores",
+              "/components-loaders",
+            ],
           },
           {
             to: "/api-keys-and-authentication",
@@ -272,16 +276,8 @@ const config = {
             from: "/components/custom",
           },
           {
-            to: "/components-bundle-components",
-            from: "/components-loaders",
-          },
-          {
             to: "/mcp-server",
             from: "/integrations-mcp",
-          },
-          {
-            to: "/integrations-nvidia-g-assist",
-            from: "/integrations-nvidia-system-assist",
           },
           {
             to: "/deployment-kubernetes-dev",
@@ -301,7 +297,10 @@ const config = {
           },
           {
             to: "/bundles-google",
-            from: "/integrations-setup-google-oauth-aiexec",
+            from: [
+              "/integrations-setup-google-oauth-aiexec",
+              "/integrations-google-big-query",
+            ],
           },
           {
             to: "/bundles-vertexai",
@@ -315,6 +314,47 @@ const config = {
             to: "/data-types",
             from: "/concepts-objects",
           },
+          {
+            to: "/components-helpers",
+            from: "/components-memories",
+          },
+          {
+            to: "/bundles-apify",
+            from: "/integrations-apify",
+          },
+          {
+            to: "/bundles-assemblyai",
+            from: "/integrations-assemblyai",
+          },
+          {
+            to: "/bundles-cleanlab",
+            from: "/integrations-cleanlab",
+          },
+          {
+            to: "/bundles-composio",
+            from: "/integrations-composio",
+          },
+          {
+            to: "/bundles-docling",
+            from: "/integrations-docling",
+          },
+          {
+            to: "/bundles-notion",
+            from: [
+              "/integrations/notion/setup",
+              "/integrations/notion/notion-agent-meeting-notes",
+              "/integrations/notion/notion-agent-conversational",
+            ],
+          },
+          {
+            to: "/bundles-nvidia",
+            from: [
+              "/integrations-nvidia-ingest-wsl2",
+              "/integrations-nvidia-ingest",
+              "/integrations-nvidia-g-assist",
+              "/integrations-nvidia-system-assist",
+            ]
+          }
           // add more redirects like this
           // {
           //   to: '/docs/anotherpage',
@@ -350,11 +390,11 @@ const config = {
           // right
           {
             position: "right",
-            href: "https://gitlab.com/khulnasoft/aiexec",
+            href: "https://github.com/khulnasoft/aiexec",
             className: "header-github-link",
             target: "_blank",
             rel: null,
-            'data-event': 'Docs.khulnasoft.com - Social Clicked',
+            'data-event': 'Docs.aiexec.org - Social Clicked',
             'data-platform': 'github'
           },
           {
@@ -363,7 +403,7 @@ const config = {
             className: "header-twitter-link",
             target: "_blank",
             rel: null,
-            'data-event': 'Docs.khulnasoft.com - Social Clicked',
+            'data-event': 'Docs.aiexec.org - Social Clicked',
             'data-platform': 'x'
           },
           {
@@ -372,7 +412,7 @@ const config = {
             className: "header-discord-link",
             target: "_blank",
             rel: null,
-            'data-event': 'Docs.khulnasoft.com - Social Clicked',
+            'data-event': 'Docs.aiexec.org - Social Clicked',
             'data-platform': 'discord'
           },
         ],
@@ -398,6 +438,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: false,
+          autoCollapseCategories: true,
         },
       },
       footer: {
@@ -408,7 +449,7 @@ const config = {
               {
                 html: `<div class="footer-links">
                   <span>© ${new Date().getFullYear()} Aiexec</span>
-                  <span id="preferenceCenterContainer"> ·&nbsp; <a href="https://khulnasoft.com/preferences">Manage Privacy Choices</a></span>
+                  <span id="preferenceCenterContainer"> ·&nbsp; <a href="https://aiexec.org/preferences">Manage Privacy Choices</a></span>
                   </div>`,
               },
             ],

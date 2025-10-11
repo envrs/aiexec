@@ -121,7 +121,7 @@ import time
 class CustomComponent(Component):
     display_name = "Custom Component"
     description = "Use as a template to create your own component."
-    documentation: str = "https://docs.khulnasoft.com/components-custom-components"
+    documentation: str = "https://docs.aiexec.org/components-custom-components"
     icon = "custom_components"
     name = "CustomComponent"
 

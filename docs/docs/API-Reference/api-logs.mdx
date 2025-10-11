@@ -3,31 +3,23 @@ title: Logs endpoints
 slug: /api-logs
 ---
 
-Retrieve logs for your Aiexec flow.
+Retrieve logs for your Aiexec flows and server.
 
 ## Enable log retrieval
 
 The `/logs` endpoint requires log retrieval to be enabled in your Aiexec instance.
 
-1. To enable log retrieval, include these values in your `.env` file:
+To enable log retrieval, include set the following [environment variables](/environment-variables) in your Aiexec `.env` file, and then start Aiexec with `uv run aiexec run --env-file .env`:
 
-    ```text
-    AIEXEC_ENABLE_LOG_RETRIEVAL=True
-    AIEXEC_LOG_RETRIEVER_BUFFER_SIZE=10000
-    AIEXEC_LOG_LEVEL=DEBUG
-    ```
-
-    Log retrieval requires that `AIEXEC_LOG_RETRIEVER_BUFFER_SIZE` is greater than 0. The default value is `10000`.
-
-2. Start Aiexec with the updated `.env`:
-
-   ```text
-   uv run aiexec run --env-file .env
-   ```
+```text
+AIEXEC_ENABLE_LOG_RETRIEVAL=True
+AIEXEC_LOG_RETRIEVER_BUFFER_SIZE=10000. // Must be greater than 0
+AIEXEC_LOG_LEVEL=DEBUG. // Can be DEBUG, ERROR, INFO, WARNING, or CRITICAL
+```
 
 ## Stream logs
 
-Stream logs in real-time using Server Sent Events (SSE).
+Stream logs in real-time using Server Sent Events (SSE):
 
 ```bash
 curl -X GET \

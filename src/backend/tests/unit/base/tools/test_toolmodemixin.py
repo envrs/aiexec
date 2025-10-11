@@ -27,7 +27,7 @@ from wfx.schema import Data
 class AllInputsComponent(Component):
     display_name = "All Inputs Component"
     description = "A component with all input types available in Aiexec."
-    documentation: str = "http://docs.khulnasoft.com/components/all_inputs"
+    documentation: str = "http://docs.aiexec.org/components/all_inputs"
     icon = "code"
     name = "AllInputsComponent"
 

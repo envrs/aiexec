@@ -12,7 +12,7 @@ import type { AlertDropdownType } from "../../types/alerts";
 import SingleAlert from "./components/singleAlertComponent";
 
 const AlertDropdown = forwardRef<HTMLDivElement, AlertDropdownType>(
-  function AlertDropdown({ children, notificationRef, onClose }, _ref) {
+  function AlertDropdown({ children, notificationRef, onClose }, ref) {
     const notificationList = useAlertStore((state) => state.notificationList);
     const clearNotificationList = useAlertStore(
       (state) => state.clearNotificationList,
@@ -30,7 +30,7 @@ const AlertDropdown = forwardRef<HTMLDivElement, AlertDropdownType>(
       if (!open) {
         onClose?.();
       }
-    }, [open, onClose]);
+    }, [open]);
 
     return (
       <Popover
@@ -45,10 +45,9 @@ const AlertDropdown = forwardRef<HTMLDivElement, AlertDropdownType>(
       >
         <PopoverTrigger asChild>{children}</PopoverTrigger>
         <PopoverContent
+          ref={notificationRef}
           data-testid="notification-dropdown-content"
           className="noflow nowheel nopan nodelete nodrag z-50 flex h-[500px] w-[500px] flex-col"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <div className="text-md flex flex-row justify-between pl-3 font-medium text-foreground">
             Notifications

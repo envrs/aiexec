@@ -65,6 +65,8 @@ export default function UpdateComponentModal({
       field: "display_name",
       headerClass: "!text-mmd !font-normal",
       flex: 1,
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
       resizable: false,
       cellRenderer: (params) => {
         return (
@@ -174,15 +176,11 @@ export default function UpdateComponentModal({
                   ref={agGrid}
                   domLayout="autoHeight"
                   rowData={components}
+                  rowSelection="multiple"
                   className="ag-tool-mode ag-no-selection"
                   rowHeight={30}
                   headerHeight={30}
-                  rowSelection={{
-                    mode: "multiRow",
-                    enableClickSelection: true,
-                    checkboxes: true,
-                    headerCheckbox: true,
-                  }}
+                  suppressRowClickSelection={false}
                   onSelectionChanged={(event) => {
                     const selectedIds = event.api
                       .getSelectedRows()

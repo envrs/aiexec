@@ -102,7 +102,7 @@ const KnowledgeBasesTab = ({
     setIsDeleteModalOpen(false);
   };
 
-  const _handleDelete = (knowledgeBase: KnowledgeBaseInfo) => {
+  const handleDelete = (knowledgeBase: KnowledgeBaseInfo) => {
     setKnowledgeBaseToDelete(knowledgeBase);
     setIsDeleteModalOpen(true);
   };
@@ -200,12 +200,8 @@ const KnowledgeBasesTab = ({
             tableOptions={{
               hide_options: true,
             }}
-            rowSelection={{
-              mode: "multiRow",
-              enableClickSelection: isShiftPressed,
-              checkboxes: true,
-              headerCheckbox: true,
-            }}
+            suppressRowClickSelection={!isShiftPressed}
+            rowSelection="multiple"
             onSelectionChanged={handleSelectionChange}
             onRowClicked={handleRowClick}
             columnDefs={columnDefs}

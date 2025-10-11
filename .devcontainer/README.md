@@ -47,7 +47,7 @@ The service will start, and you will may notice a dialog in the lower right indi
 ╭───────────────────────────────────────────────────────────────────────╮
 │ Welcome to Aiexec                                                   │
 │                                                                       │
-│ 🌟 GitHub: Star for updates → https://gitlab.com/khulnasoft/aiexec  │
+│ 🌟 GitHub: Star for updates → https://github.com/khulnasoft/aiexec  │
 │ 💬 Discord: Join for support → https://discord.com/invite/EqksyE2EX9   │
 │                                                                       │
 │ We collect anonymous usage data to improve Aiexec.                  │

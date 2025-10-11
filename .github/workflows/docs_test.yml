@@ -10,7 +10,7 @@ on:
         type: string
 
 env:
-  NODE_VERSION: "21"
+  NODE_VERSION: "22"
 
 jobs:
   test-docs-build:
@@ -24,7 +24,7 @@ jobs:
           ref: ${{ inputs.branch || github.ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         id: setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}

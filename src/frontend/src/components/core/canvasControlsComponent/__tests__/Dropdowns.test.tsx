@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import React from "react";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 import HelpDropdown from "../HelpDropdown";
 
@@ -15,22 +14,11 @@ jest.mock("@/components/ui/dropdown-menu", () => ({
       {children}
     </div>
   ),
-  DropdownMenuTrigger: ({ children, asChild, ...props }: any) => {
-    // Handle asChild pattern - if asChild is true, merge props with the child
-    if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(children, {
-        ...props,
-        ...children.props,
-        "data-testid": "dropdown-trigger",
-      });
-    }
-    // Fallback to div if no children or asChild is false
-    return (
-      <div data-testid="dropdown-trigger" {...props}>
-        {children}
-      </div>
-    );
-  },
+  DropdownMenuTrigger: ({ children, ...props }: any) => (
+    <div data-testid="dropdown-trigger" {...props}>
+      {children}
+    </div>
+  ),
   DropdownMenuContent: ({ children, ...props }: any) => (
     <div data-testid="dropdown-content" {...props}>
       {children}
@@ -53,8 +41,8 @@ jest.mock("@/components/common/genericIconComponent", () => ({
 jest.mock("@/constants/constants", () => ({
   __esModule: true,
   DATASTAX_DOCS_URL: "https://docs.datastax.com",
-  DOCS_URL: "https://docs.khulnasoft.com",
-  DESKTOP_URL: "https://desktop.khulnasoft.com",
+  DOCS_URL: "https://docs.aiexec.org",
+  DESKTOP_URL: "https://desktop.aiexec.org",
 }));
 
 jest.mock("@/customization/feature-flags", () => ({
@@ -112,7 +100,7 @@ describe("HelpDropdown", () => {
 
     fireEvent.click(screen.getByTestId("canvas_controls_dropdown_docs"));
     expect(window.open).toHaveBeenCalledWith(
-      "https://docs.khulnasoft.com",
+      "https://docs.aiexec.org",
       "_blank",
     );
 
@@ -123,7 +111,7 @@ describe("HelpDropdown", () => {
       screen.getByTestId("canvas_controls_dropdown_get_aiexec_desktop"),
     );
     expect(window.open).toHaveBeenCalledWith(
-      "https://desktop.khulnasoft.com",
+      "https://desktop.aiexec.org",
       "_blank",
     );
   });

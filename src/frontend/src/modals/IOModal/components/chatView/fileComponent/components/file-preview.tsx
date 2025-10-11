@@ -86,7 +86,6 @@ export default function FilePreview({
             <div
               className="group flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-muted p-2 transition-all hover:bg-input"
               onClick={onDelete}
-              role="button"
             >
               <IconComponent
                 name="X"

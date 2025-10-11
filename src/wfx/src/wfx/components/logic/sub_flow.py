@@ -4,7 +4,7 @@ from wfx.base.flow_processing.utils import build_data_from_result_data
 from wfx.custom.custom_component.component import Component
 from wfx.graph.graph.base import Graph
 from wfx.graph.vertex.base import Vertex
-from wfx.helpers.flow import get_flow_inputs
+from wfx.helpers import get_flow_inputs
 from wfx.io import DropdownInput, Output
 from wfx.log.logger import logger
 from wfx.schema.data import Data

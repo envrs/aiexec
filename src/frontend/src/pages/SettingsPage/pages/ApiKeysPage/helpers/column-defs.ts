@@ -3,6 +3,9 @@ import TableAutoCellRender from "@/components/core/parameterRenderComponent/comp
 export const getColumnDefs = () => {
   return [
     {
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
+      showDisabledCheckboxes: true,
       headerName: "Name",
       field: "name",
       cellRenderer: TableAutoCellRender,

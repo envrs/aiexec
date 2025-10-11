@@ -12,6 +12,7 @@ from pydantic import (
 
 from wfx.field_typing.range_spec import RangeSpec
 from wfx.inputs.validators import CoalesceBool
+from wfx.schema.cross_module import CrossModuleModel
 
 
 class FieldTypes(str, Enum):
@@ -42,7 +43,7 @@ SerializableFieldTypes = Annotated[FieldTypes, PlainSerializer(lambda v: v.value
 
 
 # Base mixin for common input field attributes and methods
-class BaseInputMixin(BaseModel, validate_assignment=True):  # type: ignore[call-arg]
+class BaseInputMixin(CrossModuleModel, validate_assignment=True):  # type: ignore[call-arg]
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         extra="forbid",

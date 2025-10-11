@@ -49,7 +49,7 @@ function DataOutputComponent({
       paginationInfo={
         rows.length > maxItemsLength ? rows[maxItemsLength] : undefined
       }
-      rowSelection={{ enableClickSelection: false }}
+      suppressRowClickSelection={true}
       pagination={pagination}
       columnDefs={columnDefs}
       rowData={rowsInternal}

@@ -9,13 +9,13 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 from wfx.services.settings.service import SettingsService
+from wfx.utils.helpers import build_content_type_from_extension
 
 from aiexec.api.utils import CurrentActiveUser, DbSession
 from aiexec.api.v1.schemas import UploadFileResponse
 from aiexec.services.database.models.flow.model import Flow
 from aiexec.services.deps import get_settings_service, get_storage_service
 from aiexec.services.storage.service import StorageService
-from aiexec.services.storage.utils import build_content_type_from_extension
 
 router = APIRouter(tags=["Files"], prefix="/files")
 

@@ -160,11 +160,11 @@ fi
 
 # Create git commit
 if [ "$DRY_RUN" = true ]; then
-    print_dry_run "Would create git commit: 'chore(wfx): bump version to $NEW_VERSION'"
+    print_dry_run "Would create git commit: 'chore(lfx): bump version to $NEW_VERSION'"
 else
     print_info "Creating git commit..."
     git add src/wfx/pyproject.toml src/wfx/docker/Dockerfile* 2>/dev/null || true
-    git commit -m "chore(wfx): bump version to $NEW_VERSION
+    git commit -m "chore(lfx): bump version to $NEW_VERSION
 
 - Update version in pyproject.toml
 - Prepare for PyPI and Docker release"
@@ -190,7 +190,7 @@ if [ "$DRY_RUN" = true ]; then
     echo "What would happen in a real run:"
     echo "1. Update version in pyproject.toml to $NEW_VERSION"
     echo "2. Update version in Dockerfiles (if applicable)"
-    echo "3. Create git commit with message: 'chore(wfx): bump version to $NEW_VERSION'"
+    echo "3. Create git commit with message: 'chore(lfx): bump version to $NEW_VERSION'"
     echo "4. Create git tag: $TAG_NAME"
     echo ""
     echo "To perform the actual release, run without --dry-run:"
@@ -204,7 +204,7 @@ else
     echo "   git push origin $TAG_NAME"
     echo ""
     echo "2. Go to GitHub Actions and run the 'WFX Release' workflow:"
-    echo "   https://gitlab.com/khulnasoft/aiexec/actions/workflows/release-wfx.yml"
+    echo "   https://github.com/khulnasoft/aiexec/actions/workflows/release-lfx.yml"
     echo ""
     echo "3. Enter version: $NEW_VERSION"
     echo ""

@@ -26,7 +26,6 @@ export const ButtonInputList = ({
       <ShadTooltip content={listAddLabel} side="top" align="center">
         <div
           onClick={addNewInput}
-          role="button"
           className={cn(
             "hit-area-icon group absolute -top-8 right-0 flex items-center justify-center bg-background text-center hover:bg-muted",
             disabled

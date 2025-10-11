@@ -136,7 +136,7 @@ check_version: ## check current version
 prepare_release: release_check ## prepare for release (run all checks)
 	@echo "$(GREEN)WFX $(VERSION) is ready for release!$(NC)"
 	@echo "Next steps:"
-	@echo "1. Run: ./scripts/release-wfx.sh $(VERSION)"
+	@echo "1. Run: ./scripts/release-lfx.sh $(VERSION)"
 	@echo "2. Push changes and tag"
 	@echo "3. Run GitHub Actions release workflow"
 

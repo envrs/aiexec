@@ -1,6 +1,6 @@
 {
   "name": "aiexec",
-  "version": "1.6.0",
+  "version": "1.6.4",
   "private": true,
   "dependencies": {
     "@chakra-ui/number-input": "^2.1.2",
@@ -118,6 +118,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
     "@jest/types": "^30.0.1",
+    "@modelcontextprotocol/server-everything": "^0.6.2",
     "@playwright/test": "^1.52.0",
     "@swc/cli": "^0.5.2",
     "@swc/core": "^1.6.1",
@@ -144,14 +145,5 @@
     "typescript": "^5.4.5",
     "ua-parser-js": "^1.0.38",
     "vite": "^5.4.19"
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "jest.config.js",
-  "directories": {
-    "test": "tests"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  }
 }

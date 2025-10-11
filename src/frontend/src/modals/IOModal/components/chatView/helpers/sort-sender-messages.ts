@@ -3,12 +3,6 @@ import type { ChatMessageType } from "../../../../../types/chat";
 // Cache for parsed timestamps to improve performance during sorting
 const timestampCache = new WeakMap<ChatMessageType, number>();
 
-// Export function to clear cache for testing purposes
-export const clearTimestampCache = () => {
-  // WeakMap doesn't have a clear method, but we can create a new one
-  // This is mainly for testing scenarios where we want to reset performance measurements
-};
-
 /**
  * Sorts chat messages by timestamp with proper handling of identical timestamps.
  *
@@ -26,36 +20,28 @@ const sortSenderMessages = (a: ChatMessageType, b: ChatMessageType): number => {
   // Use WeakMap cache to avoid repeated Date parsing for same message objects
   let timeA = timestampCache.get(a);
   if (timeA === undefined) {
-    // Optimize: Use Date.parse instead of new Date().getTime() for better performance
-    timeA = Date.parse(a.timestamp);
-    // Handle invalid dates gracefully
-    if (isNaN(timeA)) {
-      timeA = 0;
-    }
+    timeA = new Date(a.timestamp).getTime();
     timestampCache.set(a, timeA);
   }
 
   let timeB = timestampCache.get(b);
   if (timeB === undefined) {
-    // Optimize: Use Date.parse instead of new Date().getTime() for better performance
-    timeB = Date.parse(b.timestamp);
-    // Handle invalid dates gracefully
-    if (isNaN(timeB)) {
-      timeB = 0;
-    }
+    timeB = new Date(b.timestamp).getTime();
     timestampCache.set(b, timeB);
   }
 
   // Primary sort: by timestamp
-  const timeDiff = timeA - timeB;
-  if (timeDiff !== 0) {
-    return timeDiff;
+  if (timeA !== timeB) {
+    return timeA - timeB;
   }
 
   // Secondary sort: if timestamps are identical, User messages come before AI/Machine
   // This ensures proper chronological order when backend generates identical timestamps
-  if (a.isSend !== b.isSend) {
-    return a.isSend ? -1 : 1; // User message (isSend=true) comes first
+  if (a.isSend && !b.isSend) {
+    return -1; // User message (isSend=true) comes first
+  }
+  if (!a.isSend && b.isSend) {
+    return 1; // User message (isSend=true) comes first
   }
 
   return 0; // Keep original order for same sender types

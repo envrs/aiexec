@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import AlertDropdown from "@/alerts/alertDropDown";
-import AiexecLogo from "@/assets/aiexec.png?react";
-import aiexecHeaderLogo from "@/assets/aiexec-header-logo.png";
+import AiexecLogo from "@/assets/AiexecLogo.svg?react";
 import DataStaxLogo from "@/assets/DataStaxLogo.svg?react";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
@@ -69,11 +68,7 @@ export default function AppHeader(): JSX.Element {
           {ENABLE_DATASTAX_AIEXEC ? (
             <DataStaxLogo className="fill-black dark:fill-[white]" />
           ) : (
-            <img
-              src={aiexecHeaderLogo}
-              alt="Aiexec Logo"
-              className="h-8 w-auto"
-            />
+            <AiexecLogo className="h-5 w-5" />
           )}
         </Button>
         {ENABLE_DATASTAX_AIEXEC && (
@@ -111,30 +106,34 @@ export default function AppHeader(): JSX.Element {
             side="bottom"
             styleClasses="z-10"
           >
-            <Button
-              ref={notificationRef}
-              unstyled
-              onClick={() =>
-                setActiveState((prev) =>
-                  prev === "notifications" ? null : "notifications",
-                )
-              }
-              data-testid="notification_button"
-            >
-              <div className="hit-area-hover group relative items-center rounded-md px-2 py-2 text-muted-foreground">
-                <span className={getNotificationBadge()} />
-                <ForwardedIconComponent
-                  name="Bell"
-                  className={`side-bar-button-size h-4 w-4 ${
-                    activeState === "notifications"
-                      ? "text-primary"
-                      : "text-muted-foreground group-hover:text-primary"
-                  }`}
-                  strokeWidth={2}
-                />
-                <span className="hidden whitespace-nowrap">Notifications</span>
-              </div>
-            </Button>
+            <AlertDropdown onClose={() => setActiveState(null)}>
+              <Button
+                ref={notificationRef}
+                unstyled
+                onClick={() =>
+                  setActiveState((prev) =>
+                    prev === "notifications" ? null : "notifications",
+                  )
+                }
+                data-testid="notification_button"
+              >
+                <div className="hit-area-hover group relative items-center rounded-md px-2 py-2 text-muted-foreground">
+                  <span className={getNotificationBadge()} />
+                  <ForwardedIconComponent
+                    name="Bell"
+                    className={`side-bar-button-size h-4 w-4 ${
+                      activeState === "notifications"
+                        ? "text-primary"
+                        : "text-muted-foreground group-hover:text-primary"
+                    }`}
+                    strokeWidth={2}
+                  />
+                  <span className="hidden whitespace-nowrap">
+                    Notifications
+                  </span>
+                </div>
+              </Button>
+            </AlertDropdown>
           </ShadTooltip>
         </AlertDropdown>
         <Separator

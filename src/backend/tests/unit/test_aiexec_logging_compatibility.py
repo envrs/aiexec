@@ -88,7 +88,7 @@ def test_no_conflict_with_wfx_logging():
     wfx_logger.info("Test from wfx.logging")
 
 
-def test_aiexec_logging_imports_from_wfx():
+def test_aiexec_logging_imports_from_lfx():
     """Test that aiexec.logging correctly imports from wfx."""
     from aiexec.logging import configure, logger
     from wfx.log.logger import configure as wfx_configure
@@ -142,7 +142,7 @@ def test_backwards_compatibility_scenario():
     orig_logger.debug("Message from wfx.log.logger")
 
 
-def test_importing_aiexec_logging_in_Aiexec():
+def test_importing_aiexec_logging_in_aiexec():
     """Test that aiexec.logging can be imported and used in aiexec context without errors.
 
     This is similar to test_importing_aiexec_logging_in_wfx but tests the aiexec side

@@ -17,6 +17,7 @@ from sqlmodel import select
 from wfx.base.mcp.constants import MAX_MCP_TOOL_NAME_LENGTH
 from wfx.base.mcp.util import get_flow_snake_case, get_unique_name, sanitize_mcp_name
 from wfx.log.logger import logger
+from wfx.utils.helpers import build_content_type_from_extension
 
 from aiexec.api.v1.endpoints import simple_run_flow
 from aiexec.api.v1.schemas import SimplifiedAPIRequest
@@ -25,7 +26,6 @@ from aiexec.schema.message import Message
 from aiexec.services.database.models import Flow
 from aiexec.services.database.models.user.model import User
 from aiexec.services.deps import get_settings_service, get_storage_service, session_scope
-from aiexec.services.storage.utils import build_content_type_from_extension
 
 T = TypeVar("T")
 P = ParamSpec("P")

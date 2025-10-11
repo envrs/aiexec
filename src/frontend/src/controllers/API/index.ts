@@ -19,9 +19,8 @@ const DISCORD_API_URL =
 
 export async function getRepoStars(owner: string, repo: string) {
   try {
-    // Disabled direct GitHub API calls to avoid CORS issues
-    // This should be handled by the backend API
-    return 1000; // Return a default value
+    const response = await api.get(`${GITHUB_API_URL}/repos/${owner}/${repo}`);
+    return response?.data.stargazers_count;
   } catch (error) {
     console.error("Error fetching repository data:", error);
     return null;
@@ -30,9 +29,8 @@ export async function getRepoStars(owner: string, repo: string) {
 
 export async function getDiscordCount() {
   try {
-    // Disabled direct Discord API calls to avoid CORS issues
-    // This should be handled by the backend API
-    return 5000; // Return a default value
+    const response = await api.get(DISCORD_API_URL);
+    return response?.data.approximate_member_count;
   } catch (error) {
     console.error("Error fetching repository data:", error);
     return null;

@@ -86,8 +86,11 @@ try {
 Write-Host "`nStep 4: Running Aiexec..." -ForegroundColor Yellow
 Write-Host "`nAttention: Wait until uvicorn is running before opening the browser" -ForegroundColor Red
 try {
+    # Change to project root directory for uv
+    Set-Location $projectRoot
     if ($useEnvFile) {
-        & uv run --env-file $envPath aiexec run
+        Write-Host "Using env file: .env" -ForegroundColor Cyan
+        & uv run --env-file ".env" aiexec run
     } else {
         & uv run aiexec run
     }

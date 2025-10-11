@@ -34,7 +34,7 @@ component_cache = ComponentCache()
 async def import_aiexec_components():
     """Asynchronously discovers and loads all built-in Aiexec components with module-level parallelization.
 
-    Scans the `wfx.components` package and its submodules in parallel, instantiates classes that are subclasses
+    Scans the `lfx.components` package and its submodules in parallel, instantiates classes that are subclasses
     of `Component` or `CustomComponent`, and generates their templates. Components are grouped by their
     top-level subpackage name.
 
@@ -95,8 +95,10 @@ def _process_single_module(modname: str) -> tuple[str, dict] | None:
     """
     try:
         module = importlib.import_module(modname)
-    except (ImportError, AttributeError) as e:
-        logger.error(f"Error importing module {modname}: {e}", exc_info=True)
+    except Exception as e:  # noqa: BLE001
+        # Catch all exceptions during import to prevent component failures from crashing startup
+        # TODO: Surface these errors to the UI in a friendly manner
+        logger.error(f"Failed to import module {modname}: {e}", exc_info=True)
         return None
     # Extract the top-level subpackage name after "aiexec.components."
     # e.g., "aiexec.components.Notion.add_content_to_page" -> "Notion"

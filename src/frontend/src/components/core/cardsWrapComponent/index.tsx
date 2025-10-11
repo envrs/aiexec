@@ -71,7 +71,6 @@ export default function CardsWrapComponent({
       onDragEnter={dragEnter}
       onDragLeave={dragLeave}
       onDrop={onDrop}
-      role="region"
       className={cn(
         "h-full w-full",
         isDragging

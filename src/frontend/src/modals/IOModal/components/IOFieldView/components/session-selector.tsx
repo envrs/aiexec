@@ -134,7 +134,6 @@ export default function SessionSelector({
         "file-component-accordion-div group cursor-pointer rounded-md text-left text-mmd hover:bg-secondary-hover",
         isVisible ? "bg-secondary-hover font-semibold" : "font-normal",
       )}
-      role="button"
     >
       <div className="flex w-full items-center justify-between overflow-hidden px-2 py-1 align-middle">
         <div className="flex w-full min-w-0 items-center">

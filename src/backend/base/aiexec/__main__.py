@@ -270,15 +270,9 @@ def run(
     if env_file:
         load_dotenv(env_file, override=True)
 
-    # Set default log level if not provided
-    log_level_str = "info" if log_level is None else log_level.lower()
-
-    # Must set as env var for child process to pick up
-    env_log_level = os.environ.get("AIEXEC_LOG_LEVEL")
-    if env_log_level is None:
-        os.environ["AIEXEC_LOG_LEVEL"] = log_level_str
-    else:
-        os.environ["AIEXEC_LOG_LEVEL"] = env_log_level.lower()
+    # Set and normalize log level, with precedence: cli > env > default
+    log_level = (log_level or os.environ.get("AIEXEC_LOG_LEVEL") or "info").lower()
+    os.environ["AIEXEC_LOG_LEVEL"] = log_level
 
     configure(log_level=log_level, log_file=log_file, log_rotation=log_rotation)
 
@@ -333,13 +327,16 @@ def run(
 
     # Step 2: Starting Core Services
     with progress.step(2):
-        app = setup_app(static_files_dir=static_files_dir, backend_only=backend_only)
+        app = setup_app(static_files_dir=static_files_dir, backend_only=bool(backend_only))
 
     # Step 3: Connecting Database (this happens inside setup_app via dependencies)
     with progress.step(3):
         # check if port is being used
         if is_port_in_use(port, host):
             port = get_free_port(port)
+
+        # Store the runtime-detected port in settings (temporary until strict port enforcement)
+        get_settings_service().settings.runtime_port = port
 
         protocol = "https" if ssl_cert_file_path and ssl_key_file_path else "http"
 
@@ -361,7 +358,7 @@ def run(
             # We _may_ be able to subprocess, but with window's spawn behavior, we'd have to move all
             # non-picklable code to the subprocess.
             progress.print_summary()
-            print_banner(host, port, protocol)
+            print_banner(str(host), int(port or 7860), protocol)
 
         # Blocking call, so must be outside of the progress step
         uvicorn.run(
@@ -384,7 +381,7 @@ def run(
                 "timeout": worker_timeout,
                 "certfile": ssl_cert_file_path,
                 "keyfile": ssl_key_file_path,
-                "log_level": log_level.lower(),
+                "log_level": log_level.lower() if log_level is not None else "info",
             }
             server = AiexecApplication(app, options)
 
@@ -396,7 +393,7 @@ def run(
 
         # Print summary and banner after server is ready
         progress.print_summary()
-        print_banner(host, port, protocol)
+        print_banner(str(host), int(port or 7860), protocol)
 
         # Handle browser opening
         if open_browser and not backend_only:
@@ -603,7 +600,7 @@ def print_banner(host: str, port: int, protocol: str) -> None:
         status_icon = "🟢"
 
     info_text = (
-        f"{github_icon} GitHub: Star for updates {arrow} https://gitlab.com/khulnasoft/aiexec\n"
+        f"{github_icon} GitHub: Star for updates {arrow} https://github.com/khulnasoft/aiexec\n"
         f"{discord_icon} Discord: Join for support {arrow} https://discord.com/invite/EqksyE2EX9"
     )
     telemetry_text = (
@@ -630,7 +627,7 @@ def print_banner(host: str, port: int, protocol: str) -> None:
         # Fallback to a simpler banner without emojis for Windows systems with encoding issues
         fallback_message = (
             f"Welcome to {package_name}\n\n"
-            "* GitHub: https://gitlab.com/khulnasoft/aiexec\n"
+            "* GitHub: https://github.com/khulnasoft/aiexec\n"
             "# Discord: https://discord.com/invite/EqksyE2EX9\n\n"
             f"{telemetry_text}\n\n"
             f"[OK] Open Aiexec -> {protocol}://{access_host}:{port}"
@@ -641,7 +638,7 @@ def print_banner(host: str, port: int, protocol: str) -> None:
         except UnicodeEncodeError:
             # Last resort: use logger instead of print
             logger.info(f"Welcome to {package_name}")
-            logger.info("GitHub: https://gitlab.com/khulnasoft/aiexec")
+            logger.info("GitHub: https://github.com/khulnasoft/aiexec")
             logger.info("Discord: https://discord.com/invite/EqksyE2EX9")
             logger.info(f"Open Aiexec: {protocol}://{access_host}:{port}")
 

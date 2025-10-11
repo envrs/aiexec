@@ -77,7 +77,6 @@ const KnowledgeBaseSelectionOverlay = ({
           <DeleteConfirmationModal
             onConfirm={handleBulkDelete}
             description={`knowledge base${pluralSuffix}`}
-            asChild
           >
             <Button
               variant="destructive"

@@ -272,20 +272,14 @@ export default function TableNodeComponent({
           onSelectionChanged={(event: SelectionChangedEvent) => {
             setSelectedNodes(event.api.getSelectedNodes());
           }}
-          rowSelection={
-            table_options?.block_select
-              ? undefined
-              : {
-                  mode: "multiRow",
-                  enableClickSelection: false,
-                }
-          }
+          rowSelection={table_options?.block_select ? undefined : "multiple"}
           editable={editable}
           pagination={!table_options?.hide_options}
           addRow={addRow}
           onDelete={deleteRow}
           gridOptions={{
             ensureDomOrder: true,
+            suppressRowClickSelection: true,
           }}
           onDuplicate={duplicateRow}
           displayEmptyAlert={false}

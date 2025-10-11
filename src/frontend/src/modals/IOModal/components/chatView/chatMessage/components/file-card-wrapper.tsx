@@ -29,7 +29,6 @@ export default function FileCardWrapper({
       <span
         onClick={() => setShow(!show)}
         className="flex cursor-pointer gap-2 text-sm text-muted-foreground"
-        role="button"
       >
         {formatFileName(name, 50)}
         <ForwardedIconComponent name={show ? "ChevronDown" : "ChevronRight"} />

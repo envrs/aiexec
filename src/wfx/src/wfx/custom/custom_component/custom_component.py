@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from wfx.custom import validate
 from wfx.custom.custom_component.base_component import BaseComponent
-from wfx.helpers.flow import list_flows, load_flow, run_flow
+from wfx.helpers import list_flows, load_flow, run_flow
 from wfx.log.logger import logger
 from wfx.schema.data import Data
 from wfx.services.deps import get_storage_service, get_variable_service, session_scope

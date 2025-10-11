@@ -1,16 +1,15 @@
-from aiexec.base.models.aws_constants import AWS_REGIONS, AWS_MODEL_IDs
-from aiexec.base.models.model import LCModelComponent
 from aiexec.field_typing import LanguageModel
 from aiexec.inputs.inputs import BoolInput, FloatInput, IntInput, MessageTextInput, SecretStrInput
 from aiexec.io import DictInput, DropdownInput
+
+from wfx.base.models.aws_constants import AWS_REGIONS, AWS_MODEL_IDs
+from wfx.base.models.model import LCModelComponent
 
 
 class AmazonBedrockConverseComponent(LCModelComponent):
     display_name: str = "Amazon Bedrock Converse"
     description: str = (
-        "Generate text using Amazon Bedrock LLMs with the modern Converse API "
-        "for improved conversation handling. We recommend the Converse API for users "
-        "who do not need to use custom models. It can be accessed using ChatBedrockConverse."
+        "Generate text using Amazon Bedrock LLMs with the modern Converse API for improved conversation handling."
     )
     icon = "Amazon"
     name = "AmazonBedrockConverseModel"

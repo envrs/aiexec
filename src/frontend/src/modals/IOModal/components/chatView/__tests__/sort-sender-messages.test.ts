@@ -45,6 +45,7 @@ describe("sortSenderMessages", () => {
 
     it("should handle different timestamp formats", () => {
       const messages = [
+        createMockMessage("2025-08-29T08:51:23Z", false, "iso"),
         createMockMessage("2025-08-29 08:51:21 UTC", true, "utc"),
         createMockMessage("2025-08-29 08:51:22", true, "no-tz"),
       ];
@@ -54,12 +55,8 @@ describe("sortSenderMessages", () => {
       // Check that first is earliest, last is latest
       const sortedTimes = sorted.map((m) => new Date(m.timestamp).getTime());
       expect(sortedTimes[0]).toBeLessThan(sortedTimes[1]);
-
-      // The exact order depends on timezone parsing - both are valid
-      // Just verify that sorting works correctly without assuming specific order
-      expect(sorted.length).toBe(2);
-      expect(sorted[0].id).toBeDefined();
-      expect(sorted[1].id).toBeDefined();
+      expect(sortedTimes[1]).toBeLessThan(sortedTimes[2]);
+      expect(sorted[0].id).toBe("utc"); // 08:51:21 is earliest
     });
 
     it("should handle messages spanning multiple days", () => {

@@ -43,7 +43,7 @@ The complete Docker Compose configuration is available in `docker_example/docker
 1. Clone the Aiexec repository:
 
    ```shell
-   git clone https://gitlab.com/khulnasoft/aiexec.git
+   git clone https://github.com/khulnasoft/aiexec.git
    ```
 
 2. Navigate to the `docker_example` directory:
@@ -75,8 +75,8 @@ For example, to configure the container's database credentials using a `.env` fi
     POSTGRES_DB=aiexec
 
     # Aiexec configuration
-    aiexec_DATABASE_URL=postgresql://myuser:mypassword@postgres:5432/aiexec
-    aiexec_CONFIG_DIR=/app/aiexec
+    AIEXEC_DATABASE_URL=postgresql://myuser:mypassword@postgres:5432/aiexec
+    AIEXEC_CONFIG_DIR=/app/aiexec
     ```
 
 2. Modify the `docker-compose.yml` file to reference the `.env` file for both the `aiexec` and `postgres` services:
@@ -85,8 +85,8 @@ For example, to configure the container's database credentials using a `.env` fi
     services:
       aiexec:
         environment:
-          - aiexec_DATABASE_URL=${aiexec_DATABASE_URL}
-          - aiexec_CONFIG_DIR=${aiexec_CONFIG_DIR}
+          - AIEXEC_DATABASE_URL=${AIEXEC_DATABASE_URL}
+          - AIEXEC_CONFIG_DIR=${AIEXEC_CONFIG_DIR}
       postgres:
         environment:
           - POSTGRES_USER=${POSTGRES_USER}
@@ -126,7 +126,7 @@ Unlike the previous sections that use pre-built images, this method builds a cus
     FROM khulnasoft/aiexec:latest
     RUN mkdir /app/flows
     COPY ./*.json /app/flows/
-    ENV aiexec_LOAD_FLOWS_PATH=/app/flows
+    ENV AIEXEC_LOAD_FLOWS_PATH=/app/flows
     ```
 
 This Dockerfile uses the official Aiexec image as the base, creates a directory for your flows, copies your JSON flow files into the directory, and sets the environment variable to tell Aiexec where to find the flows.

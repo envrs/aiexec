@@ -15,7 +15,7 @@ We encourage responsible disclosure of security vulnerabilities. If you find som
 
 ### How to Report
 
-Use the "Report a vulnerability" button under the "Security" tab of the [Aiexec GitHub repository](https://gitlab.com/khulnasoft/aiexec/security). This creates a private communication channel between you and the maintainers.
+Use the "Report a vulnerability" button under the "Security" tab of the [Aiexec GitHub repository](https://github.com/khulnasoft/aiexec/security). This creates a private communication channel between you and the maintainers.
 
 ### Reporting Guidelines
 
@@ -42,6 +42,19 @@ We appreciate your efforts in helping us maintain a secure platform and look for
 
 ## Known Vulnerabilities
 
+### Environment Variable Loading Bug (Fixed in 1.6.4)
+
+Aiexec versions `1.6.0` through `1.6.3` have a critical bug where environment variables from `.env` files are not being read. This affects all deployments using environment variables for configuration, including security settings.
+
+**Potential security impact:**
+- Environment variables from `.env` files are not read.
+- Security configurations like `AUTO_LOGIN=false` may not be applied, potentially allowing users to log in as the default superuser.
+- Database credentials, API keys, and other sensitive configuration may not be loaded.
+
+**DO NOT** upgrade to Aiexec versions `1.6.0` through `1.6.3` if you use `.env` files for configuration. Instead, upgrade to version `1.6.4`, which includes a fix for this bug.
+
+**Fixed in**: Aiexec >= 1.6.4
+
 ### Code Execution Vulnerability (Fixed in 1.3.0)
 
 Aiexec allows users to define and run **custom code components** through endpoints like `/api/v1/validate/code`. In versions < 1.3.0, this endpoint did not enforce authentication or proper sandboxing, allowing **unauthenticated arbitrary code execution**.
@@ -55,7 +68,7 @@ This means an attacker could send malicious code to the endpoint and have it exe
 
 A privilege escalation vulnerability exists in Aiexec containers where an authenticated user with RCE access can invoke the internal CLI command `aiexec superuser` to create a new administrative user. This results in full superuser access, even if the user initially registered through the UI as a regular (non-admin) account.
 
-**CVE**: [CVE-2025-57760](https://gitlab.com/khulnasoft/aiexec/security/advisories/GHSA-4gv9-mp8m-592r)
+**CVE**: [CVE-2025-57760](https://github.com/khulnasoft/aiexec/security/advisories/GHSA-4gv9-mp8m-592r)
 **Fixed in**: Aiexec >= 1.5.1
 
 ### No API key required if running Aiexec with `AIEXEC_AUTO_LOGIN=true` and `AIEXEC_SKIP_AUTH_AUTO_LOGIN=true`
@@ -67,7 +80,7 @@ Setting `AIEXEC_SKIP_AUTH_AUTO_LOGIN=true` and `AIEXEC_AUTO_LOGIN=true` skips au
 
 `AIEXEC_SKIP_AUTH_AUTO_LOGIN=true` is the default behavior, so users do not need to change existing workflows in 1.5. To update your workflows to require authentication, set `AIEXEC_SKIP_AUTH_AUTO_LOGIN=false`.
 
-For more information, see [API keys and authentication](https://docs.khulnasoft.com/api-keys-and-authentication).
+For more information, see [API keys and authentication](https://docs.aiexec.org/api-keys-and-authentication).
 
 ## Security Configuration Guidelines
 

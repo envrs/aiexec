@@ -4,8 +4,8 @@ import packaging.version
 import requests
 from packaging.version import Version
 
-PYPI_WFX_URL = "https://pypi.org/pypi/wfx/json"
-PYPI_WFX_NIGHTLY_URL = "https://pypi.org/pypi/wfx-nightly/json"
+PYPI_WFX_URL = "https://pypi.org/pypi/lfx/json"
+PYPI_WFX_NIGHTLY_URL = "https://pypi.org/pypi/lfx-nightly/json"
 
 
 def get_latest_published_version(*, is_nightly: bool) -> Version:
@@ -54,7 +54,7 @@ def create_wfx_tag():
 
     new_nightly_version = latest_base_version + ".dev" + build_number
 
-    # Prepend "v" to the version, if DONE.
+    # Prepend "v" to the version, if DNE.
     # This is an update to the nightly version format.
     if not new_nightly_version.startswith("v"):
         new_nightly_version = "v" + new_nightly_version

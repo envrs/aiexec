@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pandas as pd
 import pytest
-from wfx.components.processing.save_file import SaveToFileComponent
+from wfx.components.data.save_file import SaveToFileComponent
 from wfx.schema import Data, Message
 
 from tests.base import ComponentTestBaseWithoutClient

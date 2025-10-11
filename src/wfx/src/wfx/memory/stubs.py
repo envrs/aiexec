@@ -2,7 +2,7 @@
 
 This module provides message storage and retrieval functionality adapted for wfx's
 service-based architecture. It mirrors the aiexec.memory API but works with
-wfx's Message model and service interfaces.
+lfx's Message model and service interfaces.
 """
 
 from uuid import UUID

@@ -1,7 +1,7 @@
 from typing import Any
 
 from wfx.base.tools.run_flow import RunFlowBaseComponent
-from wfx.helpers.flow import run_flow
+from wfx.helpers import run_flow
 from wfx.log.logger import logger
 from wfx.schema.dotdict import dotdict
 

@@ -11,7 +11,7 @@ This document details how to set up a local development environment that will al
 
 You will push changes to a fork of the Aiexec repository, and from there create a Pull Request into the project repository.
 
-Fork the [Aiexec GitHub repository](https://gitlab.com/khulnasoft/aiexec/fork), and follow the instructions to create a new fork.
+Fork the [Aiexec GitHub repository](https://github.com/khulnasoft/aiexec/fork), and follow the instructions to create a new fork.
 
 On your new fork, click the "<> Code" button to get a URL to [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) using your preferred method, and clone the repository; for example using `https`:
 
@@ -23,7 +23,7 @@ Finally, add the Project repository as `upstream`:
 
 ```bash
 cd aiexec
-git remote add upstream https://gitlab.com/khulnasoft/aiexec.git
+git remote add upstream https://github.com/khulnasoft/aiexec.git
 git remote set-url --push upstream no_push
 ```
 
@@ -195,7 +195,7 @@ You should try to add a unit test for your component, though templates and best 
 Modifying a component is much the same as adding a component: it is generally easier to make changes in the UI and then save the file in the repository. Please be sure to review and modify unit tests; if there is not a unit test for the component, the addition of one that at least covers your changes would be much appreciated!
 
 > [!NOTE]
-> If you have an old version of the component on the canvas when changes are saved and the backend service restarts, that component should show "Updates Available" when the canvas is reloaded (i.e. a browser refresh). [Issue 5179](https://gitlab.com/khulnasoft/aiexec/issues/5179) indicates this behavior is not consistent, at least in a development setting.
+> If you have an old version of the component on the canvas when changes are saved and the backend service restarts, that component should show "Updates Available" when the canvas is reloaded (i.e. a browser refresh). [Issue 5179](https://github.com/khulnasoft/aiexec/issues/5179) indicates this behavior is not consistent, at least in a development setting.
 
 ## Building and Testing Changes
 

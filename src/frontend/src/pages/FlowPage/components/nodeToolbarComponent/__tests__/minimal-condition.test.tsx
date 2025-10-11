@@ -1,17 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import { useCallback, useEffect } from "react";
 
-// Mock the alert store before importing the hook
-jest.mock("@/stores/alertStore", () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    setNoticeData: jest.fn(),
-  })),
-}));
-
-// Import after mocking
-import useAlertStore from "@/stores/alertStore";
-
 // Test the minimal condition logic in isolation
 describe("NodeToolbar Minimal Condition Logic", () => {
   // Simulate the exact logic from the component
@@ -26,14 +15,15 @@ describe("NodeToolbar Minimal Condition Logic", () => {
     const hasOutputs = !!(nodeOutputs?.length && nodeOutputs.length > 1);
     const isMinimal = !!(hasOutputs && !hasGroupOutputs);
 
-    const setNoticeData = useAlertStore((state) => state.setNoticeData);
-
     const handleMinimize = useCallback(() => {
       if (isMinimal || !showNode) {
         setShowNode(!showNode);
         return;
       }
-      // Notification logic removed for unit test - tested in integration tests
+      // Would show notice in real component
+      console.log(
+        "Minimization only available for components with one handle or fewer.",
+      );
     }, [isMinimal, showNode, setShowNode]);
 
     useEffect(() => {
@@ -180,6 +170,7 @@ describe("NodeToolbar Minimal Condition Logic", () => {
     });
 
     it("should not toggle when not minimal and showNode is true", () => {
+      const consoleSpy = jest.spyOn(console, "log").mockImplementation();
       const mockSetShowNode = jest.fn();
       const { result } = renderHook(() =>
         useMinimalLogic(
@@ -194,7 +185,11 @@ describe("NodeToolbar Minimal Condition Logic", () => {
       });
 
       expect(mockSetShowNode).not.toHaveBeenCalled();
-      // The notification behavior is tested separately in integration tests
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Minimization only available for components with one handle or fewer.",
+      );
+
+      consoleSpy.mockRestore();
     });
   });
 

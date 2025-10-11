@@ -15,9 +15,9 @@ The Aiexec codebase uses two `pyproject.toml` files to manage dependencies, with
 To add dependencies to Aiexec Desktop, add an entry for the package to the application's `requirements.txt` file:
 
     * On macOS, the file is located at `/Users/USER/.aiexec/data/requirements.txt`.
-    * On Windows, the file is located at `C:\Users\USER\AppData\Roaming\com.Aiexecdata\requirements.txt`.
+    * On Windows, the file is located at `C:\Users\USER\AppData\Roaming\com.Aiexec\data\requirements.txt`.
 
-Add each dependency to `requirements.txt` on its own line in the format `DEPENDENCY==VERSION`, such as `docling==2.40.0`.
+Add each dependency to `requirements.txt` on its own line in the format `DEPENDENCY==VERSION`, such as `matplotlib==3.10.0`.
 
 Restart Aiexec Desktop to install the dependencies.
 
@@ -37,7 +37,7 @@ uv add DEPENDENCY
 
 Aiexec OSS provides optional dependency groups that extend its functionality.
 
-These dependencies are listed in the [pyproject.toml](https://gitlab.com/khulnasoft/aiexec/blob/main/pyproject.toml#L194) file under `[project.optional-dependencies]`.
+These dependencies are listed in the [pyproject.toml](https://github.com/khulnasoft/aiexec/blob/main/pyproject.toml#L194) file under `[project.optional-dependencies]`.
 
 Install dependency groups using pip's `[extras]` syntax. For example, to install Aiexec with the `postgresql` dependency group, enter the following command:
 
@@ -145,4 +145,3 @@ dev = [
 
 * [Containerize a Aiexec application](/develop-application)
 * [Create custom Python components](/components-custom-components)
-* [**Docling** bundle](/integrations-docling)

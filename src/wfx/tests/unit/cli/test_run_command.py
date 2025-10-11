@@ -36,7 +36,7 @@ You can use this script as a template for building more complex conversational f
 from pathlib import Path
 
 from wfx.components.input_output import ChatInput, ChatOutput
-from wfx.schema.graph import Graph
+from wfx.graph import Graph
 from wfx.log.logger import LogConfig
 
 log_config = LogConfig(

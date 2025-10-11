@@ -6,7 +6,7 @@ from wfx.base.langchain_utilities.model import LCToolComponent
 from wfx.base.tools.flow_tool import FlowTool
 from wfx.field_typing import Tool
 from wfx.graph.graph.base import Graph
-from wfx.helpers.flow import get_flow_inputs
+from wfx.helpers import get_flow_inputs
 from wfx.io import BoolInput, DropdownInput, Output, StrInput
 from wfx.log.logger import logger
 from wfx.schema.data import Data
