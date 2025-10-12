@@ -46,7 +46,7 @@ class User(SQLModel, table=True):  # type: ignore[call-arg]
         back_populates="user",
         sa_relationship_kwargs={"cascade": "delete"},
     )
-    optins: dict[str, Any] | None = Field(
+    options: dict[str, Any] | None = Field(
         sa_column=Column(JSON, default=lambda: UserOptin().model_dump(), nullable=True)
     )
 
@@ -54,7 +54,7 @@ class User(SQLModel, table=True):  # type: ignore[call-arg]
 class UserCreate(SQLModel):
     username: str = Field()
     password: str = Field()
-    optins: dict[str, Any] | None = Field(
+    options: dict[str, Any] | None = Field(
         default={"github_starred": False, "dialog_dismissed": False, "discord_clicked": False}
     )
 
@@ -69,7 +69,7 @@ class UserRead(SQLModel):
     create_at: datetime = Field()
     updated_at: datetime = Field()
     last_login_at: datetime | None = Field(nullable=True)
-    optins: dict[str, Any] | None = Field(default=None)
+    options: dict[str, Any] | None = Field(default=None)
 
 
 class UserUpdate(SQLModel):
@@ -79,4 +79,4 @@ class UserUpdate(SQLModel):
     is_active: bool | None = None
     is_superuser: bool | None = None
     last_login_at: datetime | None = None
-    optins: dict[str, Any] | None = None
+    options: dict[str, Any] | None = None

@@ -70,8 +70,8 @@ class CleanlabRemediator(Component):
             field_type="float",
             value=0.7,
             range_spec=RangeSpec(min=0.0, max=1.0, step=0.05),
-            info="Minimum score required to show the response unmodified. Reponses with scores above this threshold "
-            "are considered trustworthy. Reponses with scores below this threshold are considered untrustworthy and "
+            info="Minimum score required to show the response unmodified. Responses with scores above this threshold "
+            "are considered trustworthy. Responses with scores below this threshold are considered untrustworthy and "
             "will be remediated based on the settings below.",
             required=True,
             show=True,

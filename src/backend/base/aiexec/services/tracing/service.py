@@ -253,7 +253,7 @@ class TracingService(Service):
     async def _stop(self, trace_context: TraceContext) -> None:
         try:
             trace_context.running = False
-            # check the qeue is empty
+            # check the queue is empty
             if not trace_context.traces_queue.empty():
                 await trace_context.traces_queue.join()
             if trace_context.worker_task:

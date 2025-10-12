@@ -25,22 +25,22 @@ export const HeaderButtons = ({
   );
 
   const [isDismissedDialog, setIsDismissedDialog] = useState(
-    userData?.optins?.dialog_dismissed,
+    userData?.options?.dialog_dismissed,
   );
   const [isGithubStarred, setIsGithubStarred] = useState(
-    userData?.optins?.github_starred,
+    userData?.options?.github_starred,
   );
   const [isDiscordJoined, setIsDiscordJoined] = useState(
-    userData?.optins?.discord_clicked,
+    userData?.options?.discord_clicked,
   );
 
   const { mutate: updateUser } = useUpdateUser();
 
   useEffect(() => {
     if (userData) {
-      setIsDismissedDialog(userData.optins?.dialog_dismissed);
-      setIsGithubStarred(userData.optins?.github_starred);
-      setIsDiscordJoined(userData.optins?.discord_clicked);
+      setIsDismissedDialog(userData.options?.dialog_dismissed);
+      setIsGithubStarred(userData.options?.github_starred);
+      setIsDiscordJoined(userData.options?.discord_clicked);
     }
   }, [userData]);
 
@@ -49,8 +49,8 @@ export const HeaderButtons = ({
     updateUser({
       user_id: userData?.id!,
       user: {
-        optins: {
-          ...userData?.optins,
+        options: {
+          ...userData?.options,
           dialog_dismissed: true,
         },
       },

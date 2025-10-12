@@ -1500,7 +1500,7 @@
                 "trace_as_input": true,
                 "trace_as_metadata": true,
                 "type": "str",
-                "value": "You are a brilliant comedy writer known for making complex topics entertaining and memorable. Using the editor's refined document about {topic}, create an engaging, humorous blog post.\n\nYour approach should:\n- Find unexpected angles and amusing parallels\n- Use clever wordplay and wit (avoid cheap jokes)\n- Maintain accuracy while being entertaining\n- Include relatable examples and analogies\n- Keep a smart, sophisticated tone\n- Make the topic more approachable through humor\n\nCreate a blog post that makes people laugh while actually teaching them about {topic}. The humor should enhance, not overshadow, the educational value."
+                "value": "You are a brilliant comedy writer known for making complex topics entertaining and memorable. Using the editor's refined document about {topic}, create an engaging, humorous blog post.\n\nYour approach should:\n- Find unexpected angles and amusing parallels\n- Use clever wordplay and with (avoid cheap jokes)\n- Maintain accuracy while being entertaining\n- Include relatable examples and analogies\n- Keep a smart, sophisticated tone\n- Make the topic more approachable through humor\n\nCreate a blog post that makes people laugh while actually teaching them about {topic}. The humor should enhance, not overshadow, the educational value."
               },
               "temperature": {
                 "_input_type": "SliderInput",

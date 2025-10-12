@@ -27,14 +27,10 @@ export const test = base.extend({
           url.includes("/auto_login") ||
           url.includes("/logout");
         if (!isAuth) {
-          console.log(
-            `🚨 Backend Error: ${status} ${response.statusText()} - ${url}`,
-          );
           let responseBody: string | undefined;
           try {
             responseBody = await response.text();
-            console.log(`   Response: ${responseBody}`);
-          } catch (e) {
+          } catch (_e) {
             responseBody = "Could not read response";
           }
           errors.push({
@@ -51,9 +47,6 @@ export const test = base.extend({
 
     // Summary at end
     if (errors.length > 0) {
-      console.log(
-        `\n📋 Found ${errors.length} backend error(s) during test - continuing for debug`,
-      );
     }
   },
 });

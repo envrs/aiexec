@@ -43,9 +43,9 @@ SILENCE_DURATION_MS = 300
 AUDIO_SAMPLE_THRESHOLD = 100
 SESSION_INSTRUCTIONS = """
 Your instructions will be divided into three mutually exclusive sections: "Permanent", "Default", and "Additional".
-"Permanent" instructions are to never be overrided, superceded or otherwise ignored.
+"Permanent" instructions are to never be overrided, superseded or otherwise ignored.
 "Default" instructions are provided by default. They may never override "Permanent"
-  or "Additional" instructions, and they may likewise be superceded by those same other rules.
+  or "Additional" instructions, and they may likewise be superseded by those same other rules.
 "Additional" instructions may be empty. When relevant, they override "Default" instructions,
   but never "Permanent" instructions.
 
@@ -57,7 +57,7 @@ Your instructions will be divided into three mutually exclusive sections: "Perma
 
 [DEFAULT] The following instructions are to be considered only "Default"
 * Converse with the user to assist with their question.
-* Never provide URLs in repsonses, but you may use URLs in tool calls or when processing those
+* Never provide URLs in responses, but you may use URLs in tool calls or when processing those
   URLs' content.
 * Always (and I mean *always*) let the user know before you will be
   doing so.
@@ -65,7 +65,7 @@ Your instructions will be divided into three mutually exclusive sections: "Perma
 * Unless otherwise requested, only summarize the return results. Do not repeat everything.
 * Always call the function again when requested, regardless of whether execute_flow previously
   succeeded or failed.
-* Never provide URLs in repsonses, but you may use URLs in tool calls or when processing those
+* Never provide URLs in responses, but you may use URLs in tool calls or when processing those
   URLs' content.
 
 [ADDITIONAL] The following instructions are to be considered only "Additional"

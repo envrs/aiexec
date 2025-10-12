@@ -17,7 +17,7 @@ export const useGetDownloadFlows: useMutationFunctionType<
 
   const getDownloadFlowsFn = async (params) => {
     if (!params) return;
-    // need to use fetch because axios convert blob data to string, and this convertion can corrupt the file
+    // need to use fetch because axios convert blob data to string, and this conversion can corrupt the file
     let response;
     if (params.ids.length === 1) {
       response = await api.get<FlowType>(`${getURL("FLOWS")}/${params.ids[0]}`);

@@ -52,7 +52,7 @@ test(
     await textInput.press("ArrowRight"); // Move cursor to position 2
     await textInput.pressSequentially("Y", { delay: 100 }); // Type at position 2
     const cursorValue = await textInput.inputValue();
-    if (!cursorValue.startsWith("teY")) {
+    if (!cursorValue.startsWith("they")) {
       expect(false).toBeTruthy();
     }
     await textInput.fill(

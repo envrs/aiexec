@@ -54,7 +54,7 @@ def create_wfx_tag():
 
     new_nightly_version = latest_base_version + ".dev" + build_number
 
-    # Prepend "v" to the version, if DNE.
+    # Prepend "v" to the version, if DONE.
     # This is an update to the nightly version format.
     if not new_nightly_version.startswith("v"):
         new_nightly_version = "v" + new_nightly_version

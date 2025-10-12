@@ -55,7 +55,7 @@ export default function EmbedModal({
   };
 
   return (
-    <BaseModal open={open} setOpen={setOpen} size="retangular">
+    <BaseModal open={open} setOpen={setOpen} size="rectangular">
       <BaseModal.Header>
         <div className="flex items-center gap-2 text-base font-semibold">
           <IconComponent name="Columns2" className="icon-size" />

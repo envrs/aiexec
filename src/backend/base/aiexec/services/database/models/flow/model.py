@@ -30,7 +30,7 @@ class AccessTypeEnum(str, Enum):
 
 
 class FlowBase(SQLModel):
-    # Supresses warnings during migrations
+    # Suppresses warnings during migrations
     __mapper_args__ = {"confirm_deleted_rows": False}
 
     name: str = Field(index=True)

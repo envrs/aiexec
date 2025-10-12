@@ -51,7 +51,7 @@ async def get_server_list(
     storage_service=Depends(get_storage_service),
     settings_service=Depends(get_settings_service),
 ):
-    # Backwards compatibilty with old format file name
+    # Backwards compatibility with old format file name
     mcp_file = await get_mcp_file(current_user)
     old_format_config_file = await get_file_by_name(MCP_SERVERS_FILE, current_user, session)
     if old_format_config_file:

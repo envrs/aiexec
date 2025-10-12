@@ -337,7 +337,7 @@ const SideBarFoldersButtonsComponent = ({
 
   const userData = useAuthStore((state) => state.userData);
   const { mutate: updateUser } = useUpdateUser();
-  const userDismissedMcpDialog = userData?.optins?.mcp_dialog_dismissed;
+  const userDismissedMcpDialog = userData?.options?.mcp_dialog_dismissed;
 
   const [isDismissedMcpDialog, setIsDismissedMcpDialog] = useState(
     userDismissedMcpDialog,
@@ -348,8 +348,8 @@ const SideBarFoldersButtonsComponent = ({
     updateUser({
       user_id: userData?.id!,
       user: {
-        optins: {
-          ...userData?.optins,
+        options: {
+          ...userData?.options,
           mcp_dialog_dismissed: true,
         },
       },

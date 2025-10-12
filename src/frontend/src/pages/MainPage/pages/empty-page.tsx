@@ -43,12 +43,12 @@ export const EmptyPageCommunity = ({
   const { mutate: mutateLoggedUser } = useGetUserData();
 
   const handleUserTrack = (key: string) => () => {
-    const optins = userData?.optins ?? {};
-    optins[key] = true;
+    const options = userData?.options ?? {};
+    options[key] = true;
     updateUser(
       {
         user_id: userData?.id!,
-        user: { optins },
+        user: { options },
       },
       {
         onSuccess: () => {
