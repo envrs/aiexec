@@ -270,7 +270,7 @@ setup_devcontainer: ## set up the development container
 	make install_backend
 	make install_frontend
 	make build_frontend
-	uv run aiexec --frontend-path src/frontend/build
+	uv run aiexec run --frontend-path src/frontend/build
 
 setup_env: ## set up the environment
 	@sh ./scripts/setup/setup_env.sh
@@ -697,8 +697,8 @@ load_test_run: ## Run load test (automatically sets up if needed). Use FLOW_NAME
 		fi \
 	fi
 	@cd src/backend/tests/locust && \
-	export API_KEY=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
-	export FLOW_ID=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
+	export API_KEY=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
+	export FLOW_ID=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
 	uv run python aiexec_run_load_test.py --headless --users 20 --duration 120 --no-start-aiexec --html load_test_report.html --csv load_test_results
 
 load_test_aiexec_quick: ## Quick Aiexec load test (10 users, 30s) with HTML report (automatically sets up if needed). Use FLOW_NAME="Flow Name" to specify flow
@@ -716,8 +716,8 @@ load_test_aiexec_quick: ## Quick Aiexec load test (10 users, 30s) with HTML repo
 		fi \
 	fi
 	@cd src/backend/tests/locust && \
-	export API_KEY=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
-	export FLOW_ID=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
+	export API_KEY=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
+	export FLOW_ID=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
 	uv run python aiexec_run_load_test.py --headless --users 10 --duration 30 --no-start-aiexec --html quick_test_report.html
 
 load_test_stress: ## Stress test (100 users, 5 minutes) with comprehensive reporting (automatically sets up if needed). Use FLOW_NAME="Flow Name" to specify flow
@@ -735,8 +735,8 @@ load_test_stress: ## Stress test (100 users, 5 minutes) with comprehensive repor
 		fi \
 	fi
 	@cd src/backend/tests/locust && \
-	export API_KEY=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
-	export FLOW_ID=$$(python -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
+	export API_KEY=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['api_key'])") && \
+	export FLOW_ID=$$(uv run python3 -c "import json; print(json.load(open('load_test_creds.json'))['flow_id'])") && \
 	uv run python aiexec_run_load_test.py --headless --users 100 --spawn-rate 5 --duration 300 --no-start-aiexec --html stress_test_report.html --csv stress_test_results --shape ramp100
 
 load_test_example: ## Run complete example workflow (setup + test + reports)
@@ -768,8 +768,8 @@ load_test_remote_run: ## Run load test against remote instance (requires prior s
 	fi
 	@echo "$(YELLOW)Running load test against remote instance: $(AIEXEC_HOST)$(NC)"
 	@cd src/backend/tests/locust && \
-	export API_KEY=$$(python -c "import json; print(json.load(open('remote_test_creds.json'))['api_key'])") && \
-	export FLOW_ID=$$(python -c "import json; print(json.load(open('remote_test_creds.json'))['flow_id'])") && \
+	export API_KEY=$$(uv run python3 -c "import json; print(json.load(open('remote_test_creds.json'))['api_key'])") && \
+	export FLOW_ID=$$(uv run python3 -c "import json; print(json.load(open('remote_test_creds.json'))['flow_id'])") && \
 	uv run python aiexec_run_load_test.py --host $(AIEXEC_HOST) --no-start-aiexec --headless --users 10 --spawn-rate 1 --duration 120 --html remote_test_report.html
 
 load_test_help: ## Show detailed load testing help

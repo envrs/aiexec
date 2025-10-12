@@ -494,7 +494,7 @@
                   },
                   {
                     "name": "fastapi",
-                    "version": "0.118.0"
+                    "version": "0.119.0"
                   },
                   {
                     "name": "wfx",
@@ -1729,7 +1729,7 @@
             "legacy": false,
             "lf_version": "1.6.0",
             "metadata": {
-              "code_hash": "1f33ff01154c",
+              "code_hash": "58f6bbdd1c1d",
               "dependencies": {
                 "dependencies": [
                   {

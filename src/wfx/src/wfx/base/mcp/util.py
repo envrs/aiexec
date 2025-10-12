@@ -1421,10 +1421,266 @@ class MCPStreamableHttpClient:
         await self.disconnect()
 
 
-# Backward compatibility: MCPSseClient is now an alias for MCPStreamableHttpClient
-# The new client supports both Streamable HTTP and SSE with automatic fallback
-MCPSseClient = MCPStreamableHttpClient
+class MCPStdioSseBridge:
+    """A bridge that allows connecting to an SSE MCP server via stdio transport.
 
+    This class acts as a stdio MCP server but internally connects to an SSE MCP server
+    via HTTP/SSE, forwarding all requests and responses between the two transports.
+
+    This is useful for:
+    - Connecting to SSE MCP servers when clients only support stdio
+    - Adding middleware/logging between clients and SSE servers
+    - Providing a stdio interface to HTTP-based MCP servers
+    """
+
+    def __init__(self, component_cache=None):
+        self.sse_client = MCPStreamableHttpClient(component_cache)
+        self._stdio_server = None
+        self._stdio_read = None
+        self._stdio_write = None
+        self._running = False
+        self._component_cache = component_cache
+
+    async def start_bridge(
+        self,
+        sse_url: str,
+        sse_headers: dict[str, str] | None = None,
+        stdio_command: str | None = None,
+        _stdio_env: dict[str, str] | None = None,
+    ) -> None:
+        """Start the stdio-to-SSE bridge.
+
+        Args:
+            sse_url: URL of the SSE MCP server to connect to
+            sse_headers: Optional headers for the SSE connection
+            stdio_command: Command to run as the stdio MCP server (if None, runs in-process)
+            _stdio_env: Environment variables for the stdio server process
+        """
+        if self._running:
+            msg = "Bridge is already running"
+            raise ValueError(msg)
+
+        # Connect to the SSE MCP server
+        await self.sse_client.connect_to_server(sse_url, headers=sse_headers)
+
+        if stdio_command:
+            # Run as external process - this would need a more complex implementation
+            # For now, we'll implement an in-process version
+            await logger.awarning("External stdio server not yet implemented, using in-process server")
+            await self._start_inprocess_stdio_server()
+        else:
+            # Run as in-process server
+            await self._start_inprocess_stdio_server()
+
+        self._running = True
+        await logger.ainfo(f"Stdio-to-SSE bridge started: stdio -> SSE at {sse_url}")
+
+    async def _start_inprocess_stdio_server(self) -> None:
+        """Start the stdio server in-process using asyncio for proper async handling."""
+        # This implementation creates a simple stdio MCP server that forwards requests to SSE
+        # In a production environment, you might want to use the MCP SDK's stdio_server
+
+        from mcp.server import Server
+        from mcp.types import Tool
+
+        # Create MCP server instance
+        server = Server("stdio-sse-bridge", "1.0.0")
+
+        @server.list_tools()
+        async def handle_list_tools() -> list[Tool]:
+            """Forward tools list request to SSE server."""
+            try:
+                session = await self.sse_client._get_or_create_session()
+                response = await session.list_tools()
+            except (ConnectionError, OSError, ValueError) as e:
+                await logger.aerror(f"Error listing tools from SSE server: {e}")
+                return []
+            else:
+                # Convert MCP SDK tools to the format expected by the server
+                tools = []
+                for tool in response.tools:
+                    # Create Tool objects from the response
+                    tool_obj = Tool(
+                        name=tool.name,
+                        description=tool.description or "",
+                        inputSchema=tool.inputSchema,
+                    )
+                    tools.append(tool_obj)
+                return tools
+
+        @server.call_tool()
+        async def handle_call_tool(name: str, arguments: dict) -> list:
+            """Forward tool call to SSE server."""
+            try:
+                result = await self.sse_client.run_tool(name, arguments)
+            except (ConnectionError, OSError, ValueError) as e:
+                await logger.aerror(f"Error calling tool '{name}' on SSE server: {e}")
+                error_msg = f"Tool execution failed: {e}"
+                raise ValueError(error_msg) from e
+            else:
+                # Convert result to the expected format
+                return [result]
+
+        # Set up stdio transport
+
+        # This is a simplified approach - in practice you'd need to integrate
+        # the server with proper stdio handling
+        self._stdio_server = server
+
+        # For now, we'll create a simple message forwarding mechanism
+        # This is a basic implementation that would need to be expanded for production use
+
+    async def _handle_stdio_message(self, message: dict) -> dict:
+        """Handle a JSON-RPC message from stdio and forward to SSE server.
+
+        Args:
+            message: JSON-RPC message from stdio client
+
+        Returns:
+            JSON-RPC response to send back to stdio client
+        """
+        method = message.get("method")
+        params = message.get("params", {})
+        jsonrpc_id = message.get("id")
+
+        try:
+            if method == "initialize":
+                # Handle initialization
+                return {
+                    "jsonrpc": "2.0",
+                    "id": jsonrpc_id,
+                    "result": {
+                        "protocolVersion": "2024-11-05",
+                        "capabilities": {
+                            "tools": {},
+                        },
+                        "serverInfo": {
+                            "name": "stdio-sse-bridge",
+                            "version": "1.0.0",
+                        },
+                    },
+                }
+            if method == "tools/list":
+                # Forward tools list request to SSE server
+                session = await self.sse_client._get_or_create_session()
+                response = await session.list_tools()
+                return {
+                    "jsonrpc": "2.0",
+                    "id": jsonrpc_id,
+                    "result": {
+                        "tools": [
+                            {
+                                "name": tool.name,
+                                "description": tool.description or "",
+                                "inputSchema": tool.inputSchema,
+                            }
+                            for tool in response.tools
+                        ],
+                    },
+                }
+            if method == "tools/call":
+                # Forward tool call to SSE server
+                tool_name = params.get("name")
+                arguments = params.get("arguments", {})
+
+                result = await self.sse_client.run_tool(tool_name, arguments)
+                return {
+                    "jsonrpc": "2.0",
+                    "id": jsonrpc_id,
+                    "result": result,
+                }
+            else:
+                # Unknown method
+                return {
+                    "jsonrpc": "2.0",
+                    "id": jsonrpc_id,
+                    "error": {
+                        "code": -32601,
+                        "message": f"Method '{method}' not supported",
+                    },
+                }
+        except (ConnectionError, OSError, ValueError, RuntimeError) as e:
+            await logger.aerror(f"Error handling stdio message: {e}")
+            return {
+                "jsonrpc": "2.0",
+                "id": jsonrpc_id,
+                "error": {
+                    "code": -32603,
+                    "message": f"Internal error: {e!s}",
+                },
+            }
+
+    async def run_stdio_server(self) -> None:
+        """Run the stdio server, reading from stdin and writing to stdout."""
+        import asyncio
+        import sys
+
+        self._running = True
+        await logger.ainfo("Starting stdio server loop")
+
+        try:
+            while self._running:
+                # Read a line from stdin (non-blocking)
+                line = await asyncio.get_event_loop().run_in_executor(None, sys.stdin.readline)
+                if not line:
+                    # EOF reached
+                    break
+
+                line = line.strip()
+                if not line:
+                    continue
+
+                try:
+                    message = json.loads(line)
+                    response = await self._handle_stdio_message(message)
+
+                    # Write response to stdout
+                    response_json = json.dumps(response, separators=(",", ":"))
+                    output = response_json + "\n"
+                    await asyncio.get_event_loop().run_in_executor(None, sys.stdout.write, output)
+                    sys.stdout.flush()
+
+                except json.JSONDecodeError as e:
+                    await logger.awarning(f"Invalid JSON received on stdio: {e}")
+                    # Send error response for malformed JSON
+                    error_response = {
+                        "jsonrpc": "2.0",
+                        "error": {
+                            "code": -32700,
+                            "message": "Parse error",
+                        },
+                    }
+                    if "id" in message:
+                        error_response["id"] = message["id"]
+
+                    error_json = json.dumps(error_response, separators=(",", ":"))
+                    await asyncio.get_event_loop().run_in_executor(None, sys.stdout.write, error_json + "\n")
+                    sys.stdout.flush()
+
+        except asyncio.CancelledError:
+            await logger.ainfo("Stdio server loop cancelled")
+
+# Factory function for creating stdio-to-SSE bridge
+async def create_stdio_sse_bridge(
+    sse_url: str,
+    sse_headers: dict[str, str] | None = None,
+    stdio_command: str | None = None,
+    _stdio_env: dict[str, str] | None = None,
+) -> MCPStdioSseBridge:
+    """Create and start a stdio-to-SSE bridge.
+
+    Args:
+        sse_url: URL of the SSE MCP server to connect to
+        sse_headers: Optional headers for the SSE connection
+        stdio_command: Optional command to run as external stdio server
+        _stdio_env: Optional environment variables for stdio server
+
+    Returns:
+        Configured and running MCPStdioSseBridge instance
+    """
+    bridge = MCPStdioSseBridge()
+    await bridge.start_bridge(sse_url, sse_headers, stdio_command, _stdio_env)
+    return bridge
 
 async def update_tools(
     server_name: str,

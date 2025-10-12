@@ -1049,7 +1049,7 @@
                   },
                   {
                     "name": "fastapi",
-                    "version": "0.118.0"
+                    "version": "0.119.0"
                   },
                   {
                     "name": "wfx",
@@ -3432,7 +3432,7 @@
             "icon": "AstraDB",
             "legacy": false,
             "metadata": {
-              "code_hash": "df71545d2dee",
+              "code_hash": "3f2046ac26ff",
               "dependencies": {
                 "dependencies": [
                   {
@@ -3445,7 +3445,7 @@
                   },
                   {
                     "name": "langchain_core",
-                    "version": "0.3.78"
+                    "version": "0.3.79"
                   },
                   {
                     "name": "wfx",
@@ -4245,7 +4245,7 @@
             "icon": "AstraDB",
             "legacy": false,
             "metadata": {
-              "code_hash": "df71545d2dee",
+              "code_hash": "3f2046ac26ff",
               "dependencies": {
                 "dependencies": [
                   {
@@ -4258,7 +4258,7 @@
                   },
                   {
                     "name": "langchain_core",
-                    "version": "0.3.78"
+                    "version": "0.3.79"
                   },
                   {
                     "name": "wfx",
