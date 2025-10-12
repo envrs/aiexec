@@ -1,3 +1,53 @@
+# Aiexec Engineering TODO (Repository-Aligned)
+
+Use this checklist to drive near-term engineering work across backend, frontend, CI/CD, docs, and security. The legacy feature roadmap remains below for product planning.
+
+## Critical Fixes
+- [ ] Repair `README.md` rendering issues
+  - [ ] Remove merge artifact `>>>>>>> origin/main` (around the Deploy table)
+  - [ ] Fix stray closing code fence near the bottom and verify code blocks render
+  - [ ] Re-validate Quickstart commands and links
+
+## Repository Hygiene
+- [ ] Add `CODEOWNERS` for `src/backend/`, `src/frontend/`, `docs/`, and workflows
+- [ ] Enable dependency automation (Renovate or Dependabot) for Python and JS
+- [ ] Ensure `.secrets.baseline` is kept up to date and validated in CI
+- [ ] Document workspace layout (uv workspace + separate frontend) in `README.md`
+
+## Backend (Python)
+- [ ] Add a smoke test for CLI entrypoint `aiexec.aiexec_launcher:main`
+  - [ ] Run `uv run aiexec --help` in CI smoke-tests and store artifact logs
+- [ ] Tighten/relocate heavy dependencies to optional extras where possible
+  - [ ] Review extras in `pyproject.toml` (e.g., `docling`, `local`, `nv-ingest`, `postgresql`)
+- [ ] Enforce static checks via pre-commit: ruff, mypy (to match CI config)
+- [ ] Set minimum coverage gate (e.g., 60–70%) and trend up over time
+- [ ] Validate platform markers and Python version ranges (3.10–3.13 supported)
+
+## Frontend (TypeScript/React)
+- [ ] Confirm all scripts live under `src/frontend/package.json` and document how to run from repo root
+- [ ] Ensure Biome/Jest/Playwright run locally and in CI (see `typescript_test.yml`, `jest_test.yml`)
+- [ ] Publish Playwright traces on failure as CI artifacts
+- [ ] Add visual regression baseline (optional)
+
+## CI/CD
+- [ ] Verify matrix covers Python 3.10–3.13 and relevant Node versions
+- [ ] Promote critical jobs to required checks (lint, tests, smoke, docker build)
+- [ ] Periodically audit workflow run times and caching effectiveness
+- [ ] Add SBOM generation (e.g., Syft or CycloneDX) for Python and Docker images
+
+## Security
+- [ ] Integrate secret scanning in CI (Gitleaks or TruffleHog) with PR annotations
+- [ ] Add basic SAST for Python/TS (CodeQL already present; ensure coverage)
+- [ ] Threat-model sensitive integrations and ensure keys are pulled from env/secret stores
+
+## Documentation
+- [ ] Add contributor quickstart using `uv` (install, run, test) to `CONTRIBUTING.md`
+- [ ] Cross-link docs site and repository sections (Agents, Workflows, MCP, etc.)
+- [ ] Ensure docs deploy workflows are green and gated
+
+---
+## Legacy Feature roadmap (kept)
+
 Got it! You want a **tick/check-based TODO table** that you can easily mark completed tasks. I’ve converted your enhanced TODO into a **checkbox-friendly format** with columns for tracking progress:
 
 | Feature Area                          | TODO Task                                  | Example Prompt                                                               | Priority | ✅ Completed | Timeline |
@@ -10,7 +60,6 @@ Got it! You want a **tick/check-based TODO table** that you can easily mark comp
 | **AI Task Integration**               | Connect multiple AI models dynamically     | "Integrate AI model Z for task automation."                                  | High     | ⬜           | Q1 2026  |
 |                                       | Define task execution API                  | "Provide API endpoint to trigger workflow tasks programmatically."           | High     | ⬜           | Q1 2026  |
 |                                       | Enable task chaining & triggers            | "Automatically trigger task B after completion of task A."                   | High     | ⬜           | Q1 2026  |
-|                                       | Build dynamic prompt library               | "Create prompt templates for different task types and contexts."             | Medium   | ⬜           | Q1 2026  |
 |                                       | AI model monitoring                        | "Monitor AI model performance and accuracy during workflow execution."       | Medium   | ⬜           | Q2 2026  |
 | **Automation & Knowledge Management** | Automate repetitive workflows              | "Detect repeatable tasks and automate them."                                 | High     | ⬜           | Q1 2026  |
 |                                       | Knowledge base storage                     | "Store structured and unstructured knowledge entries for tasks."             | Medium   | ⬜           | Q2 2026  |
@@ -45,3 +94,58 @@ Got it! You want a **tick/check-based TODO table** that you can easily mark comp
 * Can easily copy this table into **Notion, Obsidian, Markdown, or Excel** for live tickable tracking.
 
 If you want, I can also **convert this into a fully interactive Markdown checklist** where each task has its own `[ ]` checkbox ready to tick digitally.
+ 
+---
+
+## Interactive Checklist (tick with [ ] / [x])
+
+### Workflow Engine
+- [ ] Build visual workflow editor (drag & drop)
+- [ ] Implement workflow execution engine
+- [ ] Add versioning & rollback
+- [ ] Create workflow templates
+- [ ] Plugin support for workflow
+
+### AI Task Integration
+- [ ] Connect multiple AI models dynamically
+- [ ] Define task execution API
+- [ ] Enable task chaining & triggers
+- [ ] Build dynamic prompt library
+- [ ] AI model monitoring
+
+### Automation & Knowledge Management
+- [ ] Automate repetitive workflows
+- [ ] Knowledge base storage
+- [ ] Link workflows with knowledge base
+- [ ] Smart AI suggestions
+- [ ] Context-aware automation
+
+### Collaboration & Notifications
+- [ ] Multi-user collaboration
+- [ ] Task notifications
+- [ ] Feedback system
+- [ ] Role-specific dashboards
+
+### Security & Compliance
+- [ ] Role-based access control (RBAC)
+- [ ] Data encryption
+- [ ] Audit logs
+- [ ] Compliance monitoring
+
+### Analytics & Optimization
+- [ ] Unified dashboard
+- [ ] Execution metrics visualization
+- [ ] AI optimization suggestions
+- [ ] Predictive analytics
+
+### Multilingual & Extensibility
+- [ ] Multilingual support (Bangla/English)
+- [ ] Plugin architecture
+- [ ] Offline/Edge mode
+- [ ] API for external integrations
+
+### Future Enhancements
+- [ ] Auto-generate workflow templates using AI
+- [ ] AI-driven optimization engine
+- [ ] Advanced alert & recommendation system
+- [ ] Predictive task execution
