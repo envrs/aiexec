@@ -83,6 +83,7 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
         className="flex w-full flex-col rounded-md border cursor-text border-input p-4 hover:border-muted-foreground focus:border-[1.75px] has-[:focus]:border-primary"
         onClick={onClick}
         onMouseDown={onMouseDown}
+        role="button"
       >
         <TextAreaWrapper
           isBuilding={isBuilding}

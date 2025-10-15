@@ -214,6 +214,7 @@ export default function TextAreaComponent({
         <div
           onClick={() => changeWebhookFormat("multiline")}
           className="relative w-full"
+          role="button"
         >
           {renderIcon()}
         </div>
@@ -223,6 +224,7 @@ export default function TextAreaComponent({
           onClick={() => {
             setPasswordVisible(!passwordVisible);
           }}
+          role="button"
         >
           <IconComponent
             name={passwordVisible ? "eye" : "eye-off"}

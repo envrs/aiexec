@@ -1589,16 +1589,7 @@ class MCPStdioSseBridge:
                     "id": jsonrpc_id,
                     "result": result,
                 }
-            else:
-                # Unknown method
-                return {
-                    "jsonrpc": "2.0",
-                    "id": jsonrpc_id,
-                    "error": {
-                        "code": -32601,
-                        "message": f"Method '{method}' not supported",
-                    },
-                }
+            # Unknown method
         except (ConnectionError, OSError, ValueError, RuntimeError) as e:
             await logger.aerror(f"Error handling stdio message: {e}")
             return {
@@ -1607,6 +1598,15 @@ class MCPStdioSseBridge:
                 "error": {
                     "code": -32603,
                     "message": f"Internal error: {e!s}",
+                },
+            }
+        else:
+            return {
+                "jsonrpc": "2.0",
+                "id": jsonrpc_id,
+                "error": {
+                    "code": -32601,
+                    "message": f"Method '{method}' not supported",
                 },
             }
 
@@ -1660,6 +1660,7 @@ class MCPStdioSseBridge:
         except asyncio.CancelledError:
             await logger.ainfo("Stdio server loop cancelled")
 
+
 # Factory function for creating stdio-to-SSE bridge
 async def create_stdio_sse_bridge(
     sse_url: str,
@@ -1681,6 +1682,7 @@ async def create_stdio_sse_bridge(
     bridge = MCPStdioSseBridge()
     await bridge.start_bridge(sse_url, sse_headers, stdio_command, _stdio_env)
     return bridge
+
 
 async def update_tools(
     server_name: str,

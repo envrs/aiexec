@@ -228,6 +228,7 @@ export default function SliderComponent({
                 }}
                 data-testid={`default_slider_display_value${editNode ? "_advanced" : ""}`}
                 className="relative bottom-[1px] font-mono text-sm hover:cursor-text"
+                role="button"
               >
                 {valueAsNumber.toFixed(2)}
               </span>

@@ -77,6 +77,7 @@ export const ErrorView = ({
                                       );
                                       closeChat?.();
                                     }}
+                                    role="button"
                                   >
                                     <strong>{content.component}</strong>
                                   </span>{" "}

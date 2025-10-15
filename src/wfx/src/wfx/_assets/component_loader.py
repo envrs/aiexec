@@ -1,5 +1,4 @@
-"""
-Component Index Loader for WFX
+"""Component Index Loader for WFX.
 
 This module implements the three-tier loading strategy for WFX components:
 1. Production (Built-in Index): Loads from static index file
@@ -13,7 +12,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any
 
 from wfx.log.logger import logger
 
@@ -23,11 +22,11 @@ class ComponentIndexLoader:
 
     def __init__(self):
         """Initialize the component index loader."""
-        self.index_path: Optional[Path] = None
-        self.cache_path: Optional[Path] = None
-        self.index_data: Optional[Dict[str, Any]] = None
+        self.index_path: Path | None = None
+        self.cache_path: Path | None = None
+        self.index_data: dict[str, Any] | None = None
         self._development_mode = False
-        self._selective_modules: Set[str] = set()
+        self._selective_modules: set[str] = set()
 
         # Set up paths
         self._setup_paths()
@@ -50,7 +49,7 @@ class ComponentIndexLoader:
             cache_dir.mkdir(parents=True, exist_ok=True)
             self.cache_path = cache_dir / "component_index.json"
 
-        except Exception as e:
+        except Exception as e:  # Broad exception catch needed for various path setup failures  # noqa: BLE001
             logger.warning(f"Error setting up paths: {e}")
             self.index_path = None
             self.cache_path = None
@@ -67,7 +66,7 @@ class ComponentIndexLoader:
             if wfx_dev not in ["1", "true", "True", "TRUE"]:
                 # WFX_DEV contains comma-separated module names
                 modules = [m.strip() for m in wfx_dev.split(",") if m.strip()]
-                self._selective_modules = set(m.lower() for m in modules)
+                self._selective_modules = {m.lower() for m in modules}
                 logger.debug(f"Selective loading enabled for modules: {', '.join(self._selective_modules)}")
 
         # Check for custom index path
@@ -80,7 +79,7 @@ class ComponentIndexLoader:
             else:
                 logger.warning(f"Custom index path does not exist: {custom_path}")
 
-    def load_index(self) -> Dict[str, Any]:
+    def load_index(self) -> dict[str, Any]:
         """Load component index using three-tier strategy.
 
         Returns:
@@ -91,10 +90,9 @@ class ComponentIndexLoader:
         """
         if self._development_mode:
             return self._load_development_mode()
-        else:
-            return self._load_production_mode()
+        return self._load_production_mode()
 
-    def _load_production_mode(self) -> Dict[str, Any]:
+    def _load_production_mode(self) -> dict[str, Any]:
         """Load index in production mode using three-tier strategy."""
         # Tier 1: Try built-in index
         if self._try_load_builtin_index():
@@ -113,18 +111,18 @@ class ComponentIndexLoader:
             return self.index_data
 
         # Final fallback: raise error
-        raise RuntimeError("Failed to load or build component index")
+        msg = "Failed to load or build component index"
+        raise RuntimeError(msg)
 
-    def _load_development_mode(self) -> Dict[str, Any]:
+    def _load_development_mode(self) -> dict[str, Any]:
         """Load index in development mode."""
         if self._selective_modules:
             # Selective loading mode
             logger.info(f"Development mode with selective loading: {', '.join(self._selective_modules)}")
             return self._build_selective_index()
-        else:
-            # Full rebuild mode
-            logger.info("Development mode: rebuilding all components")
-            return self._build_full_index()
+        # Full rebuild mode
+        logger.info("Development mode: rebuilding all components")
+        return self._build_full_index()
 
     def _try_load_builtin_index(self) -> bool:
         """Try to load the built-in index file.
@@ -136,13 +134,14 @@ class ComponentIndexLoader:
             return False
 
         try:
-            with open(self.index_path, "r", encoding="utf-8") as f:
+            with self.index_path.open(encoding="utf-8") as f:
                 self.index_data = json.load(f)
             logger.debug(f"Successfully loaded built-in index from {self.index_path}")
-            return True
-        except Exception as e:
+        except Exception as e:  # Broad exception catch needed for various file I/O failures  # noqa: BLE001
             logger.warning(f"Failed to load built-in index: {e}")
             return False
+        else:
+            return True
 
     def _try_load_cached_index(self) -> bool:
         """Try to load the cached index file.
@@ -154,13 +153,14 @@ class ComponentIndexLoader:
             return False
 
         try:
-            with open(self.cache_path, "r", encoding="utf-8") as f:
+            with self.cache_path.open(encoding="utf-8") as f:
                 self.index_data = json.load(f)
             logger.debug(f"Successfully loaded cached index from {self.cache_path}")
-            return True
-        except Exception as e:
+        except Exception as e:  # Broad exception catch needed for various file I/O failures  # noqa: BLE001
             logger.warning(f"Failed to load cached index: {e}")
             return False
+        else:
+            return True
 
     def _build_and_cache_index(self) -> bool:
         """Build component index and cache it.
@@ -197,13 +197,13 @@ class ComponentIndexLoader:
 
             # Set as current index data
             self.index_data = builder.index
-            return True
-
-        except Exception as e:
+        except (OSError, ValueError, RuntimeError, ImportError) as e:
             logger.error(f"Failed to build component index: {e}")
             return False
+        else:
+            return True
 
-    def _build_selective_index(self) -> Dict[str, Any]:
+    def _build_selective_index(self) -> dict[str, Any]:
         """Build index with selective module loading.
 
         Returns:
@@ -248,15 +248,18 @@ class ComponentIndexLoader:
                         filtered_index["categories"][component_category] = []
                     filtered_index["categories"][component_category].append(component_key)
 
-            logger.info(f"Filtered index contains {filtered_index['metadata']['total_components']} components from {filtered_index['metadata']['total_modules']} modules")
-            return filtered_index
-
-        except Exception as e:
+            logger.info(
+                f"Filtered index contains {filtered_index['metadata']['total_components']} "
+                f"components from {filtered_index['metadata']['total_modules']} modules"
+            )
+        except (OSError, ValueError, RuntimeError, KeyError) as e:
             logger.error(f"Failed to build selective index: {e}")
             # Fallback to full index
             return self._build_full_index()
+        else:
+            return filtered_index
 
-    def _build_full_index(self) -> Dict[str, Any]:
+    def _build_full_index(self) -> dict[str, Any]:
         """Build full component index for development mode.
 
         Returns:
@@ -268,13 +271,15 @@ class ComponentIndexLoader:
 
             if not self.index_path:
                 logger.error("No index path configured")
-                raise RuntimeError("No index path configured")
+                msg = "No index path configured"
+                raise RuntimeError(msg)
 
             # Get components directory
             components_dir = self.index_path.parent.parent / "components"
             if not components_dir.exists():
                 logger.error(f"Components directory not found: {components_dir}")
-                raise RuntimeError(f"Components directory not found: {components_dir}")
+                msg = f"Components directory not found: {components_dir}"
+                raise RuntimeError(msg)
 
             # Build the index
             builder = ComponentIndexBuilder(components_dir)
@@ -282,15 +287,16 @@ class ComponentIndexLoader:
 
             if not builder.validate_index():
                 logger.error("Built index failed validation")
-                raise RuntimeError("Built index failed validation")
+                msg = "Built index failed validation"
+                raise RuntimeError(msg)
 
-            return builder.index
-
-        except Exception as e:
+        except (OSError, ValueError, RuntimeError, ImportError) as e:
             logger.error(f"Failed to build full index: {e}")
             raise
+        else:
+            return builder.index
 
-    def get_available_modules(self) -> List[str]:
+    def get_available_modules(self) -> list[str]:
         """Get list of available component modules.
 
         Returns:
@@ -304,7 +310,7 @@ class ComponentIndexLoader:
 
         return list(self.index_data.get("modules", {}).keys())
 
-    def get_available_categories(self) -> List[str]:
+    def get_available_categories(self) -> list[str]:
         """Get list of available component categories.
 
         Returns:
@@ -318,7 +324,7 @@ class ComponentIndexLoader:
 
         return list(self.index_data.get("categories", {}).keys())
 
-    def get_components_in_module(self, module_name: str) -> List[str]:
+    def get_components_in_module(self, module_name: str) -> list[str]:
         """Get list of components in a specific module.
 
         Args:
@@ -337,14 +343,11 @@ class ComponentIndexLoader:
         if not module_info:
             return []
 
-        components = []
-        for component_key in module_info.get("dynamic_imports", {}):
-            if component_key != "__module__":
-                components.append(component_key)
+        return [
+            component_key for component_key in module_info.get("dynamic_imports", {}) if component_key != "__module__"
+        ]
 
-        return components
-
-    def get_components_in_category(self, category: str) -> List[str]:
+    def get_components_in_category(self, category: str) -> list[str]:
         """Get list of components in a specific category.
 
         Args:
@@ -369,7 +372,7 @@ class ComponentIndexLoader:
         """
         return self._development_mode
 
-    def get_selective_modules(self) -> Set[str]:
+    def get_selective_modules(self) -> set[str]:
         """Get the set of selectively loaded modules.
 
         Returns:
@@ -379,7 +382,7 @@ class ComponentIndexLoader:
 
 
 # Global instance for easy access
-_component_loader: Optional[ComponentIndexLoader] = None
+_component_loader: ComponentIndexLoader | None = None
 
 
 def get_component_loader() -> ComponentIndexLoader:
@@ -388,13 +391,13 @@ def get_component_loader() -> ComponentIndexLoader:
     Returns:
         ComponentIndexLoader instance
     """
-    global _component_loader
+    global _component_loader  # noqa: PLW0603
     if _component_loader is None:
         _component_loader = ComponentIndexLoader()
     return _component_loader
 
 
-def load_component_index() -> Dict[str, Any]:
+def load_component_index() -> dict[str, Any]:
     """Load the component index using the configured strategy.
 
     Returns:
@@ -414,7 +417,7 @@ def is_development_mode() -> bool:
     return loader.is_development_mode()
 
 
-def get_available_modules() -> List[str]:
+def get_available_modules() -> list[str]:
     """Get list of available component modules.
 
     Returns:
@@ -424,7 +427,7 @@ def get_available_modules() -> List[str]:
     return loader.get_available_modules()
 
 
-def get_available_categories() -> List[str]:
+def get_available_categories() -> list[str]:
     """Get list of available component categories.
 
     Returns:

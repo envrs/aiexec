@@ -32,6 +32,7 @@ export const ButtonInputList = ({
               ? "pointer-events-none bg-background hover:bg-background"
               : "",
           )}
+          role="button"
         >
           <Button
             unstyled

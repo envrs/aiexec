@@ -45,7 +45,10 @@ class ComposioAPIComponent(LCToolComponent):
             display_name="Authentication Mode",
             options=["managed", "custom"],
             value="managed",
-            info="Choose how to authenticate with toolkits. 'Managed' uses Composio's OAuth flow, 'Custom' uses your own credentials.",
+            info=(
+                "Choose how to authenticate with toolkits. 'Managed' uses Composio's OAuth flow, "
+                "'Custom' uses your own credentials."
+            ),
             real_time_refresh=True,
         ),
         # Custom credential inputs (initially hidden)
@@ -291,7 +294,9 @@ class ComposioAPIComponent(LCToolComponent):
                             build_config["tool_name"]["options"][selected_tool_index]["link"] = "validated"
 
                         # If it's a validation request, validate the tool
-                        if (isinstance(field_value, dict) and "validate" in field_value) or isinstance(field_value, str):
+                        if (isinstance(field_value, dict) and "validate" in field_value) or isinstance(
+                            field_value, str
+                        ):
                             return self.validate_tool(build_config, field_value, current_tool_name)
                     else:
                         # No active connection - create OAuth connection
@@ -334,14 +339,14 @@ class ComposioAPIComponent(LCToolComponent):
             return []
 
         # Check if we need to handle custom authentication
-        toolkit_slug = list(toolkits)[0]  # Get the first toolkit for now
+        toolkit_slug = next(iter(toolkits))  # Get the first toolkit for now
         if self.auth_mode == "custom" and self._has_custom_credentials(toolkit_slug):
             # Use custom authentication
             try:
                 # Try to get tools using custom authentication
                 # Note: This might require additional implementation in Composio SDK
                 all_tools = self._get_tools_with_custom_auth(composio, toolkits)
-            except Exception as e:
+            except Exception as e:  # Broad exception catch needed for various authentication failures  # noqa: BLE001
                 self.log(f"Error getting tools with custom auth: {e}")
                 # Fall back to standard authentication
                 all_tools = composio.tools.get(user_id=self.entity_id, toolkits=list(toolkits))
@@ -380,9 +385,8 @@ class ComposioAPIComponent(LCToolComponent):
 
             try:
                 # Try standard authentication first
-                all_tools = composio.tools.get(user_id=self.entity_id, toolkits=toolkit_list)
-                return all_tools
-            except Exception as standard_auth_error:
+                return composio.tools.get(user_id=self.entity_id, toolkits=toolkit_list)
+            except Exception as standard_auth_error:  # Broad exception catch needed for various authentication failures
                 self.log(f"Standard auth failed: {standard_auth_error}")
 
                 # If we have custom credentials, try custom authentication
@@ -395,13 +399,11 @@ class ComposioAPIComponent(LCToolComponent):
 
                     # Since Composio SDK might not support custom auth directly,
                     # we'll implement a workaround by creating authenticated connections
-                    all_tools = self._create_authenticated_tools(composio, toolkit_list)
-                    return all_tools
-                else:
-                    # Re-raise the standard auth error if no valid custom credentials
-                    raise standard_auth_error
+                    return self._create_authenticated_tools(composio, toolkit_list)
+                # Re-raise the standard auth error if no valid custom credentials
+                raise
 
-        except Exception as e:
+        except Exception as e:  # Broad exception catch needed for various authentication failures  # noqa: BLE001
             self.log(f"Error in custom authentication: {e}")
             # Fall back to standard authentication
             return composio.tools.get(user_id=self.entity_id, toolkits=list(toolkits))
@@ -414,10 +416,7 @@ class ComposioAPIComponent(LCToolComponent):
         """
         # Check if we have at least a basic set of credentials
         has_api_key = bool(getattr(self, "custom_api_key", None))
-        has_oauth_creds = bool(
-            getattr(self, "custom_client_id", None) and
-            getattr(self, "custom_client_secret", None)
-        )
+        has_oauth_creds = bool(getattr(self, "custom_client_id", None) and getattr(self, "custom_client_secret", None))
 
         if not (has_api_key or has_oauth_creds):
             self.log("No custom credentials provided")
@@ -469,14 +468,14 @@ class ComposioAPIComponent(LCToolComponent):
         # For now, fall back to standard authentication
         return composio.tools.get(user_id=self.entity_id, toolkits=toolkits)
 
-    def _has_custom_credentials(self, toolkit_slug: str) -> bool:
+    def _has_custom_credentials(self, toolkit_slug: str) -> bool:  # noqa: ARG002
         """Check if the user has provided custom credentials for the given toolkit."""
         # For now, we'll check if at least one credential field is filled
         # In a real implementation, you might want more sophisticated validation
         return bool(
-            getattr(self, "custom_api_key", None) or
-            getattr(self, "custom_client_id", None) or
-            getattr(self, "custom_client_secret", None)
+            getattr(self, "custom_api_key", None)
+            or getattr(self, "custom_client_id", None)
+            or getattr(self, "custom_client_secret", None)
         )
 
     def _build_wrapper(self) -> Composio:

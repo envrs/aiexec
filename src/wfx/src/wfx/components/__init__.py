@@ -7,11 +7,14 @@ from wfx.log.logger import logger
 
 # Import the component loader
 try:
-    from wfx._assets.component_loader import load_component_index, is_development_mode
+    from wfx._assets.component_loader import is_development_mode, load_component_index
 except ImportError:
     # Fallback if component loader is not available
     load_component_index = None
-    is_development_mode = lambda: False
+
+    def is_development_mode():
+        return False
+
 
 if TYPE_CHECKING:
     # These imports are only for type checking and match _dynamic_imports
@@ -128,7 +131,7 @@ _component_index = None
 
 def _load_component_index():
     """Load the component index using the three-tier loading strategy."""
-    global _component_index
+    global _component_index  # noqa: PLW0603
 
     if _component_index is not None:
         return _component_index
@@ -140,7 +143,7 @@ def _load_component_index():
         else:
             logger.debug("Component loader not available, using fallback")
             _component_index = _build_fallback_index()
-    except Exception as e:
+    except Exception as e:  # Broad exception catch needed for various component loading failures  # noqa: BLE001
         logger.warning(f"Failed to load component index: {e}")
         _component_index = _build_fallback_index()
 
@@ -149,7 +152,7 @@ def _load_component_index():
 
 def _build_fallback_index():
     """Build a fallback index using the old discovery mechanism."""
-    global _dynamic_imports
+    global _dynamic_imports  # noqa: PLW0603
 
     # Initialize with the original dynamic imports structure
     _dynamic_imports = {
@@ -252,8 +255,6 @@ def _build_fallback_index():
         "youtube": "__module__",
         "zep": "__module__",
     }
-
-    return None
 
 
 def _discover_components_from_module(module_name):
@@ -398,7 +399,7 @@ def __getattr__(attr_name: str) -> Any:
             component_index = _load_component_index()
             if component_index and "components" in component_index:
                 # Check if this is a component from the index
-                for component_key, component_info in component_index["components"].items():
+                for component_info in component_index["components"].values():
                     if component_info["name"] == attr_name:
                         # Found the component in the index
                         module_name = component_info["module"]

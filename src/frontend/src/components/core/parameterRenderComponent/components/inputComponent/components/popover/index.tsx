@@ -62,6 +62,7 @@ const OptionBadge = ({
       onClick={(e) =>
         onRemove(e as unknown as React.MouseEvent<HTMLButtonElement>)
       }
+      role="button"
     >
       <X className="h-3 w-3 cursor-pointer bg-transparent hover:text-destructive" />
     </div>
@@ -251,6 +252,7 @@ const CustomInputPopover = ({
             !disabled &&
             setShowOptions(true)
           }
+          role="button"
         >
           {!disabled && selectedOptions?.length > 0 ? (
             <div className="mr-5 flex flex-wrap gap-2">

@@ -81,6 +81,7 @@ export default function PdfViewer({ pdf }: { pdf: string }): JSX.Element {
       onMouseEnter={(_) => setShowControl(true)}
       onMouseLeave={(_) => setShowControl(false)}
       className="flex h-full w-full flex-col items-center justify-end overflow-clip rounded-lg border border-border"
+      role="application"
     >
       <div className={"h-full min-h-0 w-full overflow-auto custom-scroll"}>
         <Document

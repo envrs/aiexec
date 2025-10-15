@@ -140,6 +140,7 @@ export default function IOFileInput({ field, updateValue }: IOFileInputProps) {
             ? "flex h-28 flex-col items-center justify-center gap-4 text-xs font-light"
             : "")
         }
+        role="button"
       >
         {!isDragging && (
           <Button variant="primary" onClick={handleButtonClick}>

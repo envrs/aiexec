@@ -416,6 +416,7 @@ const SideBarFoldersButtonsComponent = ({
                               handleDoubleClick(event, item);
                             }}
                             className="flex w-full items-center justify-between gap-2"
+                            role="button"
                           >
                             <div className="flex flex-1 items-center gap-2">
                               {editFolderName?.edit && !isUpdatingFolder ? (
@@ -440,6 +441,7 @@ const SideBarFoldersButtonsComponent = ({
                         <div
                           className="absolute right-2 top-[0.45rem] flex items-center hover:text-foreground"
                           onClick={(e) => e.stopPropagation()}
+                          role="button"
                         >
                           <SelectOptions
                             item={item}

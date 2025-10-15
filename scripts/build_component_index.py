@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Component Index Builder for WFX
+"""Component Index Builder for WFX.
 
 This script scans all WFX components and creates a static index file that allows
 for instant component loading without dynamic imports during runtime.
@@ -15,17 +14,25 @@ Usage:
 """
 
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
+
 
 # Simple logger implementation
 class SimpleLogger:
-    def info(self, msg): print(f"[INFO] {msg}")
-    def debug(self, msg): print(f"[DEBUG] {msg}")
-    def warning(self, msg): print(f"[WARNING] {msg}")
-    def error(self, msg): print(f"[ERROR] {msg}")
+    def info(self, msg):
+        print(f"[INFO] {msg}")
+
+    def debug(self, msg):
+        print(f"[DEBUG] {msg}")
+
+    def warning(self, msg):
+        print(f"[WARNING] {msg}")
+
+    def error(self, msg):
+        print(f"[ERROR] {msg}")
+
 
 logger = SimpleLogger()
 
@@ -41,9 +48,10 @@ class ComponentIndexBuilder:
         """
         self.components_path = Path(components_path)
         if not self.components_path.exists():
-            raise ValueError(f"Components path does not exist: {self.components_path}")
+            msg = f"Components path does not exist: {self.components_path}"
+            raise ValueError(msg)
 
-        self.index: Dict[str, Any] = {
+        self.index: dict[str, Any] = {
             "metadata": {
                 "version": "1.0",
                 "generated_at": None,
@@ -57,24 +65,25 @@ class ComponentIndexBuilder:
 
     def scan_components(self) -> None:
         """Scan all component directories and build the index."""
-        logger.info(f"Scanning components in: {self.components_path}")
+        logger.info("Scanning components in: %s", self.components_path)
 
         # Get all component module directories
         module_dirs = [
-            d for d in self.components_path.iterdir()
+            d
+            for d in self.components_path.iterdir()
             if d.is_dir() and not d.name.startswith("__") and not d.name.startswith(".")
         ]
 
-        logger.info(f"Found {len(module_dirs)} component modules")
+        logger.info("Found %s component modules", len(module_dirs))
 
         for module_dir in sorted(module_dirs):
             module_name = module_dir.name
-            logger.debug(f"Scanning module: {module_name}")
+            logger.debug("Scanning module: %s", module_name)
 
             # Check if the module has an __init__.py file
             init_file = module_dir / "__init__.py"
             if not init_file.exists():
-                logger.debug(f"Skipping {module_name}: no __init__.py file")
+                logger.debug("Skipping %s: no __init__.py file", module_name)
                 continue
 
             # Try to import the module to get its _dynamic_imports
@@ -85,7 +94,7 @@ class ComponentIndexBuilder:
                 # Parse _dynamic_imports from the file
                 dynamic_imports = self._extract_dynamic_imports(init_content)
                 if not dynamic_imports:
-                    logger.debug(f"No dynamic imports found in {module_name}")
+                    logger.debug("No dynamic imports found in %s", module_name)
                     continue
 
                 # Process each component in the module
@@ -96,8 +105,8 @@ class ComponentIndexBuilder:
                 # Add module info to index
                 self._add_module_to_index(module_name, dynamic_imports)
 
-            except Exception as e:
-                logger.warning(f"Error scanning module {module_name}: {e}")
+            except Exception as e:  # Broad exception catch needed for various module import failures  # noqa: BLE001
+                logger.warning("Error scanning module %s: %s", module_name, e)
                 continue
 
         # Update metadata
@@ -105,7 +114,7 @@ class ComponentIndexBuilder:
         self.index["metadata"]["total_modules"] = len(self.index["modules"])
         self.index["metadata"]["generated_at"] = str(Path.cwd())
 
-    def _extract_dynamic_imports(self, content: str) -> Dict[str, str]:
+    def _extract_dynamic_imports(self, content: str) -> dict[str, str]:
         """Extract _dynamic_imports dictionary from module init file content.
 
         Args:
@@ -151,17 +160,17 @@ class ComponentIndexBuilder:
         try:
             # Simple parsing - extract key-value pairs
             import re
+
             # Find all quoted key-value pairs
             matches = re.findall(r'"([^"]+)":\s*"([^"]*)"', dict_content)
-            for key, value in matches:
-                dynamic_imports[key] = value
+            dynamic_imports.update(dict(matches))
 
             # Also handle "__module__" entries
             if '"__module__"' in dict_content:
                 dynamic_imports["__module__"] = "__module__"
 
-        except Exception as e:
-            logger.warning(f"Error parsing dynamic imports: {e}")
+        except Exception as e:  # Broad exception catch needed for various parsing failures  # noqa: BLE001
+            logger.warning("Error parsing dynamic imports: %s", e)
 
         return dynamic_imports
 
@@ -194,7 +203,7 @@ class ComponentIndexBuilder:
             self.index["categories"][category] = []
         self.index["categories"][category].append(component_key)
 
-    def _add_module_to_index(self, module_name: str, dynamic_imports: Dict[str, str]) -> None:
+    def _add_module_to_index(self, module_name: str, dynamic_imports: dict[str, str]) -> None:
         """Add a module to the index.
 
         Args:
@@ -205,7 +214,7 @@ class ComponentIndexBuilder:
             "name": module_name,
             "category": self._get_category_from_module(module_name),
             "dynamic_imports": dynamic_imports,
-            "component_count": len([k for k in dynamic_imports.keys() if k != "__module__"]),
+            "component_count": sum(1 for k in dynamic_imports if k != "__module__"),
         }
 
     def _get_category_from_module(self, module_name: str) -> str:
@@ -223,8 +232,6 @@ class ComponentIndexBuilder:
             "anthropic": "models",
             "openai": "models",
             "mistral": "models",
-            "google": "models",
-            "azure": "models",
             "vertexai": "models",
             "cohere": "models",
             "huggingface": "models",
@@ -237,7 +244,6 @@ class ComponentIndexBuilder:
             "novita": "models",
             "sambanova": "models",
             "aiml": "models",
-
             # Vector Stores
             "faiss": "vectorstores",
             "pinecone": "vectorstores",
@@ -250,7 +256,6 @@ class ComponentIndexBuilder:
             "supabase": "vectorstores",
             "upstash": "vectorstores",
             "redis": "vectorstores",
-
             # Data Sources
             "notion": "datasources",
             "confluence": "datasources",
@@ -258,7 +263,6 @@ class ComponentIndexBuilder:
             "arxiv": "datasources",
             "youtube": "datasources",
             "github": "datasources",
-
             # Search
             "duckduckgo": "search",
             "bing": "search",
@@ -267,7 +271,6 @@ class ComponentIndexBuilder:
             "tavily": "search",
             "exa": "search",
             "searchapi": "search",
-
             # Tools & Utilities
             "tools": "tools",
             "helpers": "tools",
@@ -275,22 +278,18 @@ class ComponentIndexBuilder:
             "chains": "tools",
             "logic": "tools",
             "crewai": "tools",
-
             # Document Processing
             "documentloaders": "document_processing",
             "textsplitters": "document_processing",
             "unstructured": "document_processing",
             "docling": "document_processing",
-
             # Embeddings
             "embeddings": "embeddings",
-
             # Cloud & Platform
             "aws": "cloud",
             "amazon": "cloud",
             "gcp": "cloud",
             "azure": "cloud",
-
             # Custom & Other
             "custom_component": "custom",
             "composio": "integration",
@@ -299,7 +298,7 @@ class ComponentIndexBuilder:
 
         return category_map.get(module_name.lower(), "other")
 
-    def _extract_component_info(self, component_file: Path, component_name: str) -> Dict[str, Any]:
+    def _extract_component_info(self, component_file: Path, component_name: str) -> dict[str, Any]:
         """Extract information about a component from its file.
 
         Args:
@@ -338,26 +337,22 @@ class ComponentIndexBuilder:
                     # Check if there's a docstring on the next line
                     continue
 
-                if in_class and not in_docstring:
-                    # Check for docstring start
-                    if stripped.startswith('"""') or stripped.startswith("'''"):
-                        in_docstring = True
-                        if not (stripped.endswith('"""') or stripped.endswith("'''")):
-                            continue
-                        else:
-                            # Single line docstring
-                            docstring = stripped.strip('"""').strip("'''").strip()
-                            info["description"] = docstring
-                            break
+                if in_class and not in_docstring and stripped.startswith(('"""', "'''")):
+                    in_docstring = True
+                    if not (stripped.endswith(('"""', "'''"))):
+                        continue
+                    # Single line docstring
+                    docstring = stripped.strip("\"'")
+                    info["description"] = docstring
+                    break
 
                 if in_docstring:
-                    if stripped.endswith('"""') or stripped.endswith("'''"):
+                    if stripped.endswith(('"""', "'''")):
                         # End of docstring
                         docstring = "\n".join(docstring_lines).strip()
                         info["description"] = docstring
                         break
-                    else:
-                        docstring_lines.append(line)
+                    docstring_lines.append(line)
 
             # Extract dependencies from imports
             import_lines = [line for line in lines if line.strip().startswith(("import ", "from "))]
@@ -376,8 +371,8 @@ class ComponentIndexBuilder:
                         if pkg not in ["typing", "os", "sys", "json", "pathlib"] and pkg not in info["dependencies"]:
                             info["dependencies"].append(pkg)
 
-        except Exception as e:
-            logger.warning(f"Error extracting component info from {component_file}: {e}")
+        except Exception as e:  # Broad exception catch needed for various file reading failures  # noqa: BLE001
+            logger.warning("Error extracting component info from %s: %s", component_file, e)
 
         return info
 
@@ -387,15 +382,15 @@ class ComponentIndexBuilder:
         Args:
             output_path: Path where to save the index file
         """
-        logger.info(f"Saving component index to: {output_path}")
+        logger.info("Saving component index to: %s", output_path)
 
         # Ensure output directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, "w", encoding="utf-8") as f:
+        with output_path.open("w", encoding="utf-8") as f:
             json.dump(self.index, f, indent=2, sort_keys=True)
 
-        logger.info(f"Component index saved with {len(self.index['components'])} components")
+        logger.info("Component index saved with %s components", len(self.index["components"]))
 
     def validate_index(self) -> bool:
         """Validate the generated index.
@@ -406,14 +401,14 @@ class ComponentIndexBuilder:
         required_keys = ["metadata", "components", "modules", "categories"]
         for key in required_keys:
             if key not in self.index:
-                logger.error(f"Missing required key: {key}")
+                logger.error("Missing required key: %s", key)
                 return False
 
         # Check that all components reference valid modules
         for component_key, component_info in self.index["components"].items():
             module_name = component_info["module"]
             if module_name not in self.index["modules"]:
-                logger.error(f"Component {component_key} references unknown module: {module_name}")
+                logger.error("Component %s references unknown module: %s", component_key, module_name)
                 return False
 
         logger.info("Component index validation passed")
@@ -430,7 +425,7 @@ def main():
     components_path = project_root / "src" / "wfx" / "src" / "wfx" / "components"
 
     if not components_path.exists():
-        logger.error(f"Components directory not found: {components_path}")
+        logger.error("Components directory not found: %s", components_path)
         logger.info("Make sure you're running this script from the project root")
         sys.exit(1)
 

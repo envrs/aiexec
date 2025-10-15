@@ -19,6 +19,8 @@ repos:
     hooks:
       - id: codespell
         args: ["--toml", "pyproject.toml"]
+        additional_dependencies:
+          - tomli
 
   - repo: local
     hooks:
@@ -26,6 +28,6 @@ repos:
         name: biome check (frontend)
         entry: npx @biomejs/biome check
         language: system
-        types_or: [javascript, typescript, tsx, jsx, json]
+        types_or: [javascript, tsx, jsx, json]
         files: ^src/frontend/
         pass_filenames: false
