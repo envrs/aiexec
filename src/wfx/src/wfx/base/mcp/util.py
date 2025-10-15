@@ -723,7 +723,7 @@ class MCPSessionManager:
                                 await event.wait()
                             except asyncio.CancelledError:
                                 await logger.ainfo(f"Session {session_id} (Streamable HTTP) is shutting down")
-                except (asyncio.TimeoutError, Exception) as e:  # noqa: BLE001
+                except (asyncio.TimeoutError, Exception) as e:
                     # If Streamable HTTP fails or times out, try SSE as fallback immediately
                     streamable_error = e
                     error_type = "timed out" if isinstance(e, asyncio.TimeoutError) else "failed"
