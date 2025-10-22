@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import AlertDropdown from "@/alerts/alertDropDown";
-import AiexecLogo from "@/assets/AiexecLogo.svg?react";
 import DataStaxLogo from "@/assets/DataStaxLogo.svg?react";
+import AiexecLogo from "@/assets/AiexecLogo.svg?react";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { Button } from "@/components/ui/button";

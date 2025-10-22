@@ -92,7 +92,7 @@ def get_all_reexport_modules():
     )
 
 
-class TestLfxReexportModules:
+class TestWfxReexportModules:
     """Test that all aiexec modules that re-export from wfx work correctly."""
 
     @classmethod
@@ -123,9 +123,9 @@ class TestLfxReexportModules:
                         if "from wfx" in content:
                             # Try to extract the wfx module being imported
                             patterns = [
-                                r"from (lfx\.[.\w]+) import",
-                                r"from (lfx\.[.\w]+) import \*",
-                                r"import (lfx\.[.\w]+)",
+                                r"from (wfx\.[.\w]+) import",
+                                r"from (wfx\.[.\w]+) import \*",
+                                r"import (wfx\.[.\w]+)",
                             ]
                             for pattern in patterns:
                                 match = re.search(pattern, content)

@@ -38,11 +38,11 @@ export const GetStartedProgress: FC<{
     const stepValue = 33;
     let totalPercentage = 0;
 
-    if (userData?.options?.github_starred) {
+    if (userData?.optins?.github_starred) {
       totalPercentage += stepValue;
     }
 
-    if (userData?.options?.discord_clicked) {
+    if (userData?.optins?.discord_clicked) {
       totalPercentage += stepValue;
     }
 
@@ -55,16 +55,16 @@ export const GetStartedProgress: FC<{
     }
 
     return Math.min(totalPercentage, 100);
-  }, [userData?.options, hasFlows]);
+  }, [userData?.optins, hasFlows]);
 
   const handleUserTrack = (key: string) => {
-    const options = userData?.options ?? {};
-    options[key] = true;
+    const optins = userData?.optins ?? {};
+    optins[key] = true;
 
     updateUser(
       {
         user_id: userData?.id!,
-        user: { options },
+        user: { optins },
       },
       {
         onSuccess: () => {

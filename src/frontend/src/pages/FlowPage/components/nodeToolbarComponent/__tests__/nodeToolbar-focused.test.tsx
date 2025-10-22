@@ -182,6 +182,11 @@ describe("NodeToolbar Focused Tests", () => {
 
           expect(isMinimal).toBe(expectedMinimal);
           expect(canMinimizeWhenShown).toBe(expectedCanMinimize);
+
+          // Log for debugging
+          console.log(
+            `✓ ${name}: minimal=${isMinimal}, canMinimize=${canMinimizeWhenShown}`,
+          );
         },
       );
     });

@@ -2,8 +2,8 @@ import inspect
 import os
 
 import pytest
-from aiexec.load import run_flow_from_json
 from dotenv import load_dotenv
+from aiexec.load import run_flow_from_json
 
 
 def test_run_flow_from_json_params():

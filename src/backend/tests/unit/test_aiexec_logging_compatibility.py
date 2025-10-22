@@ -88,7 +88,7 @@ def test_no_conflict_with_wfx_logging():
     wfx_logger.info("Test from wfx.logging")
 
 
-def test_aiexec_logging_imports_from_lfx():
+def test_aiexec_logging_imports_from_wfx():
     """Test that aiexec.logging correctly imports from wfx."""
     from aiexec.logging import configure, logger
     from wfx.log.logger import configure as wfx_configure

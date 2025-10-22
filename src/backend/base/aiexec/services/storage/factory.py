@@ -1,6 +1,6 @@
-from typing_extensions import override
 from wfx.log.logger import logger
 from wfx.services.settings.service import SettingsService
+from typing_extensions import override
 
 from aiexec.services.factory import ServiceFactory
 from aiexec.services.session.service import SessionService

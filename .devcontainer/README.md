@@ -2,7 +2,7 @@
 
 These instructions will walk you through the process of running a Aiexec demo via GitHub Codespaces.
 
-If you want a faster and easier demo experience with Aiexec, DataStax Aiexec is a hosted environment with zero setup: [Sign up for a free account.](https://astra.datastax.com/signup?type=aiexec)
+If you want a faster and easier demo experience with Aiexec, download and install [Aiexec Desktop](https://docs.aiexec.org/get-started-installation#install-and-run-aiexec-desktop) for the least complicated setup experience.
 
 ## Create a Codespace in GitHub
 

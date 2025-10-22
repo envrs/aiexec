@@ -6,17 +6,17 @@ from pathlib import Path
 # we need to import tmpdir
 import anyio
 import pytest
+from asgi_lifespan import LifespanManager
+from httpx import ASGITransport, AsyncClient
 from aiexec.api.v2.mcp import get_mcp_file
 from aiexec.main import create_app
 from aiexec.services.auth.utils import get_password_hash
 from aiexec.services.database.models.api_key.model import ApiKey
 from aiexec.services.database.models.user.model import User, UserRead
 from aiexec.services.deps import get_db_service
-from asgi_lifespan import LifespanManager
-from httpx import ASGITransport, AsyncClient
+from wfx.services.deps import session_scope
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
-from wfx.services.deps import session_scope
 
 from tests.conftest import _delete_transactions_and_vertex_builds
 

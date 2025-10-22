@@ -3,8 +3,8 @@ from aiexec.services.auth.utils import verify_password
 from aiexec.services.database.models.user.model import User
 from aiexec.services.deps import get_settings_service
 from aiexec.services.utils import initialize_services, setup_superuser, teardown_superuser
-from sqlmodel import select
 from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
+from sqlmodel import select
 
 
 @pytest.mark.asyncio

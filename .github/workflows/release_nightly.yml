@@ -19,7 +19,7 @@ on:
         required: false
         type: boolean
         default: false
-      build_lfx:
+      build_wfx:
         description: "Build and release WFX package"
         required: false
         type: boolean
@@ -32,7 +32,7 @@ on:
         description: "Tag for the nightly base build"
         required: true
         type: string
-      nightly_tag_lfx:
+      nightly_tag_wfx:
         description: "Tag for the nightly WFX build"
         required: false
         type: string
@@ -47,7 +47,7 @@ env:
   PYTHON_VERSION: "3.13"
 
 jobs:
-  build-nightly-lfx:
+  build-nightly-wfx:
     name: Build WFX Nightly
     if: ${{ inputs.build_wfx }}
     runs-on: ubuntu-latest
@@ -76,8 +76,8 @@ jobs:
         id: verify
         run: |
           cd src/wfx
-          name=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $1}')
-          version=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $2}')
+          name=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $1}')
+          version=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $2}')
           if [ "$name" != "wfx-nightly" ]; then
             echo "Name $name does not match wfx-nightly. Exiting the workflow."
             exit 1
@@ -108,13 +108,13 @@ jobs:
       - name: Upload WFX Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-nightly-lfx
+          name: dist-nightly-wfx
           path: src/wfx/dist
 
   build-nightly-base:
     name: Build Aiexec Nightly Base
-    needs: [build-nightly-lfx]
-    if: ${{ always() && (needs.build-nightly-lfx.result == 'success' || inputs.build_wfx == false) }}
+    needs: [build-nightly-wfx]
+    if: ${{ always() && (needs.build-nightly-wfx.result == 'success' || inputs.build_wfx == false) }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -139,7 +139,7 @@ jobs:
         run: uv sync
 
       - name: Wait for PyPI Propagation
-        if: inputs.build_lfx
+        if: inputs.build_wfx
         run: sleep 300 # wait for 5 minutes to ensure PyPI propagation of WFX
 
       - name: Verify Nightly Name and Version
@@ -269,16 +269,16 @@ jobs:
 
   test-cross-platform:
     name: Test Cross-Platform Installation
-    needs: [build-nightly-lfx, build-nightly-base, build-nightly-main]
+    needs: [build-nightly-wfx, build-nightly-base, build-nightly-main]
     uses: ./.github/workflows/cross-platform-test.yml
     with:
       base-artifact-name: "dist-nightly-base"
       main-artifact-name: "dist-nightly-main"
-      wfx-artifact-name: "dist-nightly-lfx"
+      wfx-artifact-name: "dist-nightly-wfx"
 
-  publish-nightly-lfx:
+  publish-nightly-wfx:
     name: Publish WFX Nightly to PyPI
-    needs: [build-nightly-lfx, test-cross-platform]
+    needs: [build-nightly-wfx, test-cross-platform]
     if: ${{ inputs.build_wfx }}
     runs-on: ubuntu-latest
     steps:
@@ -290,7 +290,7 @@ jobs:
       - name: Download WFX artifact
         uses: actions/download-artifact@v5
         with:
-          name: dist-nightly-lfx
+          name: dist-nightly-wfx
           path: src/wfx/dist
       - name: Setup Environment
         uses: astral-sh/setup-uv@v6
@@ -306,8 +306,8 @@ jobs:
 
   publish-nightly-base:
     name: Publish Aiexec Base Nightly to PyPI
-    needs: [build-nightly-base, test-cross-platform, publish-nightly-lfx]
-    if: ${{ always() && needs.build-nightly-base.result == 'success' && needs.test-cross-platform.result == 'success' && (needs.publish-nightly-lfx.result == 'success' || inputs.build_wfx == false) }}
+    needs: [build-nightly-base, test-cross-platform, publish-nightly-wfx]
+    if: ${{ always() && needs.build-nightly-base.result == 'success' && needs.test-cross-platform.result == 'success' && (needs.publish-nightly-wfx.result == 'success' || inputs.build_wfx == false) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

@@ -4,9 +4,9 @@ import os
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
 
+from wfx.log.logger import logger
 from sqlmodel import select
 from typing_extensions import override
-from wfx.log.logger import logger
 
 from aiexec.services.auth import utils as auth_utils
 from aiexec.services.base import Service
@@ -18,8 +18,8 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from uuid import UUID
 
-    from sqlmodel.ext.asyncio.session import AsyncSession
     from wfx.services.settings.service import SettingsService
+    from sqlmodel.ext.asyncio.session import AsyncSession
 
 
 class DatabaseVariableService(VariableService, Service):

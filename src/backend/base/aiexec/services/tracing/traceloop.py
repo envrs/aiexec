@@ -8,13 +8,13 @@ from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
+from wfx.log.logger import logger
 from opentelemetry import trace
 from opentelemetry.trace import Span, use_span
 from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
 from traceloop.sdk import Traceloop
 from traceloop.sdk.instruments import Instruments
 from typing_extensions import override
-from wfx.log.logger import logger
 
 from aiexec.services.tracing.base import BaseTracer
 

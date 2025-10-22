@@ -4,8 +4,8 @@ import asyncio
 import contextlib
 from typing import TYPE_CHECKING
 
-from sqlmodel import col, delete, select
 from wfx.log.logger import logger
+from sqlmodel import col, delete, select
 
 from aiexec.services.database.models.message.model import MessageTable
 from aiexec.services.database.models.transactions.model import TransactionTable

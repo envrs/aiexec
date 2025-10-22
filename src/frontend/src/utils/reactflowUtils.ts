@@ -31,9 +31,9 @@ import { customDownloadFlow } from "@/customization/utils/custom-reactFlowUtils"
 import useFlowStore from "@/stores/flowStore";
 import getFieldTitle from "../CustomNodes/utils/get-field-title";
 import {
-  AIEXEC_SUPPORTED_TYPES,
   INPUT_TYPES,
   IS_MAC,
+  AIEXEC_SUPPORTED_TYPES,
   OUTPUT_TYPES,
   SUCCESS_BUILD,
   specialCharsRegex,
@@ -1179,8 +1179,8 @@ export function generateFlow(
     id: uid.randomUUID(5),
   };
   // filter edges that are not connected to selected nodes on both ends
-  // using O(n²) approach because the number of edges is small
-  // in the future we can use a better approach using a set
+  // using O(n²) aproach because the number of edges is small
+  // in the future we can use a better aproach using a set
   return {
     newFlow,
     removedEdges: edges.filter(

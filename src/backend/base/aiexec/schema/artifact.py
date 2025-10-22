@@ -2,8 +2,8 @@ from collections.abc import Generator
 from enum import Enum
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from wfx.log.logger import logger
+from pydantic import BaseModel
 
 from aiexec.schema.data import Data
 from aiexec.schema.dataframe import DataFrame

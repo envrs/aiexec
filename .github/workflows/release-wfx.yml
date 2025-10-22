@@ -60,8 +60,8 @@ jobs:
         run: |
           cd src/wfx
           # Use uv tree to get package info, consistent with nightly workflow
-          name=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $1}')
-          version=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $2}')
+          name=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $1}')
+          version=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $2}')
 
           # Strip leading 'v' if present
           version=$(echo $version | sed 's/^v//')
@@ -75,7 +75,7 @@ jobs:
           fi
 
           # Check if version already exists on PyPI
-          if curl -s "https://pypi.org/pypi/lfx/json" | jq -r '.releases | keys[]' | grep -q "^${{ github.event.inputs.version }}$"; then
+          if curl -s "https://pypi.org/pypi/wfx/json" | jq -r '.releases | keys[]' | grep -q "^${{ github.event.inputs.version }}$"; then
             echo "❌ Version ${{ github.event.inputs.version }} already exists on PyPI"
             echo "should_release=false" >> $GITHUB_OUTPUT
             exit 1
@@ -118,7 +118,7 @@ jobs:
           uv run wfx run --help
           uv run wfx serve --help
 
-  release-lfx:
+  release-wfx:
     name: Build and Release WFX
     needs: [validate-version, run-tests]
     runs-on: ubuntu-latest
@@ -144,8 +144,8 @@ jobs:
         run: |
           cd src/wfx
           # Use uv tree to get package info, consistent with nightly workflow
-          name=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $1}')
-          version=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $2}')
+          name=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $1}')
+          version=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $2}')
 
           # Verify package name
           if [ "$name" != "wfx" ]; then
@@ -175,7 +175,7 @@ jobs:
           cd src/wfx
           ls -la dist/
           # Verify wheel contents
-          unzip -l dist/*.whl | grep -E "(lfx/__main__.py|lfx/cli/run.py|lfx/cli/commands.py)"
+          unzip -l dist/*.whl | grep -E "(wfx/__main__.py|wfx/cli/run.py|wfx/cli/commands.py)"
 
       - name: Test installation from wheel
         run: |
@@ -249,8 +249,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            khulnasoft/lfx
-            ghcr.io/khulnasoft/lfx
+            khulnasoft/wfx
+            ghcr.io/khulnasoft/wfx
           tags: |
             type=raw,value=${{ github.event.inputs.version }}${{ matrix.variant == 'alpine' && '-alpine' || '' }}
             type=raw,value=latest${{ matrix.variant == 'alpine' && '-alpine' || '' }},enable=${{ github.event.inputs.pre_release == 'false' }}
@@ -276,8 +276,8 @@ jobs:
 
   create-release:
     name: Create GitHub Release
-    needs: [release-lfx, build-docker]
-    if: always() && github.event.inputs.create_github_release == 'true' && needs.release-lfx.result == 'success'
+    needs: [release-wfx, build-docker]
+    if: always() && github.event.inputs.create_github_release == 'true' && needs.release-wfx.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -309,13 +309,13 @@ jobs:
           ### Docker
           \`\`\`bash
           # Standard image
-          docker pull khulnasoft/lfx:${{ github.event.inputs.version }}
+          docker pull khulnasoft/wfx:${{ github.event.inputs.version }}
 
           # Alpine image (smaller)
-          docker pull khulnasoft/lfx:${{ github.event.inputs.version }}-alpine
+          docker pull khulnasoft/wfx:${{ github.event.inputs.version }}-alpine
 
           # Run a flow
-          docker run --rm -v \$(pwd):/app/data khulnasoft/lfx:${{ github.event.inputs.version }} wfx run flow.json --input-value "Hello"
+          docker run --rm -v \$(pwd):/app/data khulnasoft/wfx:${{ github.event.inputs.version }} wfx run flow.json --input-value "Hello"
           \`\`\`
 
           ## 📦 What's New
@@ -330,7 +330,7 @@ jobs:
 
           ---
 
-          **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ needs.validate-version.outputs.current_version }}...lfx-v${{ github.event.inputs.version }}
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ needs.validate-version.outputs.current_version }}...wfx-v${{ github.event.inputs.version }}
           EOF
 
       - name: Create Release
@@ -347,16 +347,16 @@ jobs:
 
   test-release:
     name: Test Release
-    needs: [release-lfx, build-docker]
-    if: always() && (needs.release-lfx.result == 'success' || needs.build-docker.result == 'success')
+    needs: [release-wfx, build-docker]
+    if: always() && (needs.release-wfx.result == 'success' || needs.build-docker.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Wait for PyPI propagation
-        if: needs.release-lfx.result == 'success'
+        if: needs.release-wfx.result == 'success'
         run: sleep 60
 
       - name: Test PyPI installation
-        if: needs.release-lfx.result == 'success'
+        if: needs.release-wfx.result == 'success'
         run: |
           # Test installation using uv
           uv pip install wfx==${{ github.event.inputs.version }}
@@ -366,10 +366,10 @@ jobs:
         if: needs.build-docker.result == 'success'
         run: |
           # Test standard image
-          docker run --rm khulnasoft/lfx:${{ github.event.inputs.version }} wfx --help
+          docker run --rm khulnasoft/wfx:${{ github.event.inputs.version }} wfx --help
 
           # Test alpine image
-          docker run --rm khulnasoft/lfx:${{ github.event.inputs.version }}-alpine wfx --help
+          docker run --rm khulnasoft/wfx:${{ github.event.inputs.version }}-alpine wfx --help
 
           # Test with a simple flow
           cat > test_flow.json << 'EOF'
@@ -379,7 +379,7 @@ jobs:
           }
           EOF
 
-          docker run --rm -v $(pwd):/app/data khulnasoft/lfx:${{ github.event.inputs.version }} \
+          docker run --rm -v $(pwd):/app/data khulnasoft/wfx:${{ github.event.inputs.version }} \
             wfx run /app/data/test_flow.json --input-value "test" || true
 
   notify:
@@ -392,9 +392,9 @@ jobs:
         if: needs.create-release.result == 'success'
         run: |
           echo "✅ WFX ${{ github.event.inputs.version }} released successfully!"
-          echo "PyPI: https://pypi.org/project/lfx/${{ github.event.inputs.version }}/"
-          echo "Docker Hub: https://hub.docker.com/r/khulnasoft/lfx/tags"
-          echo "GitHub Release: https://github.com/${{ github.repository }}/releases/tag/lfx-v${{ github.event.inputs.version }}"
+          echo "PyPI: https://pypi.org/project/wfx/${{ github.event.inputs.version }}/"
+          echo "Docker Hub: https://hub.docker.com/r/khulnasoft/wfx/tags"
+          echo "GitHub Release: https://github.com/${{ github.repository }}/releases/tag/wfx-v${{ github.event.inputs.version }}"
 
       - name: Notify failure
         if: needs.create-release.result != 'success'

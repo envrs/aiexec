@@ -1,0 +1,173 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "aiexec.fullname" . }}
+  labels:
+    app: {{ template "aiexec.name" . }}
+    chart: {{ template "aiexec.chart" . }}
+    release: {{ .Release.Name }}
+    aiexec-scope: "backend"
+spec:
+  serviceName: "{{ include "aiexec.fullname" . }}-service"
+  replicas: {{ .Values.aiexec.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "aiexec.name" . }}
+      chart: {{ template "aiexec.chart" . }}
+      release: {{ .Release.Name }}
+      aiexec-scope: "backend"
+  template:
+    metadata:
+      {{- with .Values.aiexec.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ template "aiexec.name" . }}
+        chart: {{ template "aiexec.chart" . }}
+        release: {{ .Release.Name }}
+        aiexec-scope: "backend"
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "aiexec.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        {{- if .Values.secretProvider.enabled }}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "{{- .Values.secretProvider.name }}"
+        {{- end }}
+        {{- with .Values.aiexec.backend.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.aiexec.backend.image.repository }}:{{ .Values.aiexec.backend.image.tag  | default .Values.aiexec.global.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.aiexec.backend.image.imagePullPolicy | default .Values.aiexec.global.image.imagePullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - >
+              set -e &&
+              if [ -n "$LF_CHART_EXTERNALDB_DRIVER" ]; then
+                echo "LF_CHART_EXTERNALDB_DRIVER is set, using external database at $LF_CHART_EXTERNALDB_HOST" &&
+                export AIEXEC_DATABASE_URL="$LF_CHART_EXTERNALDB_DRIVER://$LF_CHART_EXTERNALDB_USER:$LF_CHART_EXTERNALDB_PASSWORD@$LF_CHART_EXTERNALDB_HOST:$LF_CHART_EXTERNALDB_PORT/$LF_CHART_EXTERNALDB_DATABASE"
+              else
+                echo "LF_CHART_EXTERNALDB_DRIVER is not set, using SQLLite database"
+              fi &&
+              aiexec run --host 0.0.0.0 --port {{ .Values.aiexec.backend.service.port }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.aiexec.backend.service.port }}
+              protocol: TCP
+          {{- if or .Values.secretProvider.enabled .Values.aiexec.backend.sqlite.enabled .Values.aiexec.backend.volumeMounts }}
+          volumeMounts:
+            {{- if .Values.secretProvider.enabled }}
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
+            {{- end }}
+            {{- if .Values.aiexec.backend.sqlite.enabled }}
+            - name: data
+              mountPath: /data
+            {{- end }}
+            {{- with .Values.aiexec.backend.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              
+            initialDelaySeconds: {{ .Values.aiexec.backend.probe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.aiexec.backend.probe.periodSeconds }}
+            timeoutSeconds: {{ .Values.aiexec.backend.probe.timeoutSeconds }}
+            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}   
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: {{ .Values.aiexec.backend.probe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.aiexec.backend.probe.periodSeconds }}
+            timeoutSeconds: {{ .Values.aiexec.backend.probe.timeoutSeconds }}
+            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}   
+          env:
+            - name: AIEXEC_BACKEND_ONLY
+              value: "{{ .Values.aiexec.backend.backendOnly }}"
+            - name: AIEXEC_NUM_WORKERS
+              value: "{{ .Values.aiexec.backend.numWorkers }}"
+            {{- if .Values.aiexec.backend.sqlite.enabled }}
+            - name: AIEXEC_DATABASE_URL
+              value: "sqlite:////data/aiexec.db"
+            {{- end }}
+            {{- with .Values.aiexec.backend.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.aiexec.backend.externalDatabase.enabled }}
+            - name: LF_CHART_EXTERNALDB_DRIVER
+            {{- toYaml .Values.aiexec.backend.externalDatabase.driver | nindent 14 }}
+            - name: LF_CHART_EXTERNALDB_HOST
+            {{- toYaml .Values.aiexec.backend.externalDatabase.host | nindent 14 }}
+            - name: LF_CHART_EXTERNALDB_PORT
+            {{- toYaml .Values.aiexec.backend.externalDatabase.port | nindent 14 }}
+            - name: LF_CHART_EXTERNALDB_DATABASE
+            {{- toYaml .Values.aiexec.backend.externalDatabase.database | nindent 14 }}
+            - name: LF_CHART_EXTERNALDB_USER
+            {{- toYaml .Values.aiexec.backend.externalDatabase.user | nindent 14 }}
+            - name: LF_CHART_EXTERNALDB_PASSWORD
+            {{- toYaml .Values.aiexec.backend.externalDatabase.password | nindent 14 }}
+            {{- end }}
+            {{- if and (hasKey .Values.aiexec.backend "autoLogin") (eq .Values.aiexec.backend.autoLogin false) }}
+            - name: AIEXEC_AUTO_LOGIN
+              value: "{{ .Values.aiexec.backend.autoLogin | default "False" }}"
+            - name: AIEXEC_SUPERUSER
+              value: "{{ .Values.aiexec.backend.superuser | default "admin" }}"
+            - name: AIEXEC_SUPERUSER_PASSWORD
+              value: "{{ .Values.aiexec.backend.superuserPassword | default (randAlphaNum 32) }}"
+            - name: AIEXEC_SECRET_KEY
+              value: "{{ .Values.aiexec.backend.secretKey | default (randAlphaNum 32) }}"
+            - name: AIEXEC_NEW_USER_IS_ACTIVE
+              value: "{{ .Values.aiexec.backend.newUserIsActive | default "False" }}"
+            {{- end }}
+          resources:
+            {{- toYaml .Values.aiexec.backend.resources | nindent 12 }}
+      {{- with .Values.aiexec.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.aiexec.backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.aiexec.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.aiexec.backend.sqlite.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.aiexec.backend.sqlite.volume.size }}
+      {{- if .Values.aiexec.backend.sqlite.volume.existingStorageClassName }}
+      {{- if ne .Values.aiexec.backend.sqlite.volume.existingStorageClassName "default"}}
+      storageClassName: {{ .Values.aiexec.backend.sqlite.volume.existingStorageClassName }}
+      {{- else }}
+      {{- end }}
+      {{- else }}
+      storageClassName: "{{ template "aiexec.fullname" . }}-sqlite"
+      {{- end }}
+      
+  {{- end }}

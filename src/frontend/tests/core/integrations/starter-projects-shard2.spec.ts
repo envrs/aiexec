@@ -69,6 +69,10 @@ test(
 
     const firstQuarterEnd = Math.ceil(numberOfTemplates / 4);
 
+    console.log(
+      `Total templates: ${numberOfTemplates}, Testing from 0 to ${firstQuarterEnd - 1} (first quarter)`,
+    );
+
     // Collect template names first with stability checks
     for (let i = 0; i < firstQuarterEnd; i++) {
       // Ensure the specific template card is visible and stable
@@ -79,8 +83,15 @@ test(
       templatesData.push({ index: i, name: exampleName });
     }
 
+    console.log(
+      "Templates to test:",
+      templatesData.map((t) => `${t.index}: ${t.name}`).join(", "),
+    );
+
     // Now test each template individually using direct navigation
     for (const template of templatesData) {
+      console.log(`Testing template ${template.index}: ${template.name}`);
+
       // Navigate directly to templates page with improved stability
       await page.goto("/", { waitUntil: "networkidle", timeout: 30000 });
 

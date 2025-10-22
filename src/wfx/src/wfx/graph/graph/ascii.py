@@ -125,15 +125,15 @@ class AsciiCanvas:
         self.point(x0 + width, y0 + height, "+")
 
 
-def build_sugiyama_layout(vertices, edges):
-    vertices = {v: GrandalfVertex(v) for v in vertices}
-    edges = [GrandalfEdge(vertices[s], vertices[e]) for s, e in edges]
-    graph = GrandalfGraph(vertices.values(), edges)
+def build_sugiyama_layout(vertexes, edges):
+    vertexes = {v: GrandalfVertex(v) for v in vertexes}
+    edges = [GrandalfEdge(vertexes[s], vertexes[e]) for s, e in edges]
+    graph = GrandalfGraph(vertexes.values(), edges)
 
-    for vertex in vertices.values():
+    for vertex in vertexes.values():
         vertex.view = VertexViewer(vertex.data)
 
-    minw = min(v.view.w for v in vertices.values())
+    minw = min(v.view.w for v in vertexes.values())
 
     for edge in edges:
         edge.view = EdgeViewer()
@@ -150,9 +150,9 @@ def build_sugiyama_layout(vertices, edges):
     return sug
 
 
-def draw_graph(vertices, edges, *, return_ascii=True):
+def draw_graph(vertexes, edges, *, return_ascii=True):
     """Build a DAG and draw it in ASCII."""
-    sug = build_sugiyama_layout(vertices, edges)
+    sug = build_sugiyama_layout(vertexes, edges)
 
     xlist = []
     ylist = []

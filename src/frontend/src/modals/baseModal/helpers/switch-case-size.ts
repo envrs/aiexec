@@ -88,7 +88,7 @@ export const switchCaseModalSize = (size: string) => {
       height = "h-[95vh]";
       break;
 
-    case "rectangular":
+    case "retangular":
       minWidth = "!min-w-[900px]";
       height = "min-h-[232px]";
       break;

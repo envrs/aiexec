@@ -10,8 +10,8 @@ from aiexec.services.schema import ServiceType
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
-    from sqlmodel.ext.asyncio.session import AsyncSession
     from wfx.services.settings.service import SettingsService
+    from sqlmodel.ext.asyncio.session import AsyncSession
 
     from aiexec.services.cache.service import AsyncBaseCacheService, CacheService
     from aiexec.services.chat.service import ChatService

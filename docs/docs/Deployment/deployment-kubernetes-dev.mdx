@@ -6,7 +6,7 @@ slug: /deployment-kubernetes-dev
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The [Aiexec integrated development environment (IDE) Helm chart](https://github.com/khulnasoft/aiexec-helm-charts/tree/main/charts/aiexec-ide) is designed to provide a complete environment for developers to create, test, and debug their flows. It includes both the Aiexec API and visual editor.
+The [Aiexec integrated development environment (IDE) Helm chart](https://github.com/khulnasoft/aiexec/tree/main/charts/aiexec-ide) is designed to provide a complete environment for developers to create, test, and debug their flows. It includes both the Aiexec API and visual editor.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ This example uses [Minikube](https://minikube.sigs.k8s.io/docs/start/), but you 
 1. Add the repository to Helm, and then update it:
 
 	```shell
-	helm repo add aiexec https://khulnasoft.github.io/aiexec-helm-charts
+	helm repo add aiexec https://khulnasoft.github.io/aiexec
 	helm repo update
 	```
 
@@ -74,7 +74,7 @@ Now you can do the following:
 
 ## Modify your Aiexec IDE deployment
 
-You can modify the Aiexec IDE Helm chart's [`values.yaml`](https://github.com/khulnasoft/aiexec-helm-charts/blob/main/charts/aiexec-ide/values.yaml) file to customize your deployment.
+You can modify the Aiexec IDE Helm chart's [`values.yaml`](https://github.com/khulnasoft/aiexec/blob/main/charts/aiexec-ide/values.yaml) file to customize your deployment.
 The following sections describe some common modifications.
 
 If you need to set secrets, Kubernetes secrets are recommended.
@@ -183,4 +183,4 @@ aiexec:
 
 * [Best practices for Aiexec on Kubernetes](/deployment-prod-best-practices)
 * [Deploy the Aiexec production environment on Kubernetes](/deployment-kubernetes-prod)
-* [Aiexec Helm Charts repository](https://github.com/khulnasoft/aiexec-helm-charts)
+* [Aiexec Helm Charts repository](https://github.com/khulnasoft/aiexec)

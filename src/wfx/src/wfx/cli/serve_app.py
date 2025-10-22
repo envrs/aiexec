@@ -12,7 +12,7 @@ of metadata objects, allowing API consumers to discover IDs without guessing.
 
 Authentication behaves exactly like the single-flow serving: all execution
 endpoints require the ``x-api-key`` header (or query parameter) validated by
-:func:`lfx.cli.commands.verify_api_key`.
+:func:`wfx.cli.commands.verify_api_key`.
 """
 
 from __future__ import annotations

@@ -18,6 +18,8 @@ from dotenv import load_dotenv
 from fastapi import HTTPException
 from httpx import HTTPError
 from jose import JWTError
+from wfx.log.logger import configure, logger
+from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 from multiprocess import cpu_count
 from multiprocess.context import Process
 from packaging import version as pkg_version
@@ -26,8 +28,6 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from sqlmodel import select
-from wfx.log.logger import configure, logger
-from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 
 from aiexec.cli.progress import create_aiexec_progress
 from aiexec.initial_setup.setup import get_or_create_default_folder
@@ -38,10 +38,11 @@ from aiexec.services.utils import initialize_services
 from aiexec.utils.version import fetch_latest_version, get_version_info
 from aiexec.utils.version import is_pre_release as aiexec_is_pre_release
 
-# Initialize console with Windows-safe settings
-console = Console(legacy_windows=True, emoji=False) if platform.system() == "Windows" else Console()
-
 app = typer.Typer(no_args_is_help=True)
+console = Console()
+if platform.system() == "Windows":
+    console = Console(legacy_windows=True, emoji=False)  # Initialize console with Windows-safe settings
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())  # type: ignore[attr-defined]
 
 # Add WFX commands as a sub-app
 try:

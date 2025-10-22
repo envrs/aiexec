@@ -1,0 +1,9 @@
+apiVersion: v2
+name: aiexec-runtime
+description: A helm chart for running AiExec flows as a service
+type: application
+version: 0.1.1
+appVersion: latest
+maintainers:
+  - name: Aiexec
+    email: contact@aiexec.org

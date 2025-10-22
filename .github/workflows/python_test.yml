@@ -168,6 +168,27 @@ jobs:
         env:
           DO_NOT_TRACK: true # disable telemetry reporting
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        if: matrix.python-version == '3.10'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./src/wfx/coverage.xml
+          flags: wfx
+          name: wfx-coverage
+          fail_ci_if_error: false
+          directory: ./src/wfx/
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        if: matrix.python-version == '3.10'
+        with:
+          name: wfx-coverage-report
+          path: |
+            src/wfx/coverage.xml
+            src/wfx/htmlcov/
+          retention-days: 30
+
   test-cli:
     name: Test CLI - Python ${{ matrix.python-version }}
     runs-on: ${{ (inputs['runs-on'] && startsWith(format('{0}', inputs['runs-on']), '[') && fromJSON(inputs['runs-on'])) || inputs['runs-on'] || github.event.inputs['runs-on'] || 'ubuntu-latest' }}

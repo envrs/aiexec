@@ -16,7 +16,7 @@ from wfx.schema.table import EditMode
 class AstraDBToolComponent(LCToolComponent):
     display_name: str = "Astra DB Tool"
     description: str = "Tool to run hybrid vector and metadata search on DataStax Astra DB Collection"
-    documentation: str = "https://docs.aiexec.org/components-bundle-components"
+    documentation: str = "https://docs.aiexec.org/bundles-datastax#astra-db-tool"
     icon: str = "AstraDB"
 
     inputs = [
@@ -149,7 +149,7 @@ class AstraDBToolComponent(LCToolComponent):
         ),
         DictInput(
             name="static_filters",
-            info="Attributes to filter and corresponding value",
+            info="Attributes to filter and correspoding value",
             display_name="Static filters",
             advanced=True,
             is_list=True,

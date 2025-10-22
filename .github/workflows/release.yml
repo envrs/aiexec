@@ -18,7 +18,7 @@ on:
         required: true
         type: boolean
         default: false
-      release_lfx:
+      release_wfx:
         description: "WARNING: Not implemented yet."
         required: true
         type: boolean
@@ -61,7 +61,7 @@ jobs:
           echo "release_tag: ${{ inputs.release_tag }}"
           echo "release_package_base: ${{ inputs.release_package_base }}"
           echo "release_package_main: ${{ inputs.release_package_main }}"
-          echo "release_lfx: ${{ inputs.release_wfx }}"
+          echo "release_wfx: ${{ inputs.release_wfx }}"
           echo "build_docker_base: ${{ inputs.build_docker_base }}"
           echo "build_docker_main: ${{ inputs.build_docker_main }}"
           echo "pre_release: ${{ inputs.pre_release }}"
@@ -75,7 +75,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # Fetch all history - required for tags (?)
+          fetch-depth: 0 # Fetch all history - required for tags (?) 
       - name: Validate that input is a tag, not a branch
         run: |
           # Check if the input exists as a tag
@@ -110,7 +110,7 @@ jobs:
 
           if [ "${{ inputs.release_wfx }}" = "true" ]; then
             echo "Error: Release WFX is not implemented yet."
-            echo "Please disable 'release_lfx' or wait for it to be implemented."
+            echo "Please disable 'release_wfx' or wait for it to be implemented."
             exit 1
           fi
 
@@ -292,7 +292,7 @@ jobs:
     with:
       base-artifact-name: "dist-base"
       main-artifact-name: "dist-main"
-      wfx-artifact-name: "${{ inputs.release_wfx && 'dist-lfx' || '' }}"
+      wfx-artifact-name: "${{ inputs.release_wfx && 'dist-wfx' || '' }}"
 
 
   publish-base:
@@ -341,7 +341,7 @@ jobs:
         run: |
           uv publish dist/*.whl
 
-  build-lfx:
+  build-wfx:
     name: Build WFX
     needs: [ci]
     if: ${{ inputs.release_wfx }}
@@ -366,8 +366,8 @@ jobs:
         id: check-version
         run: |
           cd src/wfx
-          version=$(uv tree | grep 'lfx' | head -n 1 | awk '{print $2}' | sed 's/^v//')
-          last_released_version=$(curl -s "https://pypi.org/pypi/lfx/json" | jq -r '.releases | keys | .[]' | sort -V | tail -n 1)
+          version=$(uv tree | grep 'wfx' | head -n 1 | awk '{print $2}' | sed 's/^v//')
+          last_released_version=$(curl -s "https://pypi.org/pypi/wfx/json" | jq -r '.releases | keys | .[]' | sort -V | tail -n 1)
           if [ "$version" = "$last_released_version" ]; then
             echo "Version $version is already released. Skipping release."
             exit 1
@@ -387,13 +387,13 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-lfx
+          name: dist-wfx
           path: src/wfx/dist
 
-  test-lfx-cross-platform:
+  test-wfx-cross-platform:
     name: Test WFX Cross-Platform Installation
     if: ${{ inputs.release_wfx }}
-    needs: [build-lfx]
+    needs: [build-wfx]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -403,8 +403,8 @@ jobs:
       - name: Download WFX artifact
         uses: actions/download-artifact@v5
         with:
-          name: dist-lfx
-          path: dist-lfx
+          name: dist-wfx
+          path: dist-wfx
       - name: Setup Environment
         uses: astral-sh/setup-uv@v6
         with:
@@ -412,19 +412,19 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Test WFX installation
         run: |
-          uv pip install dist-lfx/*.whl
+          uv pip install dist-wfx/*.whl
           uv run wfx --help
 
-  publish-lfx:
+  publish-wfx:
     name: Publish WFX to PyPI
     if: ${{ inputs.release_wfx }}
-    needs: [build-lfx, test-lfx-cross-platform]
+    needs: [build-wfx, test-wfx-cross-platform]
     runs-on: ubuntu-latest
     steps:
       - name: Download WFX artifact
         uses: actions/download-artifact@v5
         with:
-          name: dist-lfx
+          name: dist-wfx
           path: src/wfx/dist
       - name: Setup Environment
         uses: astral-sh/setup-uv@v6

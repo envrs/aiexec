@@ -1,0 +1,13 @@
+downloadFlows:
+  flows:
+  - url: https://raw.githubusercontent.com/datastax/aiexec-charts/main/examples/flows/basic-prompting-hello-world.json
+    endpoint: hello-world
+
+env:
+  - name: AIEXEC_LOG_LEVEL
+    value: "INFO"
+  - name: OPENAI_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: aiexec-secrets
+        key: openai-key

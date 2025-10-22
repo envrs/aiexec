@@ -2,7 +2,10 @@
 
 import { Cookies } from "react-cookie";
 import { create } from "zustand";
-import { AIEXEC_ACCESS_TOKEN, AIEXEC_API_TOKEN } from "@/constants/constants";
+import {
+  AIEXEC_ACCESS_TOKEN,
+  AIEXEC_API_TOKEN,
+} from "@/constants/constants";
 import type { AuthStoreType } from "@/types/zustand/auth";
 
 const cookies = new Cookies();

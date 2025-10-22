@@ -5,11 +5,11 @@ from datetime import datetime, timezone
 from uuid import UUID
 
 from fastapi import HTTPException
-from sqlmodel import select
 from wfx.base.mcp.constants import MAX_MCP_SERVER_NAME_LENGTH
 from wfx.base.mcp.util import sanitize_mcp_name
 from wfx.log import logger
 from wfx.services.deps import get_settings_service
+from sqlmodel import select
 
 from aiexec.api.v2.mcp import get_server_list, update_server
 from aiexec.services.auth.mcp_encryption import encrypt_auth_settings
@@ -131,7 +131,7 @@ async def validate_mcp_server_for_project(
 
         if existing_args:
             # SSE URL is typically the last argument
-            # TODO: Better way Required to check the position of the SSE URL in the args
+            # TODO: Better way Required to check the postion of the SSE URL in the args
             existing_sse_urls = await extract_urls_from_strings(existing_args)
             for existing_sse_url in existing_sse_urls:
                 if str(project_id) in existing_sse_url:

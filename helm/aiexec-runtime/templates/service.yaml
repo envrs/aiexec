@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "aiexec-runtime.fullname" . }}
+  labels:
+    {{- include "aiexec-runtime.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "aiexec-runtime.selectorLabels" . | nindent 4 }}

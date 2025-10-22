@@ -547,8 +547,8 @@ class Graph:
                 # and run self.build_adjacency_maps(edges) to get the new predecessor map
                 # that is not complete but we can use to update the run_predecessors
                 successors_predecessors = set()
-                for successor in successors:
-                    successors_predecessors.update(self.get_all_predecessors(successor))
+                for sucessor in successors:
+                    successors_predecessors.update(self.get_all_predecessors(sucessor))
 
                 edges_set = set()
                 for _vertex in [vertex, *successors, *successors_predecessors]:
@@ -2289,7 +2289,7 @@ class Graph:
         result: dict = {}
         for vertex in self.vertices:
             vertex_id = vertex.id
-            successors = [i.id for i in self.get_all_successors(vertex)]
+            sucessors = [i.id for i in self.get_all_successors(vertex)]
             predecessors = [i.id for i in self.get_predecessors(vertex)]
-            result |= {vertex_id: {"successors": successors, "predecessors": predecessors}}
+            result |= {vertex_id: {"successors": sucessors, "predecessors": predecessors}}
         return result

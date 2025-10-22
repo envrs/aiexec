@@ -13,11 +13,18 @@ def pytest_configure(config):  # noqa: ARG001
 
         pytest.exit(
             "\n"
+            "=" * 80 + "\n"
             "ERROR: aiexec is installed. These tests require aiexec to NOT be installed.\n"
-            "Please run `uv sync` inside the wfx directory to create an isolated environment.\n"
+            "\n"
+            "To fix this, run these commands:\n"
+            "\n"
+            "    cd src/wfx\n"
+            "    uv sync\n"
+            "    uv run pytest ...\n"
             "\n"
             "The wfx tests are designed to run in isolation from aiexec to ensure proper\n"
-            "packaging and dependency management.\n",
+            "packaging and dependency management.\n"
+            "=" * 80 + "\n",
             returncode=1,
         )
     except ImportError:

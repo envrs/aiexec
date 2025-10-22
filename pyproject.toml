@@ -7,7 +7,7 @@ license = "MIT"
 keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
 readme = "README.md"
 maintainers = [
-    { name = "Carlos Coelho", email = "carlos@aiexec.org" },
+    { name = "khulnaSoft", email = "info@khulnasoft.com" },
 ]
 # Define your main dependencies here
 dependencies = [
@@ -128,7 +128,10 @@ dependencies = [
     "fastparquet>=2024.11.0,<2025.0.0",
     "traceloop-sdk>=0.43.1,<1.0.0",
     "vlmrun[all]>=0.2.0",
+    "cuga==0.1.2",
+
 ]
+
 
 [dependency-groups]
 dev = [
@@ -178,7 +181,6 @@ dev = [
     "pytest-timeout>=2.3.1",
     "pyyaml>=6.0.2",
     "pyleak>=0.1.14",
-    "wfx",
 ]
 
 [tool.uv.sources]
@@ -302,7 +304,7 @@ directory = "coverage"
 
 
 [tool.ruff]
-exclude = ["src/backend/base/aiexec/alembic/*", "src/frontend/tests/assets/*"]
+exclude = ["src/backend/base/aiexec/alembic/*", "src/frontend/tests/assets/*", "src/wfx/src/wfx/_assets/component_index.json"]
 line-length = 120
 
 [tool.ruff.lint]

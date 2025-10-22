@@ -36,7 +36,7 @@ class VectaraRagComponent(Component):
         "rus",
         "tur",
         "fas",
-        "via",
+        "vie",
         "tha",
         "heb",
         "nld",

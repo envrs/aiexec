@@ -1,0 +1,115 @@
+{{- if .Values.aiexec.frontend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aiexec.fullname" . }}-frontend
+  labels:
+    app: {{ template "aiexec.name" . }}
+    chart: {{ template "aiexec.chart" . }}
+    release: {{ .Release.Name }}
+    aiexec-scope: "frontend"
+spec:
+  replicas: {{ .Values.aiexec.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "aiexec.name" . }}
+      chart: {{ template "aiexec.chart" . }}
+      release: {{ .Release.Name }}
+      aiexec-scope: "frontend"
+  template:
+    metadata:
+      {{- with .Values.aiexec.frontend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ template "aiexec.name" . }}
+        chart: {{ template "aiexec.chart" . }}
+        release: {{ .Release.Name }}
+        aiexec-scope: "frontend"
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "aiexec.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        {{- if .Values.secretProvider.enabled }}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "{{- .Values.secretProvider.name }}"
+        {{- end }}
+        {{- with .Values.aiexec.frontend.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        - name: nginx
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.aiexec.frontend.image.repository }}:{{ .Values.aiexec.frontend.image.tag | default .Values.aiexec.global.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.aiexec.frontend.image.imagePullPolicy | default .Values.aiexec.global.image.imagePullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.aiexec.frontend.service.port }}
+              protocol: TCP
+          volumeMounts:
+            {{- if .Values.secretProvider.enabled }}
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
+            {{- end }}
+            {{- with .Values.aiexec.frontend.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+
+            - name: nginx
+              mountPath: "/tmp/nginx"
+              readOnly: false
+            - name: nginx-cache
+              mountPath: "/var/cache/nginx"
+              readOnly: false
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: {{ .Values.aiexec.frontend.probe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.aiexec.frontend.probe.periodSeconds }}
+            timeoutSeconds: {{ .Values.aiexec.frontend.probe.timeoutSeconds }}
+            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}   
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: http
+            initialDelaySeconds: {{ .Values.aiexec.frontend.probe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.aiexec.frontend.probe.periodSeconds }}
+            timeoutSeconds: {{ .Values.aiexec.frontend.probe.timeoutSeconds }}
+            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}   
+          env:
+            - name: BACKEND_URL
+              value: "http://{{ template "aiexec.fullname" . }}-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.aiexec.backend.service.port }}"
+            - name: FRONTEND_PORT
+              value: "{{ .Values.aiexec.frontend.service.port }}"
+          resources:
+            {{- toYaml .Values.aiexec.frontend.resources | nindent 12 }}
+      {{- with .Values.aiexec.frontend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.aiexec.frontend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.aiexec.frontend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

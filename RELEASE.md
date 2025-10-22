@@ -14,7 +14,7 @@ Aiexec follows a **release-when-ready** cadence, with each cycle typically lasti
 
 ### 1. OSS QA
 
-Create an OSS release candidate (RC) branch containing `aiexec` and any associated PyPI packages (e.g. `lfx`).
+Create an OSS release candidate (RC) branch containing `aiexec` and any associated PyPI packages (e.g. `wfx`).
 During this period:
 
 * QA is performed manually.

@@ -6,8 +6,8 @@ re-exported from different modules (e.g., wfx.schema.Message vs aiexec.schema.Me
 
 from aiexec.schema import Data as AiexecData
 from aiexec.schema import Message as AiexecMessage
-from wfx.schema.data import Data as LfxData
-from wfx.schema.message import Message as LfxMessage
+from wfx.schema.data import Data as WfxData
+from wfx.schema.message import Message as WfxMessage
 
 
 class TestDuckTypingData:
@@ -15,17 +15,17 @@ class TestDuckTypingData:
 
     def test_wfx_data_isinstance_aiexec_data(self):
         """Test that wfx.Data instance is recognized as aiexec.Data."""
-        wfx_data = LfxData(data={"key": "value"})
+        wfx_data = WfxData(data={"key": "value"})
         assert isinstance(wfx_data, AiexecData)
 
     def test_aiexec_data_isinstance_wfx_data(self):
         """Test that aiexec.Data instance is recognized as wfx.Data."""
         aiexec_data = AiexecData(data={"key": "value"})
-        assert isinstance(aiexec_data, LfxData)
+        assert isinstance(aiexec_data, WfxData)
 
     def test_data_equality_across_modules(self):
         """Test that Data objects from different modules are equal."""
-        wfx_data = LfxData(data={"key": "value"})
+        wfx_data = WfxData(data={"key": "value"})
         aiexec_data = AiexecData(data={"key": "value"})
         assert wfx_data == aiexec_data
 
@@ -35,14 +35,14 @@ class TestDuckTypingData:
         def process_data(data: AiexecData) -> str:
             return data.get_text()
 
-        wfx_data = LfxData(data={"text": "hello"})
+        wfx_data = WfxData(data={"text": "hello"})
         # Should not raise type error
         result = process_data(wfx_data)
         assert result == "hello"
 
     def test_data_model_dump_compatible(self):
         """Test that model_dump works across module boundaries."""
-        wfx_data = LfxData(data={"key": "value"})
+        wfx_data = WfxData(data={"key": "value"})
         aiexec_data = AiexecData(**wfx_data.model_dump())
         assert aiexec_data.data == {"key": "value"}
 
@@ -52,17 +52,17 @@ class TestDuckTypingMessage:
 
     def test_wfx_message_isinstance_aiexec_message(self):
         """Test that wfx.Message instance is recognized as aiexec.Message."""
-        wfx_message = LfxMessage(text="hello")
+        wfx_message = WfxMessage(text="hello")
         assert isinstance(wfx_message, AiexecMessage)
 
     def test_aiexec_message_isinstance_wfx_message(self):
         """Test that aiexec.Message instance is recognized as wfx.Message."""
         aiexec_message = AiexecMessage(text="hello")
-        assert isinstance(aiexec_message, LfxMessage)
+        assert isinstance(aiexec_message, WfxMessage)
 
     def test_message_equality_across_modules(self):
         """Test that Message objects from different modules are equal."""
-        wfx_message = LfxMessage(text="hello", sender="user")
+        wfx_message = WfxMessage(text="hello", sender="user")
         aiexec_message = AiexecMessage(text="hello", sender="user")
         # Note: Direct equality might not work due to timestamps
         assert wfx_message.text == aiexec_message.text
@@ -74,14 +74,14 @@ class TestDuckTypingMessage:
         def process_message(msg: AiexecMessage) -> str:
             return f"Processed: {msg.text}"
 
-        wfx_message = LfxMessage(text="hello")
+        wfx_message = WfxMessage(text="hello")
         # Should not raise type error
         result = process_message(wfx_message)
         assert result == "Processed: hello"
 
     def test_message_model_dump_compatible(self):
         """Test that model_dump works across module boundaries."""
-        wfx_message = LfxMessage(text="hello", sender="user")
+        wfx_message = WfxMessage(text="hello", sender="user")
         dump = wfx_message.model_dump()
         aiexec_message = AiexecMessage(**dump)
         assert aiexec_message.text == "hello"
@@ -89,10 +89,10 @@ class TestDuckTypingMessage:
 
     def test_message_inherits_data_duck_typing(self):
         """Test that Message inherits duck-typing from Data."""
-        wfx_message = LfxMessage(text="hello")
+        wfx_message = WfxMessage(text="hello")
         # Should work as Data too
         assert isinstance(wfx_message, AiexecData)
-        assert isinstance(wfx_message, LfxData)
+        assert isinstance(wfx_message, WfxData)
 
 
 class TestDuckTypingWithInputs:
@@ -102,9 +102,9 @@ class TestDuckTypingWithInputs:
         """Test that MessageInput accepts wfx.Message."""
         from wfx.inputs.inputs import MessageInput
 
-        wfx_message = LfxMessage(text="hello")
+        wfx_message = WfxMessage(text="hello")
         msg_input = MessageInput(name="test", value=wfx_message)
-        assert isinstance(msg_input.value, (LfxMessage, AiexecMessage))
+        assert isinstance(msg_input.value, (WfxMessage, AiexecMessage))
 
     def test_message_input_converts_cross_module(self):
         """Test that MessageInput handles cross-module Messages."""
@@ -119,7 +119,7 @@ class TestDuckTypingWithInputs:
         """Test that DataInput accepts wfx.Data."""
         from wfx.inputs.inputs import DataInput
 
-        wfx_data = LfxData(data={"key": "value"})
+        wfx_data = WfxData(data={"key": "value"})
         data_input = DataInput(name="test", value=wfx_data)
         assert data_input.value == wfx_data
 
@@ -136,7 +136,7 @@ class TestDuckTypingEdgeCases:
 
         custom = CustomModel(value="test")
         # Should not be considered a Data
-        assert not isinstance(custom, LfxData)
+        assert not isinstance(custom, WfxData)
         assert not isinstance(custom, AiexecData)
 
     def test_non_pydantic_model_not_cross_module(self):
@@ -147,7 +147,7 @@ class TestDuckTypingEdgeCases:
                 self.data = {}
 
         fake = FakeData()
-        assert not isinstance(fake, LfxData)
+        assert not isinstance(fake, WfxData)
         assert not isinstance(fake, AiexecData)
 
     def test_missing_fields_not_cross_module(self):
@@ -159,7 +159,7 @@ class TestDuckTypingEdgeCases:
 
         partial = PartialData(text_key="text")
         # Should not be considered a full Data (missing data field)
-        assert not isinstance(partial, LfxData)
+        assert not isinstance(partial, WfxData)
         assert not isinstance(partial, AiexecData)
 
 
@@ -194,7 +194,7 @@ class TestDuckTypingInputMixin:
         from wfx.inputs.inputs import MessageInput
 
         # Create with wfx Message
-        wfx_msg = LfxMessage(text="hello")
+        wfx_msg = WfxMessage(text="hello")
         input1 = MessageInput(name="test1", value=wfx_msg)
 
         # Create with aiexec Message

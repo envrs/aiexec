@@ -14,6 +14,7 @@ from wfx.log.logger import logger
 from aiexec.services.base import Service
 from aiexec.services.telemetry.opentelemetry import OpenTelemetry
 from aiexec.services.telemetry.schema import (
+    ComponentIndexPayload,
     ComponentPayload,
     ExceptionPayload,
     PlaygroundPayload,
@@ -24,8 +25,8 @@ from aiexec.services.telemetry.schema import (
 from aiexec.utils.version import get_version_info
 
 if TYPE_CHECKING:
-    from pydantic import BaseModel
     from wfx.services.settings.service import SettingsService
+    from pydantic import BaseModel
 
 
 class TelemetryService(Service):
@@ -144,6 +145,9 @@ class TelemetryService(Service):
 
     async def log_package_component(self, payload: ComponentPayload) -> None:
         await self._queue_event((self.send_telemetry_data, payload, "component"))
+
+    async def log_component_index(self, payload: ComponentIndexPayload) -> None:
+        await self._queue_event((self.send_telemetry_data, payload, "component_index"))
 
     async def log_exception(self, exc: Exception, context: str) -> None:
         """Log unhandled exceptions to telemetry.

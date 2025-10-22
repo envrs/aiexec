@@ -56,7 +56,7 @@ beforeAll(() => {
   };
 });
 
-after all(() => {
+afterAll(() => {
   console.error = originalError;
   console.warn = originalWarn;
 });

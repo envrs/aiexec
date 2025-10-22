@@ -12,10 +12,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 import pandas as pd
-from aiexec.services.auth.utils import decrypt_api_key, encrypt_api_key
-from aiexec.services.database.models.user.crud import get_user_by_id
 from cryptography.fernet import InvalidToken
 from langchain_chroma import Chroma
+from aiexec.services.auth.utils import decrypt_api_key, encrypt_api_key
+from aiexec.services.database.models.user.crud import get_user_by_id
 
 from wfx.base.knowledge_bases.knowledge_base_utils import get_knowledge_bases
 from wfx.base.models.openai_constants import OPENAI_EMBEDDING_MODEL_NAMES

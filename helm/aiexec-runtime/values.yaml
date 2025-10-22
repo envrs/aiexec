@@ -1,0 +1,138 @@
+replicaCount: 1
+
+image:
+  repository: "khulnasoft/aiexec"
+  pullPolicy: Always
+  tag: latest
+
+downloadFlows:
+  path: /app/flows
+#  flows:
+#    - url: https://raw.githubusercontent.com/khulnasoft/aiexec/dev/tests/data/basic_example.json
+#      basicAuth: "myuser:mypassword"
+#      headers:
+#        Authorization: "Bearer my-key"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+  runAsNonRoot: true
+  runAsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsNonRoot: true
+  runAsGroup: 1000
+
+env:
+  - name: AIEXEC_PORT
+    value: "7860"
+  - name: AIEXEC_LOG_LEVEL
+    value: "INFO"
+  - name: AIEXEC_DATABASE_URL
+    value: "sqlite:////app/db/aiexec.db"
+  - name: AIEXEC_ALEMBIC_LOG_FILE
+    value: "/app/db/alembic.log"
+  - name: AIEXEC_UPDATE_STARTER_PROJECTS
+    value: "false"
+#  - name: OPENAI_API_KEY
+#    valueFrom:
+#      secretKeyRef:
+#        name: aiexec-secrets
+#        key: openai-key
+
+
+service:
+  type: ClusterIP
+  port: 7860
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /api/v1/version
+    port: http
+readinessProbe:
+  httpGet:
+    path: /api/v1/version
+    port: http
+
+volumes:
+  - name: flows
+    emptyDir: {}
+  - name: tmp
+    emptyDir: {}
+  - name: data
+    emptyDir: {}
+  - name: db
+    emptyDir: {}
+
+volumeMounts:
+  - name: flows
+    mountPath: /app/flows
+    readOnly: false
+  - name: tmp
+    mountPath: /tmp
+    readOnly: false
+  - name: data
+    mountPath: /app/data
+    readOnly: false
+  - name: db
+    mountPath: /app/db
+    readOnly: false
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

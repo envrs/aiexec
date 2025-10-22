@@ -5,8 +5,8 @@ from collections import OrderedDict
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from typing_extensions import override
 from wfx.log.logger import logger
+from typing_extensions import override
 
 from aiexec.serialization.serialization import serialize
 from aiexec.services.tracing.base import BaseTracer
@@ -81,7 +81,7 @@ class LangFuseTracer(BaseTracer):
     @override
     def add_trace(
         self,
-        trace_id: str,  # actually component id
+        trace_id: str,  # actualy component id
         trace_name: str,
         trace_type: str,
         inputs: dict[str, Any],

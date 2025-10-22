@@ -24,7 +24,7 @@ ENV UV_LINK_MODE=copy
 # Workspace root metadata + lockfile
 COPY pyproject.toml uv.lock ./
 
-# Member's pyproject so uv knows about 'lfx' (no source yet, better cache)
+# Member's pyproject so uv knows about 'wfx' (no source yet, better cache)
 COPY src/wfx/pyproject.toml /app/src/wfx/pyproject.toml
 COPY src/wfx/README.md /app/src/wfx/README.md
 
@@ -60,7 +60,7 @@ COPY --from=builder --chown=1000 /app/.venv /app/.venv
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
-LABEL org.opencontainers.image.title=lfx
+LABEL org.opencontainers.image.title=wfx
 LABEL org.opencontainers.image.authors=['Aiexec']
 LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.url=https://github.com/khulnasoft/aiexec

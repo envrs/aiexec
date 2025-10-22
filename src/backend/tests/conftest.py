@@ -12,6 +12,11 @@ from uuid import UUID, uuid4
 import anyio
 import orjson
 import pytest
+from asgi_lifespan import LifespanManager
+from blockbuster import blockbuster_ctx
+from dotenv import load_dotenv
+from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
 from aiexec.initial_setup.constants import STARTER_FOLDER_NAME
 from aiexec.main import create_app
 from aiexec.services.auth.utils import get_password_hash
@@ -23,20 +28,15 @@ from aiexec.services.database.models.user.model import User, UserCreate, UserRea
 from aiexec.services.database.models.vertex_builds.crud import delete_vertex_builds_by_flow_id
 from aiexec.services.database.utils import session_getter
 from aiexec.services.deps import get_db_service, session_scope
-from asgi_lifespan import LifespanManager
-from blockbuster import blockbuster_ctx
-from dotenv import load_dotenv
-from fastapi.testclient import TestClient
-from httpx import ASGITransport, AsyncClient
+from wfx.components.input_output import ChatInput
+from wfx.graph import Graph
+from wfx.log.logger import logger
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, SQLModel, create_engine, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel.pool import StaticPool
 from typer.testing import CliRunner
-from wfx.components.input_output import ChatInput
-from wfx.graph import Graph
-from wfx.log.logger import logger
 
 from tests.api_keys import get_openai_api_key
 
@@ -131,7 +131,7 @@ def pytest_configure(config):
     pytest.LOOP_TEST = data_path / "LoopTest.json"
     pytest.CODE_WITH_SYNTAX_ERROR = """
 def get_text():
-    return "Hello World"
+    retun "Hello World"
     """
 
     # validate that all the paths are correct and the files exist
@@ -150,6 +150,18 @@ def get_text():
         pytest.LOOP_TEST,
     ]:
         assert path.exists(), f"File {path} does not exist. Available files: {list(data_path.iterdir())}"
+
+
+# def _has_nonempty_env(var: str) -> bool:
+#     return bool((os.getenv(var) or "").strip())
+
+
+# def pytest_runtest_setup(item):
+#     """Auto-skip tests marked with `api_key_required` when no valid OPENAI_API_KEY is provided."""
+#     if item.get_closest_marker("api_key_required") and not _has_nonempty_env("OPENAI_API_KEY"):
+#         import pytest as _pytest
+
+#         _pytest.skip("OPENAI_API_KEY is not set or is empty")
 
 
 def pytest_collection_modifyitems(config, items):  # noqa: ARG001

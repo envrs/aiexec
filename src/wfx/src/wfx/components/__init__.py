@@ -3,157 +3,214 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from wfx.components._importing import import_mod
-from wfx.log.logger import logger
 
-# Import the component loader
-try:
-    from wfx._assets.component_loader import is_development_mode, load_component_index
-except ImportError:
-    # Fallback if component loader is not available
-    load_component_index = None
-
-    def is_development_mode():
-        return False
-
-
+if TYPE_CHECKING:
+    # These imports are only for type checking and match _dynamic_imports
+    from wfx.components import (
+        FAISS,
+        Notion,
+        agentql,
+        agents,
+        aiml,
+        amazon,
+        anthropic,
+        apify,
+        arxiv,
+        assemblyai,
+        azure,
+        baidu,
+        bing,
+        cassandra,
+        chains,
+        chroma,
+        cleanlab,
+        clickhouse,
+        cloudflare,
+        cohere,
+        composio,
+        confluence,
+        couchbase,
+        crewai,
+        custom_component,
+        data,
+        datastax,
+        deactivated,
+        deepseek,
+        docling,
+        documentloaders,
+        duckduckgo,
+        elastic,
+        embeddings,
+        exa,
+        firecrawl,
+        git,
+        glean,
+        google,
+        groq,
+        helpers,
+        homeassistant,
+        huggingface,
+        ibm,
+        icosacomputing,
+        input_output,
+        jigsawstack,
+        langchain_utilities,
+        langwatch,
+        link_extractors,
+        lmstudio,
+        logic,
+        maritalk,
+        mem0,
+        milvus,
+        mistral,
+        models,
+        mongodb,
+        needle,
+        notdiamond,
+        novita,
+        nvidia,
+        olivya,
+        ollama,
+        openai,
+        openrouter,
+        output_parsers,
+        perplexity,
+        pgvector,
+        pinecone,
+        processing,
+        prototypes,
+        qdrant,
+        redis,
+        sambanova,
+        scrapegraph,
+        searchapi,
+        serpapi,
+        supabase,
+        tavily,
+        textsplitters,
+        toolkits,
+        tools,
+        twelvelabs,
+        unstructured,
+        upstash,
+        vectara,
+        vectorstores,
+        vertexai,
+        vlmrun,
+        weaviate,
+        wikipedia,
+        wolframalpha,
+        xai,
+        yahoosearch,
+        youtube,
+        zep,
+    )
 
 
 # Dynamic imports mapping - maps both modules and individual components
-_dynamic_imports = {}
+_dynamic_imports = {
+    # Category modules (existing functionality)
+    "agentql": "__module__",
+    "agents": "__module__",
+    "aiml": "__module__",
+    "amazon": "__module__",
+    "anthropic": "__module__",
+    "apify": "__module__",
+    "arxiv": "__module__",
+    "assemblyai": "__module__",
+    "azure": "__module__",
+    "baidu": "__module__",
+    "bing": "__module__",
+    "cassandra": "__module__",
+    "chains": "__module__",
+    "chroma": "__module__",
+    "cleanlab": "__module__",
+    "clickhouse": "__module__",
+    "cloudflare": "__module__",
+    "cohere": "__module__",
+    "composio": "__module__",
+    "confluence": "__module__",
+    "couchbase": "__module__",
+    "crewai": "__module__",
+    "custom_component": "__module__",
+    "data": "__module__",
+    "datastax": "__module__",
+    "deactivated": "__module__",
+    "deepseek": "__module__",
+    "docling": "__module__",
+    "documentloaders": "__module__",
+    "duckduckgo": "__module__",
+    "elastic": "__module__",
+    "embeddings": "__module__",
+    "exa": "__module__",
+    "FAISS": "__module__",
+    "firecrawl": "__module__",
+    "git": "__module__",
+    "glean": "__module__",
+    "google": "__module__",
+    "groq": "__module__",
+    "helpers": "__module__",
+    "homeassistant": "__module__",
+    "huggingface": "__module__",
+    "ibm": "__module__",
+    "icosacomputing": "__module__",
+    "input_output": "__module__",
+    "jigsawstack": "__module__",
+    "langchain_utilities": "__module__",
+    "langwatch": "__module__",
+    "link_extractors": "__module__",
+    "lmstudio": "__module__",
+    "logic": "__module__",
+    "maritalk": "__module__",
+    "mem0": "__module__",
+    "milvus": "__module__",
+    "mistral": "__module__",
+    "models": "__module__",
+    "mongodb": "__module__",
+    "needle": "__module__",
+    "notdiamond": "__module__",
+    "Notion": "__module__",
+    "novita": "__module__",
+    "nvidia": "__module__",
+    "olivya": "__module__",
+    "ollama": "__module__",
+    "openai": "__module__",
+    "openrouter": "__module__",
+    "output_parsers": "__module__",
+    "perplexity": "__module__",
+    "pgvector": "__module__",
+    "pinecone": "__module__",
+    "processing": "__module__",
+    "prototypes": "__module__",
+    "qdrant": "__module__",
+    "redis": "__module__",
+    "sambanova": "__module__",
+    "scrapegraph": "__module__",
+    "searchapi": "__module__",
+    "serpapi": "__module__",
+    "supabase": "__module__",
+    "tavily": "__module__",
+    "textsplitters": "__module__",
+    "toolkits": "__module__",
+    "tools": "__module__",
+    "twelvelabs": "__module__",
+    "unstructured": "__module__",
+    "upstash": "__module__",
+    "vectara": "__module__",
+    "vectorstores": "__module__",
+    "vertexai": "__module__",
+    "vlmrun": "__module__",
+    "weaviate": "__module__",
+    "wikipedia": "__module__",
+    "wolframalpha": "__module__",
+    "xai": "__module__",
+    "yahoosearch": "__module__",
+    "youtube": "__module__",
+    "zep": "__module__",
+}
 
 # Track which modules we've already discovered to avoid re-scanning
 _discovered_modules = set()
-
-# Component index data - loaded once at startup
-_component_index = None
-
-
-def _load_component_index():
-    """Load the component index using the three-tier loading strategy."""
-    global _component_index  # noqa: PLW0603
-
-    if _component_index is not None:
-        return _component_index
-
-    try:
-        if load_component_index:
-            _component_index = load_component_index()
-            logger.debug("Loaded component index using static loader")
-        else:
-            logger.debug("Component loader not available, using fallback")
-            _component_index = _build_fallback_index()
-    except Exception as e:  # Broad exception catch needed for various component loading failures  # noqa: BLE001
-        logger.warning(f"Failed to load component index: {e}")
-        _component_index = _build_fallback_index()
-
-    return _component_index
-
-
-def _build_fallback_index():
-    """Build a fallback index using the old discovery mechanism."""
-    global _dynamic_imports  # noqa: PLW0603
-
-    # Initialize with the original dynamic imports structure
-    _dynamic_imports = {
-        # Category modules (existing functionality)
-        "agentql": "__module__",
-        "agents": "__module__",
-        "aiml": "__module__",
-        "amazon": "__module__",
-        "anthropic": "__module__",
-        "apify": "__module__",
-        "arxiv": "__module__",
-        "assemblyai": "__module__",
-        "azure": "__module__",
-        "baidu": "__module__",
-        "bing": "__module__",
-        "cassandra": "__module__",
-        "chains": "__module__",
-        "chroma": "__module__",
-        "cleanlab": "__module__",
-        "clickhouse": "__module__",
-        "cloudflare": "__module__",
-        "cohere": "__module__",
-        "composio": "__module__",
-        "confluence": "__module__",
-        "couchbase": "__module__",
-        "crewai": "__module__",
-        "custom_component": "__module__",
-        "data": "__module__",
-        "datastax": "__module__",
-        "deactivated": "__module__",
-        "deepseek": "__module__",
-        "docling": "__module__",
-        "documentloaders": "__module__",
-        "duckduckgo": "__module__",
-        "elastic": "__module__",
-        "embeddings": "__module__",
-        "exa": "__module__",
-        "FAISS": "__module__",
-        "firecrawl": "__module__",
-        "git": "__module__",
-        "glean": "__module__",
-        "google": "__module__",
-        "groq": "__module__",
-        "helpers": "__module__",
-        "homeassistant": "__module__",
-        "huggingface": "__module__",
-        "ibm": "__module__",
-        "icosacomputing": "__module__",
-        "input_output": "__module__",
-        "jigsawstack": "__module__",
-        "langchain_utilities": "__module__",
-        "langwatch": "__module__",
-        "link_extractors": "__module__",
-        "lmstudio": "__module__",
-        "logic": "__module__",
-        "maritalk": "__module__",
-        "mem0": "__module__",
-        "milvus": "__module__",
-        "mistral": "__module__",
-        "models": "__module__",
-        "mongodb": "__module__",
-        "needle": "__module__",
-        "notdiamond": "__module__",
-        "Notion": "__module__",
-        "novita": "__module__",
-        "nvidia": "__module__",
-        "olivya": "__module__",
-        "ollama": "__module__",
-        "openai": "__module__",
-        "openrouter": "__module__",
-        "output_parsers": "__module__",
-        "perplexity": "__module__",
-        "pgvector": "__module__",
-        "pinecone": "__module__",
-        "processing": "__module__",
-        "prototypes": "__module__",
-        "qdrant": "__module__",
-        "redis": "__module__",
-        "sambanova": "__module__",
-        "scrapegraph": "__module__",
-        "searchapi": "__module__",
-        "serpapi": "__module__",
-        "supabase": "__module__",
-        "tavily": "__module__",
-        "textsplitters": "__module__",
-        "toolkits": "__module__",
-        "tools": "__module__",
-        "twelvelabs": "__module__",
-        "unstructured": "__module__",
-        "upstash": "__module__",
-        "vectara": "__module__",
-        "vectorstores": "__module__",
-        "vertexai": "__module__",
-        "vlmrun": "__module__",
-        "weaviate": "__module__",
-        "wikipedia": "__module__",
-        "wolframalpha": "__module__",
-        "xai": "__module__",
-        "yahoosearch": "__module__",
-        "youtube": "__module__",
-        "zep": "__module__",
-    }
 
 
 def _discover_components_from_module(module_name):
@@ -162,6 +219,7 @@ def _discover_components_from_module(module_name):
         return
 
     try:
+        # Try to import the module and get its dynamic imports
         module = import_mod(module_name, "__module__", __spec__.parent)
 
         if hasattr(module, "_dynamic_imports"):
@@ -288,34 +346,25 @@ def __getattr__(attr_name: str) -> Any:
     - components.agents (module access)
     - components.AgentComponent (direct component access)
 
-    Uses static index for instant loading when available, falls back to on-demand discovery.
+    Uses on-demand discovery - only scans modules when components are requested.
     """
     # First check if we already know about this attribute
     if attr_name not in _dynamic_imports:
-        # Try to use the component index if available
-        if load_component_index:
-            component_index = _load_component_index()
-            if component_index and "components" in component_index:
-                # Check if this is a component from the index
-                for component_info in component_index["components"].values():
-                    if component_info["name"] == attr_name:
-                        # Found the component in the index
-                        module_name = component_info["module"]
-                        file_path = component_info["file_path"]
-                        _dynamic_imports[attr_name] = f"{module_name}.{file_path}"
-                        break
-                else:
-                    # Check if this is a module from the index
-                    for module_name in component_index["modules"]:
-                        if module_name == attr_name:
-                            _dynamic_imports[attr_name] = "__module__"
-                            break
-            else:
-                # Fall back to old discovery mechanism
-                _discover_components_from_index_fallback(attr_name)
-        else:
-            # Component loader not available, use old discovery
-            _discover_components_from_index_fallback(attr_name)
+        # Try to discover components from modules that might have this component
+        # Get all module names we haven't discovered yet
+        undiscovered_modules = [
+            name
+            for name in _dynamic_imports
+            if _dynamic_imports[name] == "__module__" and name not in _discovered_modules and name != "Notion"
+        ]
+
+        # Discover components from undiscovered modules
+        # Try all undiscovered modules until we find the component or exhaust the list
+        for module_name in undiscovered_modules:
+            _discover_components_from_module(module_name)
+            # Check if we found what we're looking for
+            if attr_name in _dynamic_imports:
+                break
 
     # If still not found, raise AttributeError
     if attr_name not in _dynamic_imports:
@@ -359,25 +408,6 @@ def __getattr__(attr_name: str) -> Any:
 
     globals()[attr_name] = result
     return result
-
-
-def _discover_components_from_index_fallback(attr_name: str) -> None:
-    """Fallback discovery mechanism when component index is not available."""
-    # Try to discover components from modules that might have this component
-    # Get all module names we haven't discovered yet
-    undiscovered_modules = [
-        name
-        for name in _dynamic_imports
-        if _dynamic_imports[name] == "__module__" and name not in _discovered_modules and name != "Notion"
-    ]
-
-    # Discover components from undiscovered modules
-    # Try all undiscovered modules until we find the component or exhaust the list
-    for module_name in undiscovered_modules:
-        _discover_components_from_module(module_name)
-        # Check if we found what we're looking for
-        if attr_name in _dynamic_imports:
-            break
 
 
 def __dir__() -> list[str]:

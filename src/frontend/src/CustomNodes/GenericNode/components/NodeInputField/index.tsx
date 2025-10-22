@@ -14,11 +14,11 @@ import { cn } from "@/utils/utils";
 import { default as IconComponent } from "../../../../components/common/genericIconComponent";
 import ShadTooltip from "../../../../components/common/shadTooltipComponent";
 import {
-  AIEXEC_SUPPORTED_TYPES,
   DEFAULT_TOOLSET_PLACEHOLDER,
   FLEX_VIEW_TYPES,
   ICON_STROKE_WIDTH,
   IS_AUTO_LOGIN,
+  AIEXEC_SUPPORTED_TYPES,
 } from "../../../../constants/constants";
 import useFlowStore from "../../../../stores/flowStore";
 import { useTypesStore } from "../../../../stores/typesStore";

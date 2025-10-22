@@ -113,7 +113,7 @@ describe("useFlowStore", () => {
     },
   } as AllNodeType;
 
-  const _mockEdge: EdgeType = {
+  const mockEdge: EdgeType = {
     id: "edge-1",
     source: "node-1",
     target: "node-2",

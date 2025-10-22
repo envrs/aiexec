@@ -121,7 +121,7 @@ export default function CopyFieldAreaComponent({
           aria-hidden="true"
         />
       )}
-      <div onClick={handleCopy} role="button">
+      <div onClick={handleCopy}>
         <IconComponent
           dataTestId={`btn_copy_${id?.toLowerCase()}${
             editNode ? "_advanced" : ""

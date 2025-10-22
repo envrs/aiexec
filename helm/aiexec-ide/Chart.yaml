@@ -1,0 +1,14 @@
+apiVersion: v2
+name: aiexec-ide
+description: Helm chart for Aiexec IDE
+type: application
+version: 0.1.1
+appVersion: latest
+maintainers:
+  - name: Aiexec
+    email: contact@aiexec.org
+dependencies:
+  - name: postgresql
+    version: 15.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled

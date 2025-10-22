@@ -63,7 +63,8 @@ class TestRunStarterProjectsBackwardCompatibility:
         """
         # Known failing starter projects due to component-level import bugs in 1.6.0
         known_failing_projects = {
-            "News Aggregator.json": "Contains SaveToFile component with aiexec.api import bug (fixed in later versions)"
+            "News Aggregator.json": "Contains SaveToFile component with aiexec.api import bug "
+            "(fixed in later versions)"
         }
 
         if template_file.name in known_failing_projects:
@@ -94,7 +95,7 @@ class TestRunStarterProjectsBackwardCompatibility:
                 pytest.fail(f"Aiexec import error found in 1.6.0 template {template_file.name}.\nError: {error_line}")
 
             # Check for wfx import errors (these indicate structural issues)
-            if "No module named 'lfx." in all_output or "Module wfx." in all_output:
+            if "No module named 'wfx." in all_output or "Module wfx." in all_output:
                 # Extract the specific error for better debugging
                 import re
 
@@ -110,7 +111,7 @@ class TestRunStarterProjectsBackwardCompatibility:
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
                         elif "Module wfx." in line and "not found" in line:
-                            match = re.search(r"Module (lfx\.[^\s]+)", line)
+                            match = re.search(r"Module (wfx\.[^\s]+)", line)
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
 

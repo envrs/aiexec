@@ -5,9 +5,9 @@ from uuid import uuid4
 import pytest
 from aiexec.services.database.models.vertex_builds.crud import log_vertex_build
 from aiexec.services.database.models.vertex_builds.model import VertexBuildBase, VertexBuildTable
+from wfx.services.settings.base import Settings
 from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from wfx.services.settings.base import Settings
 
 
 @pytest.fixture(autouse=True)

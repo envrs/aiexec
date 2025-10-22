@@ -178,7 +178,7 @@ def on_test_stop(environment, **_kwargs):
     _env_bags.pop(environment, None)
 
 
-class BaseLfxUser(FastHttpUser):
+class BaseWfxUser(FastHttpUser):
     """Base class for all WFX API load testing user types."""
 
     abstract = True
@@ -241,7 +241,7 @@ class BaseLfxUser(FastHttpUser):
             return response.failure(f"HTTP {response.status_code}")
 
 
-class NormalUser(BaseLfxUser):
+class NormalUser(BaseWfxUser):
     """Normal user simulating typical API interactions.
 
     Based on the main stress test patterns with realistic message distribution.
@@ -269,7 +269,7 @@ class NormalUser(BaseLfxUser):
         self.make_request(message_type="complex")
 
 
-class AggressiveUser(BaseLfxUser):
+class AggressiveUser(BaseWfxUser):
     """Aggressive user with minimal wait times.
 
     Tests the system under extreme concurrent load.
@@ -284,7 +284,7 @@ class AggressiveUser(BaseLfxUser):
         self.make_request(message_type="simple", tag_suffix="-rapid")
 
 
-class SustainedLoadUser(BaseLfxUser):
+class SustainedLoadUser(BaseWfxUser):
     """Maintains exactly 1 request/second for steady load testing.
 
     Based on constant throughput testing patterns.
@@ -299,7 +299,7 @@ class SustainedLoadUser(BaseLfxUser):
         self.make_request(message_type="medium", tag_suffix="-steady")
 
 
-class TailLatencyHunter(BaseLfxUser):
+class TailLatencyHunter(BaseWfxUser):
     """Mixed workload designed to expose tail latency issues.
 
     Alternates between light and heavy requests to stress the system.
@@ -317,7 +317,7 @@ class TailLatencyHunter(BaseLfxUser):
             self.make_request(message_type="large", tag_suffix="-tail-heavy")
 
 
-class ScalabilityTestUser(BaseLfxUser):
+class ScalabilityTestUser(BaseWfxUser):
     """Tests for the scalability cliff at 30 users.
 
     Uses patterns that specifically stress concurrency limits.
@@ -332,7 +332,7 @@ class ScalabilityTestUser(BaseLfxUser):
         self.make_request(message_type="medium", tag_suffix="-scale")
 
 
-class BurstUser(BaseLfxUser):
+class BurstUser(BaseWfxUser):
     """Sends bursts of 10 requests to test connection pooling.
 
     Based on connection pool exhaustion test patterns.

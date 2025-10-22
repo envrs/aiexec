@@ -1,0 +1,29 @@
+postgresql:
+  enabled: true
+  fullnameOverride: "aiexec-ide-postgresql-service"
+  auth:
+    username: "aiexec"
+    password: "aiexec-postgres"
+    database: "aiexec-db"
+
+aiexec:
+  backend:
+    externalDatabase:
+      enabled: true
+      driver:
+        value: "postgresql"
+      host:
+        value: "aiexec-ide-postgresql-service"
+      port:
+        value: "5432"
+      database:
+        value: "aiexec-db"
+      user:
+        value: "aiexec"
+      password:
+        valueFrom:
+          secretKeyRef:
+            key: "password"
+            name: "aiexec-ide-postgresql-service"
+    sqlite:
+      enabled: false

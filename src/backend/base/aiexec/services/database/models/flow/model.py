@@ -9,11 +9,11 @@ from uuid import UUID, uuid4
 import emoji
 from emoji import purely_emoji
 from fastapi import HTTPException, status
+from wfx.log.logger import logger
 from pydantic import BaseModel, ValidationInfo, field_serializer, field_validator
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy import Text, UniqueConstraint, text
 from sqlmodel import JSON, Column, Field, Relationship, SQLModel
-from wfx.log.logger import logger
 
 from aiexec.schema.data import Data
 
@@ -30,7 +30,7 @@ class AccessTypeEnum(str, Enum):
 
 
 class FlowBase(SQLModel):
-    # Suppresses warnings during migrations
+    # Supresses warnings during migrations
     __mapper_args__ = {"confirm_deleted_rows": False}
 
     name: str = Field(index=True)

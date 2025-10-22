@@ -1,11 +1,11 @@
 from typing import Any
 
 from langchain_anthropic import ChatAnthropic
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 
 from wfx.base.models.anthropic_constants import ANTHROPIC_MODELS
 from wfx.base.models.google_generative_ai_constants import GOOGLE_GENERATIVE_AI_MODELS
+from wfx.base.models.google_generative_ai_model import ChatGoogleGenerativeAIFixed
 from wfx.base.models.model import LCModelComponent
 from wfx.base.models.openai_constants import OPENAI_CHAT_MODEL_NAMES, OPENAI_REASONING_MODEL_NAMES
 from wfx.field_typing import LanguageModel
@@ -112,7 +112,7 @@ class LanguageModelComponent(LCModelComponent):
             if not self.api_key:
                 msg = "Google API key is required when using Google provider"
                 raise ValueError(msg)
-            return ChatGoogleGenerativeAI(
+            return ChatGoogleGenerativeAIFixed(
                 model=model_name,
                 temperature=temperature,
                 streaming=stream,

@@ -4,8 +4,8 @@ import signal
 
 from gunicorn import glogging
 from gunicorn.app.base import BaseApplication
-from uvicorn.workers import UvicornWorker
 from wfx.log.logger import InterceptHandler
+from uvicorn.workers import UvicornWorker
 
 
 class AiexecUvicornWorker(UvicornWorker):

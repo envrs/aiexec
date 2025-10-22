@@ -1,8 +1,8 @@
 from uuid import UUID
 
+from wfx.log.logger import logger
 from sqlmodel import col, delete, select
 from sqlmodel.ext.asyncio.session import AsyncSession
-from wfx.log.logger import logger
 
 from aiexec.services.database.models.transactions.model import (
     TransactionBase,

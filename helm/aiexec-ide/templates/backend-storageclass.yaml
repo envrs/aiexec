@@ -1,0 +1,27 @@
+{{- if and .Values.aiexec.backend.sqlite.enabled (not .Values.aiexec.backend.sqlite.volume.existingStorageClassName) }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "{{ template "aiexec.fullname" . }}-sqlite"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "aiexec.name" . }}
+    chart: {{ template "aiexec.chart" . }}
+    release: {{ .Release.Name }}
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+{{- if .Values.aiexec.backend.sqlite.volume.storageClass }}
+provisioner: {{ .Values.aiexec.backend.sqlite.volume.storageClass.provisioner }}
+parameters:
+  {{- if .Values.aiexec.backend.sqlite.volume.storageClass.type }}
+  type: {{ .Values.aiexec.backend.sqlite.volume.storageClass.type }}
+  {{- end }}
+  {{- if .Values.aiexec.backend.sqlite.volume.storageClass.fsType }}
+  fsType: {{ .Values.aiexec.backend.sqlite.volume.storageClass.fsType }}
+  {{- end }}
+  {{- if .Values.aiexec.backend.sqlite.volume.storageClass.extraParams }}
+{{ toYaml .Values.aiexec.backend.sqlite.volume.storageClass.extraParams | indent 2 }}
+  {{- end }}
+{{- end }}
+{{- end }}

@@ -2,6 +2,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
+from httpx import AsyncClient
 from aiexec.api.utils.mcp.config_utils import (
     MCPServerValidationResult,
     auto_configure_starter_projects_mcp,
@@ -12,7 +13,6 @@ from aiexec.services.database.models.folder.constants import DEFAULT_FOLDER_NAME
 from aiexec.services.database.models.folder.model import Folder
 from aiexec.services.database.models.user.model import User
 from aiexec.services.deps import session_scope
-from httpx import AsyncClient
 from sqlmodel import select
 
 

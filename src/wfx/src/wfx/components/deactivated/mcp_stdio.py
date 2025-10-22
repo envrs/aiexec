@@ -19,7 +19,9 @@ class MCPStdio(Component):
     tools = types.ListToolsResult
     tool_names = [str]
     display_name = "MCP Tools (stdio) [DEPRECATED]"
-    description = "Connects to an MCP server over stdio and exposes it's tools as aiexec tools to be used by an Agent."
+    description = (
+        "Connects to an MCP server over stdio and exposes it's tools as aiexec tools to be used by an Agent."
+    )
     documentation: str = "https://docs.aiexec.org/components-custom-components"
     icon = "code"
     name = "MCPStdio"

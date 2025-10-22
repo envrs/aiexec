@@ -20,6 +20,10 @@ describe("NodeToolbar Minimal Condition Logic", () => {
         setShowNode(!showNode);
         return;
       }
+      // Would show notice in real component
+      console.log(
+        "Minimization only available for components with one handle or fewer.",
+      );
     }, [isMinimal, showNode, setShowNode]);
 
     useEffect(() => {

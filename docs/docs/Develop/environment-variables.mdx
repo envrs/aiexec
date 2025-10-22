@@ -403,7 +403,7 @@ To define environment variables for Windows using PowerShell, do the following:
     [System.Environment]::SetEnvironmentVariable("AIEXEC_CONFIG_DIR", "C:\Users\your_user\.aiexec_config", "User")
     ```
 
-   To set an environment variable for all users (you must have Administrator privileges):
+   To set an environment variable for all users (you must have Administrator priveleges):
    ```powershell
    [System.Environment]::SetEnvironmentVariable("AIEXEC_CONFIG_DIR", "C:\Aiexec\Config", "Machine")
    ```
@@ -452,8 +452,8 @@ The following environment variables set base Aiexec server configuration, such a
 | `AIEXEC_HEALTH_CHECK_MAX_RETRIES` | Integer | `5` | Set the maximum number of retries for Aiexec's server status health checks. |
 | `AIEXEC_WORKERS` | Integer | `1` | Number of worker processes. |
 | `AIEXEC_WORKER_TIMEOUT` | Integer | `300` | Worker timeout in seconds. |
-| `AIEXEC_SSL_CERT_FILE` | String | Not set | Path to the SSL certificate file on the local system for SSL-encrypted connections. |
-| `AIEXEC_SSL_KEY_FILE` | String | Not set | Path to the SSL key file on the local system for SSL-encrypted connections. |
+| `AIEXEC_SSL_CERT_FILE` | String | Not set | Path to the SSL certificate file for enabling HTTPS on the Aiexec web server. This is separate from [database SSL connections](/configuration-custom-database#connect-aiexec-to-a-local-postgresql-database). |
+| `AIEXEC_SSL_KEY_FILE` | String | Not set | Path to the SSL key file for enabling HTTPS on the Aiexec web server. This is separate from [database SSL connections](/configuration-custom-database#connect-aiexec-to-a-local-postgresql-database). |
 | `AIEXEC_DEACTIVATE_TRACING` | Boolean | `False` | Deactivate tracing functionality. |
 | `AIEXEC_CELERY_ENABLED` | Boolean | `False` | Enable Celery for distributed task processing. |
 

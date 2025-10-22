@@ -87,7 +87,7 @@ class TestRunStarterProjects:
                 pytest.fail(f"Aiexec import error found in {template_file.name}.\nError: {error_line}")
 
             # Check for wfx import errors (these indicate structural issues)
-            if "No module named 'lfx." in all_output or "Module wfx." in all_output:
+            if "No module named 'wfx." in all_output or "Module wfx." in all_output:
                 # Extract the specific error for better debugging
                 import re
 
@@ -103,7 +103,7 @@ class TestRunStarterProjects:
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
                         elif "Module wfx." in line and "not found" in line:
-                            match = re.search(r"Module (lfx\.[^\s]+)", line)
+                            match = re.search(r"Module (wfx\.[^\s]+)", line)
                             if match:
                                 error_lines.append(f"  - Missing module: {match.group(1)}")
 

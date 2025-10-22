@@ -105,6 +105,7 @@ def _setup_compatibility_modules():
         "aiexec.base.models.novita_constants": "wfx.base.models.novita_constants",
         "aiexec.base.models.ollama_constants": "wfx.base.models.ollama_constants",
         "aiexec.base.models.sambanova_constants": "wfx.base.models.sambanova_constants",
+        "aiexec.base.models.cometapi_constants": "wfx.base.models.cometapi_constants",
         "aiexec.base.prompts": "wfx.base.prompts",
         "aiexec.base.prompts.api_utils": "wfx.base.prompts.api_utils",
         "aiexec.base.prompts.utils": "wfx.base.prompts.utils",

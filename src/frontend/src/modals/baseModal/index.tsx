@@ -168,7 +168,7 @@ interface BaseModalProps {
   size?:
     | "notice"
     | "x-small"
-    | "rectangular"
+    | "retangular"
     | "smaller"
     | "small"
     | "small-update"
@@ -249,7 +249,7 @@ function BaseModal({
 
   const formClasses = "flex flex-col flex-1 gap-6 overflow-hidden";
 
-  //UPDATE COLORS AND STYLE CLASSES
+  //UPDATE COLORS AND STYLE CLASSSES
   return (
     <>
       {type === "modal" ? (
