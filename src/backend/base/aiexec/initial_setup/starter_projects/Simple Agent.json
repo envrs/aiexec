@@ -191,7 +191,7 @@
             "legacy": false,
             "lf_version": "1.2.0",
             "metadata": {
-              "code_hash": "5fcfa26be77d",
+              "code_hash": "ff9c62233a8e",
               "dependencies": {
                 "dependencies": [
                   {
@@ -358,7 +358,7 @@
             "key": "ChatInput",
             "legacy": false,
             "metadata": {
-              "code_hash": "f701f686b325",
+              "code_hash": "d360c344e222",
               "dependencies": {
                 "dependencies": [
                   {
@@ -616,7 +616,7 @@
             "key": "ChatOutput",
             "legacy": false,
             "metadata": {
-              "code_hash": "9647f4d2f4b4",
+              "code_hash": "0067f8bbc35e",
               "dependencies": {
                 "dependencies": [
                   {
@@ -884,7 +884,7 @@
             "icon": "bot",
             "legacy": false,
             "metadata": {
-              "code_hash": "72ff02a84bcb",
+              "code_hash": "a5b16c0cb1b1",
               "dependencies": {
                 "dependencies": [
                   {
@@ -1519,7 +1519,7 @@
             "key": "URLComponent",
             "legacy": false,
             "metadata": {
-              "code_hash": "cdb7d379306e",
+              "code_hash": "ac1a45e8838f",
               "dependencies": {
                 "dependencies": [
                   {

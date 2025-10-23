@@ -8,10 +8,10 @@ from typing import TYPE_CHECKING, Annotated, Any
 
 from fastapi import Depends, HTTPException, Query
 from fastapi_pagination import Params
-from wfx.graph.graph.base import Graph
-from wfx.log.logger import logger
 from sqlalchemy import delete
 from sqlmodel.ext.asyncio.session import AsyncSession
+from wfx.graph.graph.base import Graph
+from wfx.log.logger import logger
 
 from aiexec.services.auth.utils import get_current_active_user, get_current_active_user_mcp
 from aiexec.services.database.models.flow.model import Flow
@@ -392,9 +392,9 @@ def extract_global_variables_from_headers(headers) -> dict[str, str]:
         Dictionary mapping variable names (uppercase) to their values
 
     Example:
-        headers = {"X-AIEXEC-GLOBAL-VAR-API-KEY": "secret", "Content-Type": "application/json"}
+        headers = {"X-AIEXEC-GLOBAL-VAR-API-KEY": "<API_KEY>", "Content-Type": "application/json"}
         result = extract_global_variables_from_headers(headers)
-        # Returns: {"API_KEY": "secret"}
+        # Returns: {"API_KEY": "<API_KEY>"}
     """
     variables: dict[str, str] = {}
 

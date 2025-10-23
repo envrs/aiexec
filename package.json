@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "@types/node": "^24.7.0"
+  },
+  "dependencies": {
+    "@google/gemini-cli": "^0.10.0"
   }
 }

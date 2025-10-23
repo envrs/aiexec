@@ -6,8 +6,8 @@ import types
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from wfx.log.logger import logger
 from typing_extensions import override
+from wfx.log.logger import logger
 
 from aiexec.schema.data import Data
 from aiexec.serialization.serialization import serialize

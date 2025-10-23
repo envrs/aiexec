@@ -5,8 +5,8 @@ from collections import OrderedDict
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from wfx.log.logger import logger
 from typing_extensions import override
+from wfx.log.logger import logger
 
 from aiexec.serialization.serialization import serialize
 from aiexec.services.tracing.base import BaseTracer

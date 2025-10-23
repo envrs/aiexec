@@ -12,11 +12,11 @@ export async function extractAndCleanCode(page: Page): Promise<string> {
 
   const codeContent = valueMatch[1]
     .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&#x27;/g, "'")
-    .replace(/&#x2F;/g, "/");
+    .replace(/&#x2F;/g, "/")
+    .replace(/&amp;/g, "&");
 
   return codeContent;
 }

@@ -12,11 +12,6 @@ from uuid import UUID, uuid4
 import anyio
 import orjson
 import pytest
-from asgi_lifespan import LifespanManager
-from blockbuster import blockbuster_ctx
-from dotenv import load_dotenv
-from fastapi.testclient import TestClient
-from httpx import ASGITransport, AsyncClient
 from aiexec.initial_setup.constants import STARTER_FOLDER_NAME
 from aiexec.main import create_app
 from aiexec.services.auth.utils import get_password_hash
@@ -28,15 +23,20 @@ from aiexec.services.database.models.user.model import User, UserCreate, UserRea
 from aiexec.services.database.models.vertex_builds.crud import delete_vertex_builds_by_flow_id
 from aiexec.services.database.utils import session_getter
 from aiexec.services.deps import get_db_service, session_scope
-from wfx.components.input_output import ChatInput
-from wfx.graph import Graph
-from wfx.log.logger import logger
+from asgi_lifespan import LifespanManager
+from blockbuster import blockbuster_ctx
+from dotenv import load_dotenv
+from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, SQLModel, create_engine, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel.pool import StaticPool
 from typer.testing import CliRunner
+from wfx.components.input_output import ChatInput
+from wfx.graph import Graph
+from wfx.log.logger import logger
 
 from tests.api_keys import get_openai_api_key
 

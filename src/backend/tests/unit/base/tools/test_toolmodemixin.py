@@ -19,9 +19,9 @@ from aiexec.io import (
     StrInput,
     TableInput,
 )
+from pydantic import BaseModel
 from wfx.base.tools.component_tool import ComponentToolkit
 from wfx.schema import Data
-from pydantic import BaseModel
 
 
 class AllInputsComponent(Component):

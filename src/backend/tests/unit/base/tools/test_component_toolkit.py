@@ -2,6 +2,7 @@ import sqlite3
 from pathlib import Path
 
 import pytest
+from pydantic import BaseModel
 from wfx.base.tools.component_tool import ComponentToolkit
 from wfx.components.data.sql_executor import SQLComponent
 from wfx.components.input_output.chat_output import ChatOutput
@@ -9,7 +10,6 @@ from wfx.components.langchain_utilities import ToolCallingAgentComponent
 from wfx.components.openai.openai_chat_model import OpenAIModelComponent
 from wfx.components.tools.calculator import CalculatorToolComponent
 from wfx.graph.graph.base import Graph
-from pydantic import BaseModel
 
 from tests.api_keys import get_openai_api_key
 

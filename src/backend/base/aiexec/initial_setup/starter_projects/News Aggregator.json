@@ -206,7 +206,7 @@
             "legacy": false,
             "lf_version": "1.4.3",
             "metadata": {
-              "code_hash": "37de3210aed9",
+              "code_hash": "5640146dcdc1",
               "dependencies": {
                 "dependencies": [
                   {
@@ -575,7 +575,7 @@
             "legacy": false,
             "lf_version": "1.4.3",
             "metadata": {
-              "code_hash": "f701f686b325",
+              "code_hash": "d360c344e222",
               "dependencies": {
                 "dependencies": [
                   {
@@ -857,7 +857,7 @@
             "legacy": false,
             "lf_version": "1.4.3",
             "metadata": {
-              "code_hash": "9647f4d2f4b4",
+              "code_hash": "0067f8bbc35e",
               "dependencies": {
                 "dependencies": [
                   {
@@ -1129,7 +1129,7 @@
             "last_updated": "2025-09-30T16:16:12.101Z",
             "legacy": false,
             "metadata": {
-              "code_hash": "72ff02a84bcb",
+              "code_hash": "a5b16c0cb1b1",
               "dependencies": {
                 "dependencies": [
                   {
@@ -1765,7 +1765,7 @@
             "last_updated": "2025-09-30T16:16:26.172Z",
             "legacy": false,
             "metadata": {
-              "code_hash": "df2a0603fe8f",
+              "code_hash": "4706e37c1679",
               "dependencies": {
                 "dependencies": [
                   {
@@ -1794,7 +1794,7 @@
                   },
                   {
                     "name": "google",
-                    "version": "0.8.5"
+                    "version": "2.4.3"
                   },
                   {
                     "name": "googleapiclient",

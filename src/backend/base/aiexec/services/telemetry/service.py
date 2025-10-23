@@ -25,8 +25,8 @@ from aiexec.services.telemetry.schema import (
 from aiexec.utils.version import get_version_info
 
 if TYPE_CHECKING:
-    from wfx.services.settings.service import SettingsService
     from pydantic import BaseModel
+    from wfx.services.settings.service import SettingsService
 
 
 class TelemetryService(Service):

@@ -1,4 +1,5 @@
 import pytest
+from pydantic import ValidationError
 from wfx.inputs.inputs import (
     BoolInput,
     CodeInput,
@@ -24,7 +25,6 @@ from wfx.inputs.inputs import (
     instantiate_input,
 )
 from wfx.schema.message import Message
-from pydantic import ValidationError
 
 
 def test_table_input_valid():

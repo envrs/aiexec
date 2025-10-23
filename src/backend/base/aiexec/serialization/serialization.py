@@ -8,9 +8,9 @@ from uuid import UUID
 import numpy as np
 import pandas as pd
 from langchain_core.documents import Document
-from wfx.log.logger import logger
 from pydantic import BaseModel
 from pydantic.v1 import BaseModel as BaseModelV1
+from wfx.log.logger import logger
 
 from aiexec.serialization.constants import MAX_ITEMS_LENGTH, MAX_TEXT_LENGTH
 from aiexec.services.deps import get_settings_service

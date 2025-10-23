@@ -7,9 +7,6 @@ import uuid
 from collections.abc import AsyncIterator
 from typing import TYPE_CHECKING, Any, cast
 
-from langchain_core.agents import AgentFinish
-from langchain_core.messages import AIMessage, HumanMessage
-from langchain_core.tools import StructuredTool
 from aiexec.field_typing import Tool
 from aiexec.io import BoolInput, DropdownInput, IntInput, MultilineInput, Output, TableInput
 
@@ -18,6 +15,9 @@ from aiexec.schema.data import Data
 from aiexec.schema.dotdict import dotdict
 from aiexec.schema.message import Message
 from aiexec.schema.table import EditMode
+from langchain_core.agents import AgentFinish
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.tools import StructuredTool
 from pydantic import ValidationError
 
 from wfx.base.agents.events import ExceptionWithMessageError

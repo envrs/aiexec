@@ -1,10 +1,10 @@
 from uuid import uuid4
 
 import pytest
-from httpx import AsyncClient
 from aiexec.memory import aadd_messagetables
 from aiexec.services.database.models.message.model import MessageTable
 from aiexec.services.deps import session_scope
+from httpx import AsyncClient
 
 
 @pytest.fixture

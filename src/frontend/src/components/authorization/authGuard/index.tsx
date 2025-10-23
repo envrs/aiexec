@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import {
-  IS_AUTO_LOGIN,
   AIEXEC_ACCESS_TOKEN_EXPIRE_SECONDS,
   AIEXEC_ACCESS_TOKEN_EXPIRE_SECONDS_ENV,
+  IS_AUTO_LOGIN,
 } from "@/constants/constants";
 import { useRefreshAccessToken } from "@/controllers/API/queries/auth";
 import { CustomNavigate } from "@/customization/components/custom-navigate";

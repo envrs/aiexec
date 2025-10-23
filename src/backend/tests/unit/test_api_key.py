@@ -1,6 +1,6 @@
 import pytest
-from httpx import AsyncClient
 from aiexec.services.database.models.api_key import ApiKeyCreate
+from httpx import AsyncClient
 
 
 @pytest.fixture
