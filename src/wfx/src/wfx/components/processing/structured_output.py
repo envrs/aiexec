@@ -19,7 +19,7 @@ from wfx.schema.table import EditMode
 class StructuredOutputComponent(Component):
     display_name = "Structured Output"
     description = "Uses an LLM to generate structured data. Ideal for extraction and consistency."
-    documentation: str = "https://docs.aiexec.org/components-processing#structured-output"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-processing#structured-output"
     name = "StructuredOutput"
     icon = "braces"
 

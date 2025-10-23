@@ -9,7 +9,7 @@ class AstraDBChatMemory(LCChatMemoryComponent):
     display_name = "Astra DB Chat Memory"
     description = "Retrieves and store chat messages from Astra DB."
     name = "AstraDBChatMemory"
-    documentation: str = "https://docs.aiexec.org/bundles-datastax#astra-db-chat-memory"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/bundles-datastax#astra-db-chat-memory"
     icon: str = "AstraDB"
 
     inputs = [

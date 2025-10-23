@@ -18,7 +18,7 @@ from wfx.template.field.base import Output
 class SaveToFileComponent(Component):
     display_name = "Write File"
     description = "Save data to local file, AWS S3, or Google Drive in the selected format."
-    documentation: str = "https://docs.aiexec.org/components-processing#save-file"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-processing#save-file"
     icon = "file-text"
     name = "SaveToFile"
 

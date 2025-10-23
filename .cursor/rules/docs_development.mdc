@@ -338,7 +338,7 @@ module.exports = {
 module.exports = {
   title: 'Aiexec Documentation',
   tagline: 'Build AI flows visually',
-  url: 'https://docs.aiexec.org',
+  url: 'https://aiexec-docs.khulnasoft.com',
   baseUrl: '/',
 
   themeConfig: {

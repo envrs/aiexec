@@ -76,7 +76,7 @@ class CugaComponent(ToolCallingAgentComponent):
 
     display_name: str = "Cuga"
     description: str = "Define the Cuga agent's policies, then assign it a task."
-    documentation: str = "https://docs.aiexec.org/agents"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/agents"
     icon = "bot"
     beta = True
     name = "Cuga"

@@ -6,7 +6,7 @@ from wfx.schema.message import Message
 class TextOutputComponent(TextComponent):
     display_name = "Text Output"
     description = "Sends text output via API."
-    documentation: str = "https://docs.aiexec.org/components-io#text-output"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-io#text-output"
     icon = "type"
     name = "TextOutput"
 

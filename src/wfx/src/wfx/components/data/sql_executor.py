@@ -18,7 +18,7 @@ class SQLComponent(ComponentWithCache):
 
     display_name = "SQL Database"
     description = "Executes SQL queries on SQLAlchemy-compatible databases."
-    documentation: str = "https://docs.aiexec.org/components-data#sql-database"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#sql-database"
     icon = "database"
     name = "SQLComponent"
     metadata = {"keywords": ["sql", "database", "query", "db", "fetch"]}

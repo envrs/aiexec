@@ -18,7 +18,7 @@ from wfx.schema.dotdict import dotdict
 class LanguageModelComponent(LCModelComponent):
     display_name = "Language Model"
     description = "Runs a language model given a specified provider."
-    documentation: str = "https://docs.aiexec.org/components-models"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-models"
     icon = "brain-circuit"
     category = "models"
     priority = 0  # Set priority to 0 to make it appear first

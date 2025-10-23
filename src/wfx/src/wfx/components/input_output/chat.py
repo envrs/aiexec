@@ -19,7 +19,7 @@ from wfx.utils.constants import (
 class ChatInput(ChatComponent):
     display_name = "Chat Input"
     description = "Get chat inputs from the Playground."
-    documentation: str = "https://docs.aiexec.org/components-io#chat-input"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-io#chat-input"
     icon = "MessagesSquare"
     name = "ChatInput"
     minimized = True

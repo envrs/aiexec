@@ -21,7 +21,7 @@ class AstraDBGraphVectorStoreComponent(LCVectorStoreComponent):
     display_name: str = "Astra DB Graph"
     description: str = "Implementation of Graph Vector Store using Astra DB"
     name = "AstraDBGraph"
-    documentation: str = "https://docs.aiexec.org/bundles-datastax#astra-db-graph"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/bundles-datastax#astra-db-graph"
     icon: str = "AstraDB"
 
     inputs = [

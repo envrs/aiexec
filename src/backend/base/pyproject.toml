@@ -7,12 +7,12 @@ license = "MIT"
 keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
 readme = "README.md"
 maintainers = [
-    { name = "Carlos Coelho", email = "carlos@aiexec.org" },
+    { name = "Carlos Coelho", email = "carlos@aiexec.khulnasoft.com" },
     { name = "Cristhian Zanforlin", email = "cristhian.lousa@gmail.com" },
-    { name = "Gabriel Almeida", email = "gabriel@aiexec.org" },
+    { name = "Gabriel Almeida", email = "gabriel@aiexec.khulnasoft.com" },
     { name = "Lucas Eduoli", email = "lucaseduoli@gmail.com" },
     { name = "Otávio Anovazzi", email = "otavio2204@gmail.com" },
-    { name = "Rodrigo Nader", email = "rodrigo@aiexec.org" },
+    { name = "Rodrigo Nader", email = "rodrigo@aiexec.khulnasoft.com" },
     { name = "Italo dos Anjos", email = "italojohnnydosanjos@gmail.com" },
 ]
 
@@ -230,7 +230,7 @@ build-backend = "hatchling.build"
 
 [project.urls]
 Repository = "https://github.com/khulnasoft/aiexec"
-Documentation = "https://docs.aiexec.org"
+Documentation = "https://aiexec-docs.khulnasoft.com"
 
 # Optional dependencies for uv
 [project.optional-dependencies]

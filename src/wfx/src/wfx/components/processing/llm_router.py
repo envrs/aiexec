@@ -17,7 +17,7 @@ from wfx.template.field.base import Output
 class LLMRouterComponent(Component):
     display_name = "LLM Router"
     description = "Routes the input to the most appropriate LLM based on OpenRouter model specifications"
-    documentation: str = "https://docs.aiexec.org/components-processing#llm-router"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-processing#llm-router"
     icon = "git-branch"
 
     # Constants for magic values

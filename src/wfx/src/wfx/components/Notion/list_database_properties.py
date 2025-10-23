@@ -12,7 +12,7 @@ from wfx.schema.data import Data
 class NotionDatabaseProperties(LCToolComponent):
     display_name: str = "List Database Properties "
     description: str = "Retrieve properties of a Notion database."
-    documentation: str = "https://docs.aiexec.org/integrations/notion/list-database-properties"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/integrations/notion/list-database-properties"
     icon = "NotionDirectoryLoader"
 
     inputs = [

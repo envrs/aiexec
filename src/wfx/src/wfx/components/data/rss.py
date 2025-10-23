@@ -11,7 +11,7 @@ from wfx.schema import DataFrame
 class RSSReaderComponent(Component):
     display_name = "RSS Reader"
     description = "Fetches and parses an RSS feed."
-    documentation: str = "https://docs.aiexec.org/components-data#rss-reader"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#rss-reader"
     icon = "rss"
     name = "RSSReaderSimple"
     legacy = True

@@ -2,7 +2,7 @@
 
 These instructions will walk you through the process of running a Aiexec demo via GitHub Codespaces.
 
-If you want a faster and easier demo experience with Aiexec, download and install [Aiexec Desktop](https://docs.aiexec.org/get-started-installation#install-and-run-aiexec-desktop) for the least complicated setup experience.
+If you want a faster and easier demo experience with Aiexec, download and install [Aiexec Desktop](https://aiexec-docs.khulnasoft.com/get-started-installation#install-and-run-aiexec-desktop) for the least complicated setup experience.
 
 ## Create a Codespace in GitHub
 

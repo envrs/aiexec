@@ -80,7 +80,7 @@ Setting `AIEXEC_SKIP_AUTH_AUTO_LOGIN=true` and `AIEXEC_AUTO_LOGIN=true` skips au
 
 `AIEXEC_SKIP_AUTH_AUTO_LOGIN=true` is the default behavior, so users do not need to change existing workflows in 1.5. To update your workflows to require authentication, set `AIEXEC_SKIP_AUTH_AUTO_LOGIN=false`.
 
-For more information, see [API keys and authentication](https://docs.aiexec.org/api-keys-and-authentication).
+For more information, see [API keys and authentication](https://aiexec-docs.khulnasoft.com/api-keys-and-authentication).
 
 ## Security Configuration Guidelines
 

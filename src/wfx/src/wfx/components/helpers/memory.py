@@ -16,7 +16,7 @@ from wfx.utils.constants import MESSAGE_SENDER_AI, MESSAGE_SENDER_NAME_AI, MESSA
 class MemoryComponent(Component):
     display_name = "Message History"
     description = "Stores or retrieves stored chat messages from Aiexec tables or an external memory."
-    documentation: str = "https://docs.aiexec.org/components-helpers#message-history"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-helpers#message-history"
     icon = "message-square-more"
     name = "Memory"
     default_keys = ["mode", "memory", "session_id", "context_id"]

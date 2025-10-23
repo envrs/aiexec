@@ -9,7 +9,7 @@ from wfx.template.utils import update_template_values
 class PromptComponent(Component):
     display_name: str = "Prompt Template"
     description: str = "Create a prompt template with dynamic variables."
-    documentation: str = "https://docs.aiexec.org/components-prompts"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-prompts"
     icon = "braces"
     trace_type = "prompt"
     name = "Prompt Template"

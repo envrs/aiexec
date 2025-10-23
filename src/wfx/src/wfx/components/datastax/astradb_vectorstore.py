@@ -31,7 +31,7 @@ from wfx.utils.version import get_version_info
 class AstraDBVectorStoreComponent(LCVectorStoreComponent):
     display_name: str = "Astra DB"
     description: str = "Ingest and search documents in Astra DB"
-    documentation: str = "https://docs.aiexec.org/bundles-datastax#astra-db"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/bundles-datastax#astra-db"
     name = "AstraDB"
     icon: str = "AstraDB"
 

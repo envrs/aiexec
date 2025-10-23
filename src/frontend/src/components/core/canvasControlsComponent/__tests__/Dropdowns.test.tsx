@@ -41,8 +41,8 @@ jest.mock("@/components/common/genericIconComponent", () => ({
 jest.mock("@/constants/constants", () => ({
   __esModule: true,
   DATASTAX_DOCS_URL: "https://docs.datastax.com",
-  DOCS_URL: "https://docs.aiexec.org",
-  DESKTOP_URL: "https://desktop.aiexec.org",
+  DOCS_URL: "https://aiexec-docs.khulnasoft.com",
+  DESKTOP_URL: "https://desktop.aiexec.khulnasoft.com",
 }));
 
 jest.mock("@/customization/feature-flags", () => ({
@@ -100,7 +100,7 @@ describe("HelpDropdown", () => {
 
     fireEvent.click(screen.getByTestId("canvas_controls_dropdown_docs"));
     expect(window.open).toHaveBeenCalledWith(
-      "https://docs.aiexec.org",
+      "https://aiexec-docs.khulnasoft.com",
       "_blank",
     );
 
@@ -111,7 +111,7 @@ describe("HelpDropdown", () => {
       screen.getByTestId("canvas_controls_dropdown_get_aiexec_desktop"),
     );
     expect(window.open).toHaveBeenCalledWith(
-      "https://desktop.aiexec.org",
+      "https://desktop.aiexec.khulnasoft.com",
       "_blank",
     );
   });

@@ -20,7 +20,7 @@ from wfx.schema.dotdict import dotdict
 class EmbeddingModelComponent(LCEmbeddingsModel):
     display_name = "Embedding Model"
     description = "Generate embeddings using a specified provider."
-    documentation: str = "https://docs.aiexec.org/components-embedding-models"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-embedding-models"
     icon = "binary"
     name = "EmbeddingModel"
     category = "models"

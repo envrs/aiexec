@@ -9,7 +9,7 @@ from wfx.template.field.base import Output
 class DirectoryComponent(Component):
     display_name = "Directory"
     description = "Recursively load files from a directory."
-    documentation: str = "https://docs.aiexec.org/components-data#directory"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#directory"
     icon = "folder"
     name = "Directory"
 

@@ -27,11 +27,11 @@ test.skip(
 
     await page
       .getByTestId("inputlist_str_urls_0")
-      .fill("https://docs.aiexec.org/");
+      .fill("https://aiexec-docs.khulnasoft.com/");
 
     await page
       .getByTestId("inputlist_str_urls_1")
-      .fill("https://www.aiexec.org/");
+      .fill("https://www.aiexec.khulnasoft.com/");
     await adjustScreenView(page);
 
     await page.getByTestId("default_slider_display_value").click();

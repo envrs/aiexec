@@ -20,7 +20,7 @@ def blog_writer_graph(template: str | None = None):
 Blog:
 """)
     url_component = URLComponent()
-    url_component.set(urls=["https://aiexec.org/", "https://docs.aiexec.org/"])
+    url_component.set(urls=["https://aiexec.khulnasoft.com/", "https://aiexec-docs.khulnasoft.com/"])
     parse_data_component = ParserComponent()
     parse_data_component.set(input_data=url_component.fetch_content)
 

@@ -200,7 +200,7 @@ packages = ["src/backend/aiexec"]
 
 [project.urls]
 Repository = "https://github.com/khulnasoft/aiexec"
-Documentation = "https://docs.aiexec.org"
+Documentation = "https://aiexec-docs.khulnasoft.com"
 
 [project.optional-dependencies]
 docling = [

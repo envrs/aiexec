@@ -12,7 +12,7 @@ from wfx.schema import DataFrame
 class NewsSearchComponent(Component):
     display_name = "News Search"
     description = "Searches Google News via RSS. Returns clean article data."
-    documentation: str = "https://docs.aiexec.org/components-data#news-search"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#news-search"
     icon = "newspaper"
     name = "NewsSearch"
     legacy = True

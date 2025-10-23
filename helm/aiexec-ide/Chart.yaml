@@ -6,7 +6,7 @@ version: 0.1.1
 appVersion: latest
 maintainers:
   - name: Aiexec
-    email: contact@aiexec.org
+    email: support@khulnasoft.com
 dependencies:
   - name: postgresql
     version: 15.x

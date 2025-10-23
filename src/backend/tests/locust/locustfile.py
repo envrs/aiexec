@@ -89,7 +89,7 @@ class FlowRunUser(FastHttpUser):
         # Realistic payload that exercises the system
         payload = {
             "input_value": (
-                "Hey, Could you check https://docs.aiexec.org for me? Later, could you calculate 1390 / 192 ?"
+                "Hey, Could you check https://aiexec-docs.khulnasoft.com for me? Later, could you calculate 1390 / 192 ?"
             ),
             "output_type": "chat",
             "input_type": "chat",

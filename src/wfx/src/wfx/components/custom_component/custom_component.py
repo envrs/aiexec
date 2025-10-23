@@ -7,7 +7,7 @@ from wfx.schema.data import Data
 class CustomComponent(Component):
     display_name = "Custom Component"
     description = "Use as a template to create your own component."
-    documentation: str = "https://docs.aiexec.org/components-custom-components"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-custom-components"
     icon = "code"
     name = "CustomComponent"
 

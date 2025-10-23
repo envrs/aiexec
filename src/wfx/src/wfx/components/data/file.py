@@ -31,7 +31,7 @@ class FileComponent(BaseFileComponent):
 
     display_name = "Read File"
     description = "Loads content from one or more files."
-    documentation: str = "https://docs.aiexec.org/components-data#file"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#file"
     icon = "file-text"
     name = "File"
 

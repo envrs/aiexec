@@ -65,7 +65,7 @@ class MCPToolsComponent(ComponentWithCache):
 
     display_name = "MCP Tools"
     description = "Connect to an MCP server to use its tools."
-    documentation: str = "https://docs.aiexec.org/mcp-client"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/mcp-client"
     icon = "Mcp"
     name = "MCPTools"
 

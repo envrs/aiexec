@@ -48,7 +48,7 @@ class URLComponent(Component):
 
     display_name = "URL"
     description = "Fetch content from one or more web pages, following links recursively."
-    documentation: str = "https://docs.aiexec.org/components-data#url"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-data#url"
     icon = "layout-template"
     name = "URLComponent"
 

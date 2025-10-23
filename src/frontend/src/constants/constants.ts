@@ -969,10 +969,10 @@ export const DEFAULT_FILE_PICKER_TIMEOUT = 60000;
 export const DISCORD_URL = "https://discord.com/invite/EqksyE2EX9";
 export const GITHUB_URL = "https://github.com/khulnasoft/aiexec";
 export const TWITTER_URL = "https://x.com/aiexec_ai";
-export const DOCS_URL = "https://docs.aiexec.org";
+export const DOCS_URL = "https://aiexec-docs.khulnasoft.com";
 export const DATASTAX_DOCS_URL =
   "https://docs.datastax.com/en/aiexec/index.html";
-export const DESKTOP_URL = "https://www.aiexec.org/desktop";
+export const DESKTOP_URL = "https://www.aiexec.khulnasoft.com/desktop";
 export const BUG_REPORT_URL = "https://github.com/khulnasoft/aiexec/issues";
 
 export const UUID_PARSING_ERROR = "uuid_parsing";

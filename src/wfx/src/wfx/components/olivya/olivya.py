@@ -11,7 +11,7 @@ from wfx.schema.data import Data
 class OlivyaComponent(Component):
     display_name = "Place Call"
     description = "A component to create an outbound call request from Olivya's platform."
-    documentation: str = "http://docs.aiexec.org/components/olivya"
+    documentation: str = "http://aiexec-docs.khulnasoft.com/components/olivya"
     icon = "Olivya"
     name = "OlivyaComponent"
 

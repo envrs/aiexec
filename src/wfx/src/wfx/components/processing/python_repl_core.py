@@ -10,7 +10,7 @@ from wfx.schema.data import Data
 class PythonREPLComponent(Component):
     display_name = "Python Interpreter"
     description = "Run Python code with optional imports. Use print() to see the output."
-    documentation: str = "https://docs.aiexec.org/components-processing#python-interpreter"
+    documentation: str = "https://aiexec-docs.khulnasoft.com/components-processing#python-interpreter"
     icon = "square-terminal"
 
     inputs = [

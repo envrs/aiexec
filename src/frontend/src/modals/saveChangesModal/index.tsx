@@ -59,7 +59,7 @@ export function SaveChangesModal({
             <a
               target="_blank"
               className="text-secondary underline"
-              href="https://docs.aiexec.org/configuration-auto-save"
+              href="https://aiexec-docs.khulnasoft.com/configuration-auto-save"
               rel="noopener"
             >
               Enable auto-saving
