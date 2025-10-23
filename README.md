@@ -106,7 +106,6 @@
 | 🌐 **Edge** | Low-latency, CDN-accelerated inference |
 
 </div>
->>>>>>> origin/main
 
 ---
 
