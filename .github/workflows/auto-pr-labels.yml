@@ -91,4 +91,3 @@ jobs:
             await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber, labels });
         env:
           TO_LABELS: ${{ steps.labels.outputs.result }}
-v
