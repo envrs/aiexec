@@ -7294,11 +7294,11 @@ components:
         password:
           type: string
           title: Password
-        optins:
+        options:
           anyOf:
             - type: object
             - type: 'null'
-          title: Optins
+          title: Options
           default:
             github_starred: false
             dialog_dismissed: false
@@ -7347,11 +7347,11 @@ components:
               format: date-time
             - type: 'null'
           title: Last Login At
-        optins:
+        options:
           anyOf:
             - type: object
             - type: 'null'
-          title: Optins
+          title: Options
       type: object
       required:
         - username
@@ -7396,11 +7396,11 @@ components:
               format: date-time
             - type: 'null'
           title: Last Login At
-        optins:
+        options:
           anyOf:
             - type: object
             - type: 'null'
-          title: Optins
+          title: Options
       type: object
       title: UserUpdate
     UsersLikesResponse:
