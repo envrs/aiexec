@@ -21,7 +21,7 @@ jobs:
 
       - name: Get changed files
         id: changes
-        uses: tj-actions/changed-files@v34
+        uses: tj-actions/changed-files@v46
 
       - name: Determine labels
         id: labels
