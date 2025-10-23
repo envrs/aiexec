@@ -28,8 +28,7 @@ def sample_dataframe():
         {
             "action_name": "Company Info",
             "content": (
-                "Aiexec: Open-source AI flow engineering platform for building LLM applications "
-                "with visual interface."
+                "Aiexec: Open-source AI flow engineering platform for building LLM applications with visual interface."
             ),
             "category": "company",
         },

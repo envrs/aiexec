@@ -4,12 +4,12 @@ from datetime import datetime, timezone
 from typing import Annotated, Literal
 from uuid import UUID
 
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator
 from wfx.schema.content_block import ContentBlock
 from wfx.schema.content_types import ErrorContent
 from wfx.schema.properties import Properties
 from wfx.schema.validators import timestamp_to_str_validator
 from wfx.utils.constants import MESSAGE_SENDER_USER
-from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator
 
 
 class PlaygroundEvent(BaseModel):

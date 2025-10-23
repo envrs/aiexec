@@ -1,5 +1,5 @@
-from wfx.services.settings.service import SettingsService
 from typing_extensions import override
+from wfx.services.settings.service import SettingsService
 
 from aiexec.services.factory import ServiceFactory
 from aiexec.services.state.service import InMemoryStateService

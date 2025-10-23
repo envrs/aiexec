@@ -4,11 +4,11 @@ from unittest.mock import patch
 
 import openai
 import pytest
-from langchain_openai import ChatOpenAI
 from aiexec.helpers.base_model import build_model_from_schema
 from aiexec.inputs.inputs import TableInput
-from wfx.components.processing.structured_output import StructuredOutputComponent
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
+from wfx.components.processing.structured_output import StructuredOutputComponent
 
 from tests.base import ComponentTestBaseWithoutClient
 from tests.unit.mock_language_model import MockLanguageModel

@@ -3,8 +3,6 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
 
 import pytest
-from fastapi import HTTPException, status
-from httpx import AsyncClient
 from aiexec.api.v1.mcp_projects import (
     get_project_mcp_server,
     get_project_sse,
@@ -17,6 +15,8 @@ from aiexec.services.database.models.flow import Flow
 from aiexec.services.database.models.folder import Folder
 from aiexec.services.database.models.user.model import User
 from aiexec.services.deps import get_db_service, get_settings_service, session_scope
+from fastapi import HTTPException, status
+from httpx import AsyncClient
 from mcp.server.sse import SseServerTransport
 from sqlmodel import select
 

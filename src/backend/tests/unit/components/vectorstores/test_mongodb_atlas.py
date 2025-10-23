@@ -4,9 +4,9 @@ from typing import Any
 
 import pytest
 from langchain_community.embeddings.fake import DeterministicFakeEmbedding
+from pymongo.collection import Collection
 from wfx.components.mongodb import MongoVectorStoreComponent
 from wfx.schema.data import Data
-from pymongo.collection import Collection
 
 from tests.base import ComponentTestBaseWithoutClient, VersionComponentMapping
 

@@ -3,8 +3,8 @@ from aiexec.services.auth.utils import verify_password
 from aiexec.services.database.models.user.model import User
 from aiexec.services.deps import get_settings_service
 from aiexec.services.utils import initialize_services, setup_superuser, teardown_superuser
-from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 from sqlmodel import select
+from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 
 
 @pytest.mark.asyncio
@@ -137,7 +137,7 @@ async def test_setup_superuser_with_custom_credentials(client):  # noqa: ARG001
     settings = get_settings_service()
     settings.auth_settings.AUTO_LOGIN = False
     settings.auth_settings.SUPERUSER = "custom_admin"
-    settings.auth_settings.SUPERUSER_PASSWORD = SecretStr("custom_password")
+    settings.auth_settings.SUPERUSER_PASSWORD = SecretStr("custom_password")  # pragma: allowlist secret
 
     # Clean DB state to avoid interference from previous tests
     async with session_scope() as session:

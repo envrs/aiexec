@@ -3,11 +3,11 @@ from __future__ import annotations
 import asyncio
 from typing import TYPE_CHECKING
 
-from wfx.log.logger import logger
-from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 from sqlalchemy import delete
 from sqlalchemy import exc as sqlalchemy_exc
 from sqlmodel import col, select
+from wfx.log.logger import logger
+from wfx.services.settings.constants import DEFAULT_SUPERUSER, DEFAULT_SUPERUSER_PASSWORD
 
 from aiexec.services.auth.utils import create_super_user, verify_password
 from aiexec.services.cache.base import ExternalAsyncBaseCacheService
@@ -20,8 +20,8 @@ from aiexec.services.schema import ServiceType
 from .deps import get_db_service, get_service, get_settings_service, session_scope
 
 if TYPE_CHECKING:
-    from wfx.services.settings.manager import SettingsService
     from sqlmodel.ext.asyncio.session import AsyncSession
+    from wfx.services.settings.manager import SettingsService
 
 
 async def get_or_create_super_user(session: AsyncSession, username, password, is_default):

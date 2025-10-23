@@ -4,8 +4,8 @@ import os
 from typing import TYPE_CHECKING, Any, cast
 
 import nanoid
-from wfx.log.logger import logger
 from typing_extensions import override
+from wfx.log.logger import logger
 
 from aiexec.schema.data import Data
 from aiexec.services.tracing.base import BaseTracer

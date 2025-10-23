@@ -3,9 +3,9 @@ from uuid import UUID
 
 import orjson
 import pytest
-from httpx import AsyncClient
 from aiexec.memory import aget_messages
 from aiexec.services.database.models.flow import FlowCreate
+from httpx import AsyncClient
 from wfx.components.data.url import URLComponent
 from wfx.components.input_output import ChatOutput
 from wfx.components.logic import LoopComponent

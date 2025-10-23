@@ -5,11 +5,11 @@ import pytest
 from aiexec.services.auth.utils import create_super_user
 from aiexec.services.database.models.user.model import User
 from aiexec.services.utils import teardown_superuser
+from sqlalchemy.exc import IntegrityError
 from wfx.services.settings.constants import (
     DEFAULT_SUPERUSER,
     DEFAULT_SUPERUSER_PASSWORD,
 )
-from sqlalchemy.exc import IntegrityError
 
 # @patch("aiexec.services.deps.get_session")
 # @patch("aiexec.services.utils.create_super_user")

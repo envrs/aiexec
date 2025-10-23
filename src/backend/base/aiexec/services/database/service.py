@@ -13,7 +13,6 @@ import anyio
 import sqlalchemy as sa
 from alembic import command, util
 from alembic.config import Config
-from wfx.log.logger import logger
 from sqlalchemy import event, exc, inspect
 from sqlalchemy.dialects import sqlite as dialect_sqlite
 from sqlalchemy.engine import Engine
@@ -22,6 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlmodel import SQLModel, select, text
 from sqlmodel.ext.asyncio.session import AsyncSession
 from tenacity import retry, stop_after_attempt, wait_fixed
+from wfx.log.logger import logger
 
 from aiexec.initial_setup.constants import STARTER_FOLDER_NAME
 from aiexec.services.base import Service
