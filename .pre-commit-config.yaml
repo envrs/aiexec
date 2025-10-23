@@ -37,7 +37,7 @@ repos:
       - id: local-biome-check
         name: biome check
         # Run biome check if npx is available, otherwise skip gracefully to avoid blocking commits
-        entry: bash -c 'command -v npx >/dev/null 2>&1 && (cd src/frontend && npx @biomejs/biome check --write --files-ignore-unknown=true --no-errors-on-unmatched --diagnostic-level=error) || echo "skipping biome check (npx not available)"'
+        entry: bash -c 'if ! command -v npx >/dev/null 2>&1; then echo "skipping biome check (npx not available)"; exit 0; else (cd src/frontend && npx @biomejs/biome check --write --files-ignore-unknown=true --no-errors-on-unmatched --diagnostic-level=error); fi'
         language: system
         types: [text]
         files: "\\.(jsx?|tsx?|c(js|ts)|m(js|ts)|d\\.(ts|cts|mts)|jsonc?)$"
