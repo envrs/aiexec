@@ -21,43 +21,31 @@ jobs:
 
       - name: Get changed files
         id: changes
-        uses: tj-actions/changed-files@v34
+        uses: tj-actions/changed-files@v46
 
-      - name: Determine labels
-        id: labels
+      - name: Add labels to PR
         uses: actions/github-script@v7
         with:
           script: |
-            // Map globs to labels. Update as needed.
-            const labelRules = [
-              { glob: 'src/backend/**', label: 'backend' },
-              { glob: 'src/frontend/**', label: 'frontend' },
-              { glob: 'docs/**', label: 'docs' },
-              { glob: 'docker/**', label: 'infra' },
-              { glob: 'deploy/**', label: 'infra' },
-              { glob: 'tests/**', label: 'tests' },
-              { glob: 'examples/**', label: 'examples' },
-              { glob: 'packages/**', label: 'packages' },
-              { glob: 'package.json', label: 'deps' },
-              { glob: 'pyproject.toml', label: 'deps' },
-            ];
-
-            const changedFiles = JSON.parse(process.env.CHANGED_FILES || '[]');
-            const micromatch = require('micromatch');
-            const labels = new Set();
-
-            for (const f of changedFiles) {
-              for (const r of labelRules) {
-                if (micromatch.isMatch(f, r.glob)) labels.add(r.label);
-              }
+            const raw = process.env.TO_LABELS || '[]';
+            let labels = [];
+            try {
+              const parsed = JSON.parse(raw);
+              labels = Array.isArray(parsed) ? parsed : [String(parsed)];
+            } catch (e) {
+              labels = String(raw).split(/[,|\s]+/).map(s => s.trim()).filter(Boolean);
             }
 
-            // default label when nothing matched
-            if (labels.size === 0) labels.add('other');
-
-            return Array.from(labels);
+            const prNumber = context.payload.pull_request && context.payload.pull_request.number;
+            if (!prNumber || labels.length === 0) return;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              labels,
+            });
         env:
-          CHANGED_FILES: ${{ steps.changes.outputs.all_changed_files }}
+          TO_LABELS: ${{ steps.labels.outputs.result }}
 
       - name: Ensure labels exist
         uses: actions/github-script@v7
