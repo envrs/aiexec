@@ -3,8 +3,8 @@ import json
 from datetime import date, datetime, timezone
 from unittest.mock import patch
 
-from fastapi import Response
 from aiexec.utils.compression import compress_response
+from fastapi import Response
 
 
 class TestCompressResponse:

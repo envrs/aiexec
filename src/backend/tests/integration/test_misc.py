@@ -1,9 +1,9 @@
 from uuid import uuid4
 
 import pytest
+from aiexec.initial_setup.setup import load_starter_projects
 from fastapi import status
 from httpx import AsyncClient
-from aiexec.initial_setup.setup import load_starter_projects
 from wfx.graph.schema import RunOutputs
 from wfx.load.load import arun_flow_from_json
 

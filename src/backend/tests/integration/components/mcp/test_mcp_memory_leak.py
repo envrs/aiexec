@@ -13,9 +13,9 @@ import time
 
 import psutil
 import pytest
+from mcp import StdioServerParameters
 from wfx.base.mcp.util import MCPSessionManager
 from wfx.log.logger import logger
-from mcp import StdioServerParameters
 
 pytestmark = [
     pytest.mark.timeout(300, method="thread"),

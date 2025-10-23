@@ -1,5 +1,5 @@
-from wfx.template.frontend_node.base import FrontendNode
 from pydantic import BaseModel, field_validator, model_serializer
+from wfx.template.frontend_node.base import FrontendNode
 
 
 class CacheResponse(BaseModel):

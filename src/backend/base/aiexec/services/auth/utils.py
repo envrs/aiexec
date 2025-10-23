@@ -10,11 +10,11 @@ from cryptography.fernet import Fernet
 from fastapi import Depends, HTTPException, Request, Security, WebSocketException, status
 from fastapi.security import APIKeyHeader, APIKeyQuery, OAuth2PasswordBearer
 from jose import JWTError, jwt
-from wfx.log.logger import logger
-from wfx.services.settings.service import SettingsService
 from sqlalchemy.exc import IntegrityError
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.websockets import WebSocket
+from wfx.log.logger import logger
+from wfx.services.settings.service import SettingsService
 
 from aiexec.helpers.user import get_user_by_flow_id_or_endpoint_name
 from aiexec.services.database.models.api_key.crud import check_key

@@ -330,9 +330,7 @@ If no model seems suitable, pick the first model in the list (index 0) as a fall
                     spec_dict = self._get_model_specs_dict(aiexec_model_name)
 
                 model_specs_for_judge.append({"index": i, "aiexec_name": aiexec_model_name, "specs": spec_dict})
-                self.log(
-                    f"Prepared specs for Aiexec model {i} ('{aiexec_model_name}'): {spec_dict.get('name', 'N/A')}"
-                )
+                self.log(f"Prepared specs for Aiexec model {i} ('{aiexec_model_name}'): {spec_dict.get('name', 'N/A')}")
 
             estimated_tokens = len(self.input_value.split()) * 1.3
             self.log(f"Estimated input tokens: {int(estimated_tokens)}")

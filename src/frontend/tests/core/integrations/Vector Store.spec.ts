@@ -177,9 +177,7 @@ withEventDeliveryModes(
 
     await page.waitForTimeout(2000);
 
-    aiexecCount = await page
-      .locator('[data-testid="aiexec-0-option"]')
-      .count();
+    aiexecCount = await page.locator('[data-testid="aiexec-0-option"]').count();
 
     while (aiexecCount === 0) {
       await page.waitForTimeout(1000);

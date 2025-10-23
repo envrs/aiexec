@@ -6,11 +6,11 @@ import uuid
 from collections.abc import AsyncIterator
 
 from fastapi import BackgroundTasks, HTTPException, Response
+from sqlmodel import select
 from wfx.graph.graph.base import Graph
 from wfx.graph.utils import log_vertex_build
 from wfx.log.logger import logger
 from wfx.schema.schema import InputValueRequest
-from sqlmodel import select
 
 from aiexec.api.disconnect import DisconnectHandlerStreamingResponse
 from aiexec.api.utils import (

@@ -499,9 +499,7 @@ class LMStudioModelComponent(LCModelComponent):
         test_component._code = real_component_code
 
         # Call the function
-        build_component_metadata(
-            mock_frontend, test_component, "aiexec.components.lmstudio", "LMStudioModelComponent"
-        )
+        build_component_metadata(mock_frontend, test_component, "aiexec.components.lmstudio", "LMStudioModelComponent")
 
         # Verify metadata was added
         assert "module" in mock_frontend.metadata

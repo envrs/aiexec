@@ -19,17 +19,18 @@ def get_file_path_value(file_path):
     except TypeError:
         return ""
 
-    # Check for safety
-    # If the path is not in the cache dir, return empty string
-    # This is to prevent access to files outside the cache dir
-    # If the path is not a file, return empty string
-    if not str(path).startswith(user_cache_dir("aiexec", "aiexec")):
+    # Normalize and check for safety
+    cache_dir = Path(user_cache_dir("aiexec", "aiexec")).resolve()
+    try:
+        resolved_path = path.resolve()
+    except (OSError, RuntimeError):
         return ""
 
-    if not path.exists():
+    if not str(resolved_path).startswith(str(cache_dir)):
         return ""
-    return file_path
-
+    if not resolved_path.exists():
+        return ""
+    return str(resolved_path)
 
 def update_template_field(new_template, key, previous_value_dict) -> None:
     """Updates a specific field in the frontend template."""

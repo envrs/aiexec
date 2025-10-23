@@ -14,18 +14,18 @@ from uuid import UUID
 from anyio import BrokenResourceError
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from fastapi.responses import HTMLResponse
-from wfx.base.mcp.constants import MAX_MCP_SERVER_NAME_LENGTH
-from wfx.base.mcp.util import sanitize_mcp_name
-from wfx.log import logger
-from wfx.services.deps import get_settings_service, session_scope
-from wfx.services.mcp_composer.service import MCPComposerError, MCPComposerService
-from wfx.services.schema import ServiceType
 from mcp import types
 from mcp.server import NotificationOptions, Server
 from mcp.server.sse import SseServerTransport
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from wfx.base.mcp.constants import MAX_MCP_SERVER_NAME_LENGTH
+from wfx.base.mcp.util import sanitize_mcp_name
+from wfx.log import logger
+from wfx.services.deps import get_settings_service, session_scope
+from wfx.services.mcp_composer.service import MCPComposerError, MCPComposerService
+from wfx.services.schema import ServiceType
 
 from aiexec.api.utils import CurrentActiveMCPUser, extract_global_variables_from_headers
 from aiexec.api.utils.mcp import auto_configure_starter_projects_mcp, get_project_sse_url, get_url_by_os

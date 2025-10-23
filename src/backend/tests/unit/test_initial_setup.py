@@ -7,8 +7,6 @@ from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from anyio import Path
-from httpx import AsyncClient
 from aiexec.initial_setup.constants import STARTER_FOLDER_NAME
 from aiexec.initial_setup.setup import (
     detect_github_url,
@@ -22,6 +20,8 @@ from aiexec.services.auth.utils import create_super_user
 from aiexec.services.database.models import Flow
 from aiexec.services.database.models.folder.model import Folder
 from aiexec.services.deps import get_settings_service, session_scope
+from anyio import Path
+from httpx import AsyncClient
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
 
@@ -204,7 +204,9 @@ async def test_refresh_starter_projects():
             "https://github.com/khulnasoft/aiexec-bundles/archive/refs/tags/foo/v1.0.0.zip",
         ),
         (
+            # pragma: allowlist secret
             "https://github.com/khulnasoft/aiexec-bundles/commit/68428ce16729a385fe1bcc0f1ec91fd5f5f420b9",
+            # pragma: allowlist secret
             "https://github.com/khulnasoft/aiexec-bundles/archive/68428ce16729a385fe1bcc0f1ec91fd5f5f420b9.zip",
         ),
         (

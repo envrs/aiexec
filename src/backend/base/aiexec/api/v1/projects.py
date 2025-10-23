@@ -12,11 +12,11 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import StreamingResponse
 from fastapi_pagination import Params
 from fastapi_pagination.ext.sqlmodel import apaginate
-from wfx.log.logger import logger
-from wfx.services.mcp_composer.service import MCPComposerService
 from sqlalchemy import or_, update
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
+from wfx.log.logger import logger
+from wfx.services.mcp_composer.service import MCPComposerService
 
 from aiexec.api.utils import CurrentActiveUser, DbSession, cascade_delete_flow, custom_params, remove_api_keys
 from aiexec.api.utils.mcp.config_utils import validate_mcp_server_for_project

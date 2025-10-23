@@ -1,8 +1,5 @@
 import { Cookies } from "react-cookie";
-import {
-  IS_AUTO_LOGIN,
-  AIEXEC_AUTO_LOGIN_OPTION,
-} from "@/constants/constants";
+import { AIEXEC_AUTO_LOGIN_OPTION, IS_AUTO_LOGIN } from "@/constants/constants";
 import useAuthStore from "@/stores/authStore";
 import useFlowStore from "@/stores/flowStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";

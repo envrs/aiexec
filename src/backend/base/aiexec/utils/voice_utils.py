@@ -3,8 +3,8 @@ import base64
 from pathlib import Path
 
 import numpy as np
-from wfx.log import logger
 from scipy.signal import resample
+from wfx.log import logger
 
 SAMPLE_RATE_24K = 24000
 VAD_SAMPLE_RATE_16K = 16000

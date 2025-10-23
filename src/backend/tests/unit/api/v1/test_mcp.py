@@ -2,10 +2,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
 
 import pytest
-from fastapi import status
-from httpx import AsyncClient
 from aiexec.services.auth.utils import get_password_hash
 from aiexec.services.database.models.user import User
+from fastapi import status
+from httpx import AsyncClient
 
 # Mark all tests in this module as asyncio
 pytestmark = pytest.mark.asyncio
