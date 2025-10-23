@@ -1,5 +1,5 @@
 import { Cookies } from "react-cookie";
-import { IS_AUTO_LOGIN, AIEXEC_REFRESH_TOKEN } from "@/constants/constants";
+import { AIEXEC_REFRESH_TOKEN, IS_AUTO_LOGIN } from "@/constants/constants";
 import useAuthStore from "@/stores/authStore";
 import type { useMutationFunctionType } from "@/types/api";
 import { setAuthCookie } from "@/utils/utils";

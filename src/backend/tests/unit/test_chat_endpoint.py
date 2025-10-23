@@ -4,8 +4,8 @@ import uuid
 from uuid import UUID
 
 import pytest
-from httpx import codes
 from aiexec.services.database.models.flow import FlowUpdate
+from httpx import codes
 from wfx.log.logger import logger
 from wfx.memory import aget_messages
 

@@ -63,8 +63,7 @@ class TestRunStarterProjectsBackwardCompatibility:
         """
         # Known failing starter projects due to component-level import bugs in 1.6.0
         known_failing_projects = {
-            "News Aggregator.json": "Contains SaveToFile component with aiexec.api import bug "
-            "(fixed in later versions)"
+            "News Aggregator.json": "Contains SaveToFile component with aiexec.api import bug (fixed in later versions)"
         }
 
         if template_file.name in known_failing_projects:

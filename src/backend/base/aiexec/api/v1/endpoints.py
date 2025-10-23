@@ -12,6 +12,7 @@ import sqlalchemy as sa
 from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, Request, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import StreamingResponse
+from sqlmodel import select
 from wfx.custom.custom_component.component import Component
 from wfx.custom.utils import (
     add_code_field_to_build_config,
@@ -24,7 +25,6 @@ from wfx.graph.schema import RunOutputs
 from wfx.log.logger import logger
 from wfx.schema.schema import InputValueRequest
 from wfx.services.settings.service import SettingsService
-from sqlmodel import select
 
 from aiexec.api.utils import CurrentActiveUser, DbSession, extract_global_variables_from_headers, parse_value
 from aiexec.api.v1.schemas import (

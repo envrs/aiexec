@@ -1,9 +1,9 @@
 import uuid
 
 from fastapi import APIRouter, HTTPException, status
-from wfx.log.logger import logger
 from pydantic import BaseModel
 from sqlmodel import select
+from wfx.log.logger import logger
 
 from aiexec.api.utils import DbSession
 from aiexec.services.database.models.flow.model import Flow

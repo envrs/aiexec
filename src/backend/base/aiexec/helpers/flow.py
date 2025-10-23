@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Any, cast
 from uuid import UUID
 
 from fastapi import HTTPException
-from wfx.log.logger import logger
 from pydantic.v1 import BaseModel, Field, create_model
 from sqlmodel import select
+from wfx.log.logger import logger
 
 from aiexec.schema.schema import INPUT_FIELD_NAME
 from aiexec.services.database.models.flow.model import Flow, FlowRead

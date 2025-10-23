@@ -5,11 +5,11 @@ from datetime import datetime, timezone
 from uuid import UUID
 
 from fastapi import HTTPException
+from sqlmodel import select
 from wfx.base.mcp.constants import MAX_MCP_SERVER_NAME_LENGTH
 from wfx.base.mcp.util import sanitize_mcp_name
 from wfx.log import logger
 from wfx.services.deps import get_settings_service
-from sqlmodel import select
 
 from aiexec.api.v2.mcp import get_server_list, update_server
 from aiexec.services.auth.mcp_encryption import encrypt_auth_settings

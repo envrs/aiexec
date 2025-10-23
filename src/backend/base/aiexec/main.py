@@ -17,12 +17,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_pagination import add_pagination
-from wfx.interface.utils import setup_llm_caching
-from wfx.log.logger import configure, logger
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from pydantic import PydanticDeprecatedSince20
 from pydantic_core import PydanticSerializationError
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from wfx.interface.utils import setup_llm_caching
+from wfx.log.logger import configure, logger
 
 from aiexec.api import health_check_router, log_router, router
 from aiexec.api.v1.mcp_projects import init_mcp_servers

@@ -31,9 +31,9 @@ import { customDownloadFlow } from "@/customization/utils/custom-reactFlowUtils"
 import useFlowStore from "@/stores/flowStore";
 import getFieldTitle from "../CustomNodes/utils/get-field-title";
 import {
+  AIEXEC_SUPPORTED_TYPES,
   INPUT_TYPES,
   IS_MAC,
-  AIEXEC_SUPPORTED_TYPES,
   OUTPUT_TYPES,
   SUCCESS_BUILD,
   specialCharsRegex,

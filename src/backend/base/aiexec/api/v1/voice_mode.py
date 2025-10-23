@@ -18,11 +18,11 @@ import websockets
 from cryptography.fernet import InvalidToken
 from elevenlabs import ElevenLabs
 from fastapi import APIRouter, BackgroundTasks
-from wfx.log import logger
-from wfx.schema.schema import InputValueRequest
 from openai import OpenAI
 from sqlalchemy import select
 from starlette.websockets import WebSocket, WebSocketDisconnect
+from wfx.log import logger
+from wfx.schema.schema import InputValueRequest
 
 from aiexec.api.utils import CurrentActiveUser, DbSession
 from aiexec.api.v1.chat import build_flow_and_stream

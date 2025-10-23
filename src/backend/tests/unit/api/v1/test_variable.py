@@ -2,9 +2,9 @@ from unittest import mock
 from uuid import uuid4
 
 import pytest
+from aiexec.services.variable.constants import CREDENTIAL_TYPE, GENERIC_TYPE
 from fastapi import HTTPException, status
 from httpx import AsyncClient
-from aiexec.services.variable.constants import CREDENTIAL_TYPE, GENERIC_TYPE
 
 
 @pytest.fixture

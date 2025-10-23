@@ -11,8 +11,8 @@ from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
-from wfx.log.logger import logger
 from sqlmodel import col, select
+from wfx.log.logger import logger
 
 from aiexec.api.schemas import UploadFileResponse
 from aiexec.api.utils import CurrentActiveUser, DbSession
