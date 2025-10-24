@@ -19,7 +19,7 @@
 ---
 
 <div align="center">
-  
+
 ### 🧭 **Explore the Platform**
 
 </div>
@@ -30,20 +30,20 @@
 
 #### 🎨 **Visual Studio for AI**
 > *Build complex AI systems like Lego — no code required.*
-- Drag-and-drop workflow designer  
-- Real-time logic visualization  
-- Built-in testing playground  
-- Hybrid no-code → full-code transitions  
+- Drag-and-drop workflow designer
+- Real-time logic visualization
+- Built-in testing playground
+- Hybrid no-code → full-code transitions
 
 </td>
 <td width="50%" valign="top">
 
 #### ⚙️ **Developer-First Framework**
 > *If you can write Python, you can extend Aiexec.*
-- Modular Python components  
-- Hot-reload development  
-- CLI & SDK for automation  
-- Version control with Git  
+- Modular Python components
+- Hot-reload development
+- CLI & SDK for automation
+- Version control with Git
 
 </td>
 </tr>
@@ -52,19 +52,19 @@
 
 #### 🧩 **Plug-and-Play Ecosystem**
 > *Integrate everything that matters.*
-- Supports all major LLMs (OpenAI, Anthropic, Google)  
-- Vector DBs: Pinecone, Weaviate, Chroma  
-- Framework-agnostic deployments  
+- Supports all major LLMs (OpenAI, Anthropic, Google)
+- Vector DBs: Pinecone, Weaviate, Chroma
+- Framework-agnostic deployments
 
 </td>
 <td width="50%" valign="top">
 
 #### 🛡️ **Enterprise Ready**
 > *Built for security, scale, and observability.*
-- Integrated API & MCP servers  
-- Multi-agent orchestration  
-- LangSmith, LangFuse integration  
-- Cloud, on-prem, and edge ready  
+- Integrated API & MCP servers
+- Multi-agent orchestration
+- LangSmith, LangFuse integration
+- Cloud, on-prem, and edge ready
 
 </td>
 </tr>
@@ -86,8 +86,8 @@
 
 <div align="center">
 
-> 🐳 Prefer Docker? → `docker run -p 7860:7860 aiexec/aiexec`  
-> 💻 Want the Desktop App? → [Download Here](https://docs.khulnasoft.com)  
+> 🐳 Prefer Docker? → `docker run -p 7860:7860 aiexec/aiexec`
+> 💻 Want the Desktop App? → [Download Here](https://docs.khulnasoft.com)
 > ☁️ Deploy to Cloud? → [Read the Deployment Guide](https://docs.khulnasoft.com/deployment-cloud)
 
 </div>
@@ -140,7 +140,7 @@
 
 ## 🤝 **Contributing**
 
-We welcome developers of all backgrounds.  
+We welcome developers of all backgrounds.
 Help us make Aiexec the best open-source platform for AI orchestration.
 
 <div align="center">
@@ -157,12 +157,12 @@ Help us make Aiexec the best open-source platform for AI orchestration.
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/aiexec&type=Timeline)](https://star-history.com/#khulnasoft/aiexec&Date)  
+[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/aiexec&type=Timeline)](https://star-history.com/#khulnasoft/aiexec&Date)
 [![Contributors](https://contrib.rocks/image?repo=khulnasoft/aiexec)](https://github.com/khulnasoft/aiexec/graphs/contributors)
 
 ---
 
-### *Built with ❤️ by the Aiexec Community*  
+### *Built with ❤️ by the Aiexec Community*
 **Empowering developers to build the future of AI.**
 
 </div>

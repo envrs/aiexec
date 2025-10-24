@@ -22,11 +22,11 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from uuid import UUID
 
+    from aiexec.graph.vertex.base import Vertex
     from langchain.callbacks.base import BaseCallbackHandler
     from opentelemetry.propagators.textmap import CarrierT
     from opentelemetry.trace import Span
 
-    from aiexec.graph.vertex.base import Vertex
     from aiexec.services.tracing.schema import Log
 
 

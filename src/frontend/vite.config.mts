@@ -43,17 +43,17 @@ export default defineConfig(({ mode }) => {
       outDir: "build",
     },
     define: {
-      "process.env.BACKEND_URL": JSON.stringify(
+      "import.meta.env.BACKEND_URL": JSON.stringify(
         envAiexec.BACKEND_URL ?? "http://localhost:7860",
       ),
-      "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(
+      "import.meta.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(
         envAiexec.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60,
       ),
-      "process.env.CI": JSON.stringify(envAiexec.CI ?? false),
-      "process.env.AIEXEC_AUTO_LOGIN": JSON.stringify(
+      "import.meta.env.CI": JSON.stringify(envAiexec.CI ?? false),
+      "import.meta.env.AIEXEC_AUTO_LOGIN": JSON.stringify(
         envAiexec.AIEXEC_AUTO_LOGIN ?? true,
       ),
-      "process.env.AIEXEC_MCP_COMPOSER_ENABLED": JSON.stringify(
+      "import.meta.env.AIEXEC_MCP_COMPOSER_ENABLED": JSON.stringify(
         envAiexec.AIEXEC_MCP_COMPOSER_ENABLED ?? "true",
       ),
     },

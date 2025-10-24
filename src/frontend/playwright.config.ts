@@ -109,6 +109,8 @@ export default defineConfig({
       env: {
         AIEXEC_DATABASE_URL: "sqlite:///./temp",
         AIEXEC_AUTO_LOGIN: "true",
+        AIEXEC_DEACTIVATE_TRACING: "true",
+        DO_NOT_TRACK: "true",
       },
       stdout: "ignore",
 

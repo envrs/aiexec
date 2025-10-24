@@ -22,10 +22,10 @@ test(
     await page.getByTestId("code-button-modal").last().click();
 
     const problematicCode = `
-# from wfx.field_typing import Data
-from wfx.custom.custom_component.component import Component
-from wfx.io import MessageTextInput, Output
-from wfx.schema.data import Data
+# from lfx.field_typing import Data
+from lfx.custom.custom_component.component import Component
+from lfx.io import MessageTextInput, Output
+from lfx.schema.data import Data
 
 
 class CustomComponent(Component):

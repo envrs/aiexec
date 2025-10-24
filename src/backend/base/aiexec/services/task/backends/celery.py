@@ -1,10 +1,10 @@
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
+from aiexec.worker import celery_app
 from celery.result import AsyncResult
 
 from aiexec.services.task.backends.base import TaskBackend
-from aiexec.worker import celery_app
 
 if TYPE_CHECKING:
     from celery import Task

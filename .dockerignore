@@ -9,4 +9,5 @@ src/frontend/.dspy_cache
 **/*.pyc
 **/.pytest_cache
 **/.venv
-**/.env
+**/.envnode_modules
+node_modules

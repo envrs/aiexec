@@ -87,11 +87,11 @@ spec:
             httpGet:
               path: /health
               port: http
-              
+
             initialDelaySeconds: {{ .Values.aiexec.backend.probe.initialDelaySeconds }}
             periodSeconds: {{ .Values.aiexec.backend.probe.periodSeconds }}
             timeoutSeconds: {{ .Values.aiexec.backend.probe.timeoutSeconds }}
-            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}   
+            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}
           readinessProbe:
             httpGet:
               path: /health
@@ -99,7 +99,7 @@ spec:
             initialDelaySeconds: {{ .Values.aiexec.backend.probe.initialDelaySeconds }}
             periodSeconds: {{ .Values.aiexec.backend.probe.periodSeconds }}
             timeoutSeconds: {{ .Values.aiexec.backend.probe.timeoutSeconds }}
-            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}   
+            failureThreshold: {{ .Values.aiexec.backend.probe.failureThreshold }}
           env:
             - name: AIEXEC_BACKEND_ONLY
               value: "{{ .Values.aiexec.backend.backendOnly }}"
@@ -169,5 +169,5 @@ spec:
       {{- else }}
       storageClassName: "{{ template "aiexec.fullname" . }}-sqlite"
       {{- end }}
-      
+
   {{- end }}
