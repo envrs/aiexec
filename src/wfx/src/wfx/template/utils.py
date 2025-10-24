@@ -32,6 +32,7 @@ def get_file_path_value(file_path):
         return ""
     return str(resolved_path)
 
+
 def update_template_field(new_template, key, previous_value_dict) -> None:
     """Updates a specific field in the frontend template."""
     template_field = new_template.get(key)

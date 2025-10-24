@@ -467,7 +467,7 @@ describe("useTypesStore", () => {
       });
 
       // setData will call setComponentFields internally, so track the fields before
-      const fieldsBeforeSetData = new Set(result.current.ComponentFields);
+      const _fieldsBeforeSetData = new Set(result.current.ComponentFields);
 
       act(() => {
         result.current.setData(mockAPIData);

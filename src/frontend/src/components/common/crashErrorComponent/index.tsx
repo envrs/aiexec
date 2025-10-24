@@ -28,7 +28,7 @@ export default function CrashErrorComponent({
                 <p>
                   Please report errors with detailed tracebacks on the{" "}
                   <a
-                    href="https://github.com/khulnasoft/aiexec/issues"
+                    href="https://github.com/aiexec-ai/aiexec/issues"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium hover:underline"
@@ -47,7 +47,7 @@ export default function CrashErrorComponent({
                 <Button onClick={resetErrorBoundary}>Restart Aiexec</Button>
 
                 <a
-                  href="https://github.com/khulnasoft/aiexec/issues/new"
+                  href="https://github.com/aiexec-ai/aiexec/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

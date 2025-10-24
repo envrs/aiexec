@@ -65,12 +65,12 @@ spec:
                 -H "{{ $key }}: {{ $value }}" \
                 {{- end }}
                 {{- end }}
-                '{{ .url }}' && 
+                '{{ .url }}' &&
               {{- if .endpoint }}
               python -c 'import json, sys;f = sys.argv[1]; data = json.load(open(f));data["endpoint_name"]="{{ .endpoint }}";json.dump(data, open(f, "w"))' '{{ $targetFile }}' &&
               {{- end }}
               {{- end }}
-              echo 'Flows downloaded' && 
+              echo 'Flows downloaded' &&
               aiexec run --backend-only --host 0.0.0.0 --port {{ .Values.service.port }}
           env:
             - name: AIEXEC_LOAD_FLOWS_PATH

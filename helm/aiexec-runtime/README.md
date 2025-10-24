@@ -143,7 +143,7 @@ Please note that if your flow relies on shared state (e.g. builtin chat memory),
 
 ### Scale vertically
 
-By default the deployment doesn't have any limits and it could consume all the node resources. 
+By default the deployment doesn't have any limits and it could consume all the node resources.
 In order to limit the available resources, you can modify the `resources` value:
 
 ```yaml

@@ -36,7 +36,7 @@ jest.mock("@/customization/feature-flags", () => ({
 // Mock the sidebar hooks with proper Jest functions
 const mockToggleSidebar = jest.fn();
 const mockSetActiveSection = jest.fn();
-const mockUseSidebar = jest.fn(() => ({
+const _mockUseSidebar = jest.fn(() => ({
   open: false,
   toggleSidebar: mockToggleSidebar,
   setActiveSection: mockSetActiveSection,

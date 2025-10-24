@@ -15,6 +15,7 @@ import numpy as np
 import requests
 import sqlalchemy
 import websockets
+from aiexec.memory import aadd_messagetables
 from cryptography.fernet import InvalidToken
 from elevenlabs import ElevenLabs
 from fastapi import APIRouter, BackgroundTasks
@@ -26,7 +27,6 @@ from wfx.schema.schema import InputValueRequest
 
 from aiexec.api.utils import CurrentActiveUser, DbSession
 from aiexec.api.v1.chat import build_flow_and_stream
-from aiexec.memory import aadd_messagetables
 from aiexec.schema.properties import Properties
 from aiexec.services.auth.utils import get_current_user_for_websocket
 from aiexec.services.database.models.flow.model import Flow

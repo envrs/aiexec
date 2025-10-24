@@ -107,9 +107,9 @@ function ApiInterceptor() {
 
     const isAuthorizedURL = (url) => {
       const authorizedDomains = [
-        "https://raw.githubusercontent.com/khulnasoft/aiexec_examples/main/examples",
-        "https://api.github.com/repos/khulnasoft/aiexec_examples/contents/examples",
-        "https://api.github.com/repos/khulnasoft/aiexec",
+        "https://raw.githubusercontent.com/aiexec-ai/aiexec_examples/main/examples",
+        "https://api.github.com/repos/aiexec-ai/aiexec_examples/contents/examples",
+        "https://api.github.com/repos/aiexec-ai/aiexec",
         "auto_login",
       ];
 

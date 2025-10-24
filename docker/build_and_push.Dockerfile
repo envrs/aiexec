@@ -1,77 +1,89 @@
 # syntax=docker/dockerfile:1
-# Keep this syntax directive! It's used to enable Docker BuildKit
+# BuildKit syntax enabled for cache mounts
 
 ################################
 # BUILDER-BASE
-# Used to build deps + create our virtual environment
 ################################
-
-# 1. use python:3.12.3-slim as the base image until https://github.com/pydantic/pydantic-core/issues/1292 gets resolved
-# 2. do not add --platform=$BUILDPLATFORM because the pydantic binaries must be resolved for the final architecture
-# Use a Python image with uv pre-installed
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
-# Install the project into `/app`
 WORKDIR /app
 
-# Enable bytecode compilation
+# -------------------
+# ENVIRONMENT SETTINGS
+# -------------------
 ENV UV_COMPILE_BYTECODE=1
-
-# Copy from the cache instead of linking since it's a mounted volume
 ENV UV_LINK_MODE=copy
-
-# Set RUSTFLAGS for reqwest unstable features needed by apify-client v2.0.0
 ENV RUSTFLAGS='--cfg reqwest_unstable'
+ENV TMPDIR=/tmp
+ENV UV_CACHE_DIR=/tmp/uv_cache
+ENV NPM_CONFIG_CACHE=/tmp/npm_cache
 
+# -------------------
+# SYSTEM DEPENDENCIES
+# -------------------
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y \
-    # deps for building python deps
-    build-essential \
-    git \
-    # npm
-    npm \
-    # gcc
-    gcc \
+        build-essential \
+        git \
+        npm \
+        gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy files first to avoid permission issues with bind mounts
-COPY ./uv.lock /app/uv.lock
-COPY ./README.md /app/README.md
-COPY ./pyproject.toml /app/pyproject.toml
-COPY ./src/backend/base/README.md /app/src/backend/base/README.md
-COPY ./src/backend/base/uv.lock /app/src/backend/base/uv.lock
-COPY ./src/backend/base/pyproject.toml /app/src/backend/base/pyproject.toml
-COPY ./src/wfx/README.md /app/src/wfx/README.md
-COPY ./src/wfx/pyproject.toml /app/src/wfx/pyproject.toml
+# -------------------
+# COPY LOCK FILES & METADATA
+# -------------------
+COPY ./uv.lock ./pyproject.toml ./README.md /app/
+COPY ./src/backend/base/uv.lock ./src/backend/base/pyproject.toml ./src/backend/base/README.md /app/src/backend/base/
+COPY ./src/wfx/pyproject.toml ./src/wfx/README.md /app/src/wfx/
 
-RUN --mount=type=cache,target=/root/.cache/uv \
-    RUSTFLAGS='--cfg reqwest_unstable' \
+# -------------------
+# INSTALL PYTHON DEPENDENCIES
+# -------------------
+RUN --mount=type=cache,target=/tmp/uv_cache \
     uv sync --frozen --no-install-project --no-editable --extra postgresql
 
+# -------------------
+# COPY SOURCE CODE
+# -------------------
 COPY ./src /app/src
 
+# -------------------
+# FRONTEND BUILD
+# -------------------
 COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
-RUN --mount=type=cache,target=/root/.npm \
+
+RUN --mount=type=cache,target=/tmp/npm_cache \
     npm ci \
     && ESBUILD_BINARY_PATH="" NODE_OPTIONS="--max-old-space-size=12288" JOBS=1 npm run build \
     && cp -r build /app/src/backend/aiexec/frontend \
-    && rm -rf /tmp/src/frontend
+    && rm -rf /tmp/src/frontend /tmp/npm_cache
 
+# -------------------
+# FINAL UV SYNC
+# -------------------
 WORKDIR /app
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    RUSTFLAGS='--cfg reqwest_unstable' \
-    uv sync --frozen --no-editable --extra postgresql
+RUN --mount=type=cache,target=/tmp/uv_cache \
+    uv sync --frozen --no-editable --extra postgresql \
+    && rm -rf /tmp/uv_cache
 
 ################################
 # RUNTIME
-# Setup user, utilities and copy the virtual environment only
 ################################
 FROM python:3.12.3-slim AS runtime
 
+# -------------------
+# ENVIRONMENT SETTINGS
+# -------------------
+ENV TMPDIR=/tmp
+ENV UV_CACHE_DIR=/tmp/uv_cache
+ENV NPM_CONFIG_CACHE=/tmp/npm_cache
+
+# -------------------
+# SYSTEM DEPENDENCIES
+# -------------------
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y curl git libpq5 gnupg \
@@ -79,12 +91,25 @@ RUN apt-get update \
     && apt-get install -y nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && useradd user -u 1000 -g 0 --no-create-home --home-dir /app/data
+    && useradd -u 1000 -g 0 --no-create-home --home-dir /app/data user
 
+# -------------------
+# COPY VIRTUAL ENV
+# -------------------
 COPY --from=builder --chown=1000 /app/.venv /app/.venv
-
-# Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
+
+# -------------------
+# USER & WORKDIR
+# -------------------
+USER user
+WORKDIR /app
+
+# -------------------
+# APP CONFIGURATION
+# -------------------
+ENV AIEXEC_HOST=0.0.0.0
+ENV AIEXEC_PORT=7860
 
 LABEL org.opencontainers.image.title=aiexec
 LABEL org.opencontainers.image.authors=['Aiexec']
@@ -92,11 +117,4 @@ LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.url=https://github.com/khulnasoft/aiexec
 LABEL org.opencontainers.image.source=https://github.com/khulnasoft/aiexec
 
-USER user
-WORKDIR /app
-
-ENV AIEXEC_HOST=0.0.0.0
-ENV AIEXEC_PORT=7860
-
 CMD ["aiexec", "run"]
-

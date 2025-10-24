@@ -84,7 +84,7 @@ spec:
             initialDelaySeconds: {{ .Values.aiexec.frontend.probe.initialDelaySeconds }}
             periodSeconds: {{ .Values.aiexec.frontend.probe.periodSeconds }}
             timeoutSeconds: {{ .Values.aiexec.frontend.probe.timeoutSeconds }}
-            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}   
+            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}
           readinessProbe:
             httpGet:
               path: /index.html
@@ -92,7 +92,7 @@ spec:
             initialDelaySeconds: {{ .Values.aiexec.frontend.probe.initialDelaySeconds }}
             periodSeconds: {{ .Values.aiexec.frontend.probe.periodSeconds }}
             timeoutSeconds: {{ .Values.aiexec.frontend.probe.timeoutSeconds }}
-            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}   
+            failureThreshold: {{ .Values.aiexec.frontend.probe.failureThreshold }}
           env:
             - name: BACKEND_URL
               value: "http://{{ template "aiexec.fullname" . }}-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.aiexec.backend.service.port }}"

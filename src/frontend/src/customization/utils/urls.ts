@@ -1,3 +1,3 @@
 export const AiexecButtonRedirectTarget = () => {
-  return "https://aiexec.khulnasoft.com";
+  return "https://aiexec.org";
 };

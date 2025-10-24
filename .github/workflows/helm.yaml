@@ -53,14 +53,14 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: ct install --debug --target-branch main --chart-repos bitnami=https://charts.bitnami.com/bitnami
-  
+
   release:
     needs: lint-test
     runs-on: ubuntu-latest
     permissions: write-all
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - name: Checkout        
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -69,7 +69,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:
