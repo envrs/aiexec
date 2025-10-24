@@ -42,7 +42,7 @@ jest.mock("@/constants/constants", () => ({
   __esModule: true,
   DATASTAX_DOCS_URL: "https://docs.datastax.com",
   DOCS_URL: "https://aiexec-docs.khulnasoft.com",
-  DESKTOP_URL: "https://desktop.aiexec.khulnasoft.com",
+  DESKTOP_URL: "https://desktop.aiexec.org",
 }));
 
 jest.mock("@/customization/feature-flags", () => ({
@@ -111,7 +111,7 @@ describe("HelpDropdown", () => {
       screen.getByTestId("canvas_controls_dropdown_get_aiexec_desktop"),
     );
     expect(window.open).toHaveBeenCalledWith(
-      "https://desktop.aiexec.khulnasoft.com",
+      "https://desktop.aiexec.org",
       "_blank",
     );
   });

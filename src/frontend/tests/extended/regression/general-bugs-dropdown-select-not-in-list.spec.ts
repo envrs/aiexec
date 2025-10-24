@@ -36,7 +36,7 @@ test(
 
     await page.waitForTimeout(500);
 
-    let value = await page
+    let _value = await page
       .getByTestId("value-dropdown-dropdown_str_model_name")
       .textContent();
 
@@ -58,7 +58,7 @@ test(
 
     await page.waitForTimeout(500);
 
-    value = await page
+    _value = await page
       .getByTestId("value-dropdown-dropdown_str_model_name")
       .textContent();
 

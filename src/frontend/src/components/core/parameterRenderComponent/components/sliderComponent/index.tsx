@@ -221,7 +221,7 @@ export default function SliderComponent({
                 data-testid="slider_input"
               />
             ) : (
-              <span
+              <button
                 onClick={() => {
                   setIsEditing(true);
                   setInputValue(valueAsNumber.toFixed(2));
@@ -230,7 +230,7 @@ export default function SliderComponent({
                 className="relative bottom-[1px] font-mono text-sm hover:cursor-text"
               >
                 {valueAsNumber.toFixed(2)}
-              </span>
+              </button>
             )}
           </div>
         </div>
